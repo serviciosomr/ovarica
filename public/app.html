@@ -998,20 +998,34 @@ async function registrarUsuario() {
   if (!email || !email.includes('@')) { alert('Ingresa un correo válido'); return; }
   if (pass.length < 8) { alert('La contraseña debe tener al menos 8 caracteres'); return; }
 
-  showLoadingBtn('ob-start-btn', 'Creando cuenta...');
+  // Validate required fields
+  const lastPeriod = document.getElementById('ob-last-period').value;
+  if (!lastPeriod) { alert('Por favor ingresa la fecha de tu último periodo 🌸'); return; }
 
-  // Verificar si ya existe
-  const { data: existing } = await sb
-    .from('usuarios')
-    .select('id')
-    .eq('email', email)
-    .single();
+  const btn = document.getElementById('ob-start-btn');
+  btn.textContent = 'Creando cuenta...';
+  btn.disabled = true;
+  btn.style.opacity = '.7';
 
-  if (existing) {
-    showToast('⚠️ Este correo ya tiene una cuenta. Inicia sesión.');
-    resetBtn('ob-start-btn', 'Comenzar mi seguimiento 🌸');
-    return;
-  }
+  try {
+    // Verificar si ya existe
+    const { data: existing, error: checkError } = await sb
+      .from('usuarios')
+      .select('id')
+      .eq('email', email)
+      .single();
+
+    if (existing) {
+      // User exists - show login instead
+      alert('⚠️ Este correo ya tiene una cuenta. Te llevamos al inicio de sesión.');
+      btn.textContent = 'Comenzar mi seguimiento 🌸';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      document.getElementById('onboarding').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-email').value = email;
+      return;
+    }
 
   // Crear usuario en Supabase
   const userData = {
@@ -1034,25 +1048,41 @@ async function registrarUsuario() {
   const { data, error } = await sb.from('usuarios').insert([userData]).select().single();
 
   if (error) {
-    showToast('❌ Error al crear cuenta: ' + error.message);
-    resetBtn('ob-start-btn', 'Comenzar mi seguimiento 🌸');
+    console.error('Supabase error:', error);
+    alert('❌ Error al crear cuenta: ' + error.message + '. Por favor intenta de nuevo.');
+    btn.textContent = 'Comenzar mi seguimiento 🌸';
+    btn.disabled = false;
+    btn.style.opacity = '1';
     return;
   }
 
   // Guardar sesión
   localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
 
-  CURRENT_USER = data;
-  CURRENT_PLAN = 'gratuito';
-  DATA.userName = name;
-  DATA.email    = email;
-  DATA.userId   = data.id;
+    CURRENT_USER = data;
+    CURRENT_PLAN = 'gratuito';
+    DATA.userName = name;
+    DATA.email    = email;
+    DATA.userId   = data.id;
+    // Also save locally
+    DATA.lastPeriod = document.getElementById('ob-last-period').value;
+    DATA.cycleLen   = parseInt(document.getElementById('ob-cycle-len').value)||28;
+    DATA.country    = document.getElementById('ob-country').value;
+    DATA.age        = document.getElementById('ob-age').value;
+    saveData();
+    localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
 
-  document.getElementById('onboarding').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  initApp();
-  aplicarPlan();
-  showToast('🌸 ¡Bienvenida a Ovárica!');
+    document.getElementById('onboarding').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+    aplicarPlan();
+    showToast('🌸 ¡Bienvenida a Ovárica!');
+  } catch(err) {
+    console.error('Registration error:', err);
+    alert('Error al crear cuenta. Por favor intenta de nuevo.');
+    const btn2 = document.getElementById('ob-start-btn');
+    if(btn2){ btn2.textContent = 'Comenzar mi seguimiento 🌸'; btn2.disabled = false; btn2.style.opacity = '1'; }
+  }
 }
 
 // ═══ APLICAR RESTRICCIONES POR PLAN ═══
@@ -2056,13 +2086,19 @@ if(!DATA.config) DATA.config={};
 
 function buildConfigToggles(){
   const c=document.getElementById('config-toggles'); if(!c) return;
-  c.innerHTML='';
+  // Config only for Pro plan
+  if(CURRENT_PLAN === 'gratuito'){
+    c.innerHTML='<div style="font-size:.8rem;color:var(--text-muted);padding:.5rem 0;text-align:center">⚙️ La configuración está disponible en el <span style="color:var(--brand);font-weight:600;cursor:pointer" onclick="mostrarUpgrade("reportes")">plan Pro</span></div>';
+    return;
+  }
+  const cfg=document.getElementById('config-toggles'); if(!cfg) return;
+  cfg.innerHTML='';
   CONFIG_ITEMS.forEach((item,i)=>{
     const isLast=i===CONFIG_ITEMS.length-1;
     if(!DATA.config[item.id] === undefined) DATA.config[item.id]=true;
     const on=DATA.config[item.id]!==false;
-    const div=document.createElement('div');
-    div.style.cssText=`display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;${!isLast?'border-bottom:1px solid var(--bg2)':''};font-size:.83rem`;
+    const div2=document.createElement('div');
+    div2.style.cssText=`display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;${!isLast?'border-bottom:1px solid var(--bg2)':''};font-size:.83rem`;
     div.innerHTML=`<span>${item.label}</span>
       <div id="toggle-${item.id}" onclick="toggleConfig('${item.id}')" style="width:42px;height:24px;border-radius:12px;background:${on?'var(--brand)':'var(--surface2)'};cursor:pointer;display:flex;align-items:center;padding:3px ${on?'3px 3px 21px':'21px 3px 3px'};transition:all .2s;border:1px solid ${on?'var(--brand)':'rgba(180,130,200,.3)'}">
         <div style="width:18px;height:18px;border-radius:50%;background:white;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>
