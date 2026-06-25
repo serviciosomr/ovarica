@@ -719,7 +719,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
            style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--purple-pale);color:var(--purple);border:1.5px solid rgba(120,75,160,.3);border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-decoration:none">
           💎 Suscribirme · Pro Anual $59.99/año
         </a>
-        <a href="mailto:soporte@avarica.app"
+        <a href="mailto:soporte@ovarica.site"
            style="display:flex;align-items:center;justify-content:center;gap:6px;background:white;border:1.5px solid rgba(201,81,122,.3);color:var(--brand);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;text-decoration:none">
           📧 Contactar soporte
         </a>
@@ -809,7 +809,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="modal-handle"></div>
     <div class="modal-title" id="day-modal-title">📅 Lunes 22 de junio</div>
     <div id="day-modal-body"></div>
-    <button class="day-edit-btn" onclick="editDayFromModal()">✏️ Editar este registro</button>
+    <div style="display:flex;gap:.5rem;margin-top:.8rem">
+    <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Editar</button>
+    <button class="day-edit-btn" style="flex:1;background:#FEE9E9;border-color:#E05070;color:#E05070" onclick="deleteRegistroFromModal()">🗑️ Eliminar</button>
+  </div>
   </div>
 </div>
 
@@ -1090,6 +1093,14 @@ function aplicarPlan() {
       }
     }
   });
+  // Also block Registro tab after 7 days for free plan
+  if(CURRENT_PLAN === 'gratuito'){
+    const allDates = Object.keys(DATA.registros);
+    if(allDates.length >= 7){
+      const regBtn = document.querySelectorAll('.nav-item')[1];
+      if(regBtn){ regBtn.style.opacity = '.5'; }
+    }
+  }
 }
 
 // ═══ MODAL UPGRADE ═══
@@ -1387,6 +1398,22 @@ function openDayDetail(ds){
   document.getElementById('day-modal').classList.add('open');
 }
 function closeDayModal(e){if(e.target===document.getElementById('day-modal')) document.getElementById('day-modal').classList.remove('open')}
+function deleteRegistroFromModal(){
+  if(!confirm('¿Eliminar el registro de este día?')) return;
+  delete DATA.registros[currentDetailDate];
+  delete DATA.alimentos[currentDetailDate];
+  delete DATA.periodo[currentDetailDate];
+  saveData();
+  renderCalendar();
+  updateStats();
+  document.getElementById('day-modal').classList.remove('open');
+  showToast('🗑️ Registro eliminado');
+  // Re-enable registro nav if under 7 days
+  if(CURRENT_PLAN === 'gratuito'){
+    const regBtn = document.querySelectorAll('.nav-item')[1];
+    if(regBtn && Object.keys(DATA.registros).length < 7) regBtn.style.opacity = '1';
+  }
+}
 function editDayFromModal(){
   document.getElementById('day-modal').classList.remove('open');
   document.getElementById('registro-date-input').value=currentDetailDate;
