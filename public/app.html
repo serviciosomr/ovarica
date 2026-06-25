@@ -427,7 +427,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   <div class="screen active" id="screen-inicio">
     <div class="app-header">
       <div><div class="logo"><span class="ova">OVÁ</span><span class="rica">RICA</span></div><div class="tagline">Tu salud hormonal</div></div>
-      <div class="nora-badge" onclick="openNoraModal()"><div class="nora-badge-avatar">🌸</div> Nora IA</div>
+      <div class="nora-badge" onclick="handleNoraBadge()"><div class="nora-badge-avatar">🌸</div> Nora IA</div>
     </div>
     <div class="phase-banner">
       <div class="phase-icon">🌸</div>
@@ -1395,7 +1395,45 @@ function editDayFromModal(){
 }
 
 // ═══ DATE CHANGES ═══
-function onRegistroDateChange(v){selectedRegistroDate=v}
+function onRegistroDateChange(v){
+  selectedRegistroDate=v;
+  // Clear all checkboxes
+  document.querySelectorAll('.check-item').forEach(el=>{
+    el.classList.remove('checked','green');
+    const box=el.querySelector('.check-box');
+    if(box) box.textContent='';
+  });
+  document.querySelectorAll('.intensity-btn').forEach(b=>b.classList.remove('active'));
+  ejercicioHoy=null;
+  document.getElementById('ejercicio-si').classList.remove('checked');
+  document.getElementById('ejercicio-no').classList.remove('checked');
+  document.getElementById('ej-si-box').textContent='';
+  document.getElementById('ej-no-box').textContent='';
+  document.getElementById('ejercicio-detail').style.display='none';
+  document.getElementById('dolor-slider').value=0;
+  document.getElementById('dolor-val').textContent='0';
+  // Load existing data for that date if any
+  const r=DATA.registros[v];
+  if(r){
+    if(r.sintomas) r.sintomas.forEach(val=>{
+      const el=document.querySelector(`.check-item[data-val="${val}"]`);
+      if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}
+    });
+    if(r.dolor) {document.getElementById('dolor-slider').value=r.dolor;document.getElementById('dolor-val').textContent=r.dolor;}
+    if(r.sueno) r.sueno.forEach(val=>{
+      const el=document.querySelector(`.check-item[data-val="${val}"]`);
+      if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}
+    });
+    if(r.ejercicio){
+      toggleEjercicio(true);
+      if(r.ejercicio.tipos) r.ejercicio.tipos.forEach(val=>{
+        const el=document.querySelector(`.check-item[data-val="${val}"]`);
+        if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}
+      });
+      if(r.ejercicio.duracion){document.getElementById('dur-slider').value=r.ejercicio.duracion;document.getElementById('dur-val').textContent=r.ejercicio.duracion+'min';}
+    }
+  }
+}
 function onPeriodoDateChange(v){selectedPeriodoDate=v}
 
 // ═══ CHECKLISTS ═══
@@ -1538,6 +1576,16 @@ function getChecked(group){return [...document.querySelectorAll(`.check-item[dat
 
 // ═══ SAVE REGISTRO ═══
 function saveRegistro(){
+  // Check plan restriction: 7 days for free plan
+  if(CURRENT_PLAN === 'gratuito') {
+    const allDates = Object.keys(DATA.registros).sort();
+    const isNewDate = !DATA.registros[selectedRegistroDate];
+    if(isNewDate && allDates.length >= 7) {
+      document.getElementById('upgrade-msg').textContent = 'El plan gratuito solo permite 7 días de historial. Actualiza a Pro para registros ilimitados.';
+      document.getElementById('upgrade-modal').classList.add('open');
+      return;
+    }
+  }
   DATA.registros[selectedRegistroDate]={
     sintomas:[...getChecked('repro'),...getChecked('piel'),...getChecked('neuro'),...getChecked('cardio'),...getChecked('digest'),...getChecked('mental')],
     ejercicio:ejercicioHoy?{tipos:getChecked('ejercicio-tipo'),extra:getChecked('ejercicio-extra'),duracion:document.getElementById('dur-slider').value}:null,
@@ -1592,6 +1640,11 @@ function updateCicloStats(){
 
 // ═══ NORA ═══
 function updateNoraInsight(){
+  // For free plan, show locked message
+  if(CURRENT_PLAN === 'gratuito'){
+    document.getElementById('nora-weekly').innerHTML = '🔒 <span style="color:var(--text-muted)">Los insights de Nora IA están disponibles en el <span style="color:var(--brand);font-weight:600;cursor:pointer" onclick="handleNoraBadge()">plan Pro</span>. Actualiza para descubrir los patrones de tu cuerpo.</span>';
+    return;
+  }
   const all=Object.keys(DATA.registros).sort(); const name=DATA.userName||'tú';
   let msg='';
   if(all.length===0) msg=`Bienvenida ${name} 🌸 Empieza a registrar tus datos para que <span class="nora-highlight">Nora</span> pueda detectar los patrones de tu cuerpo.`;
@@ -1786,6 +1839,14 @@ function saveMedical(){
 
 // ═══ MODALS ═══
 function openNoraModal(){document.getElementById('nora-modal').classList.add('open')}
+function handleNoraBadge(){
+  if(CURRENT_PLAN === 'gratuito'){
+    document.getElementById('upgrade-msg').textContent = 'Nora IA solo está disponible en el plan Pro. Actualiza para recibir insights personalizados de tu salud hormonal.';
+    document.getElementById('upgrade-modal').classList.add('open');
+    return;
+  }
+  openNoraModal();
+}
 function closeNoraModal(e){if(e.target===document.getElementById('nora-modal')) document.getElementById('nora-modal').classList.remove('open')}
 
 // ═══ TOAST ═══
