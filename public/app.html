@@ -688,9 +688,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--brand));margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 4px 16px rgba(201,81,122,.3)">🌸</div>
       <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700" id="perfil-nombre">—</div>
       <div style="font-size:.75rem;color:var(--text-muted);margin-top:3px" id="perfil-diag">—</div>
-      <div style="display:inline-flex;align-items:center;gap:5px;background:var(--brand-pale);border-radius:50px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;color:var(--brand);margin-top:.7rem">
-        🎁 Pro · 14 días de prueba
-      </div>
+      <div id="perfil-plan-badge" style="display:inline-flex;align-items:center;border-radius:50px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;margin-top:.7rem;background:var(--surface2);color:var(--text-muted)">🆓 Plan Gratuito</div>
     </div>
 
     <!-- Datos personales -->
@@ -814,19 +812,32 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <button class="day-edit-btn" onclick="editDayFromModal()">✏️ Editar este registro</button>
   </div>
 </div>
-  <div class="modal-overlay" id="upgrade-modal" onclick="if(event.target===this)this.classList.remove('open')">
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="upgrade-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <div class="modal-handle"></div>
     <div style="text-align:center;padding:.5rem 0 1rem">
       <div style="font-size:3rem;margin-bottom:.8rem">🔒</div>
       <div class="modal-title" style="text-align:center">Función exclusiva Pro</div>
-      <div class="modal-body" style="text-align:center;margin-bottom:1.5rem" id="upgrade-msg">Esta función es exclusiva del plan Pro.</div>
-      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank" style="display:block;background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border-radius:12px;padding:1rem;font-weight:700;text-decoration:none;text-align:center;margin-bottom:.7rem">🏆 Pro Anual · $59.99/año — 7 días gratis</a>
-      <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" target="_blank" style="display:block;background:var(--brand-pale);color:var(--brand);border:1.5px solid var(--brand-soft);border-radius:12px;padding:.85rem;font-weight:600;text-decoration:none;text-align:center">🌸 Pro Mensual · $9.99/mes — 14 días gratis</a>
+      <div class="modal-body" style="text-align:center;margin-bottom:1.5rem" id="upgrade-msg">
+        Esta función está disponible en el plan Pro.
+      </div>
+      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank"
+         style="display:block;background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border-radius:12px;padding:1rem;font-size:.95rem;font-weight:700;text-decoration:none;text-align:center;margin-bottom:.7rem;box-shadow:0 4px 15px rgba(218,165,32,.3)">
+        🏆 Pro Anual · $59.99/año — 7 días gratis
+      </a>
+      <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" target="_blank"
+         style="display:block;background:var(--brand-pale);color:var(--brand);border:1.5px solid var(--brand-soft);border-radius:12px;padding:.85rem;font-size:.88rem;font-weight:600;text-decoration:none;text-align:center;margin-bottom:.5rem">
+        🌸 Pro Mensual · $9.99/mes — 14 días gratis
+      </a>
+      <div style="font-size:.7rem;color:var(--text-muted);margin-top:.5rem">
+        🔒 Pago seguro vía Hotmart · Garantía 7 días
+      </div>
     </div>
   </div>
 </div>
-  
+
 <!-- TOAST -->
 <div class="toast" id="toast">✅ Guardado</div>
 
@@ -835,124 +846,336 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .tab-btn.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
 </style>
 
-<script>
-  </script>
+
+<!-- SUPABASE SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const SUPABASE_URL = 'https://psekkcsivbosurxnuhgg.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_0lm0LjjMhUUU4s5Q_K4xMA_yNLUf9sK';
+// ═══════════════════════════════════════════════════
+// OVÁRICA — Supabase Integration
+// INSTRUCCIONES: Reemplaza las dos líneas de abajo
+// con tus claves reales de Supabase
+// ═══════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://psekkcsivbosurxnuhgg.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_0lm0LjjMhUUU4s5Q_K4xMA_yNLUf9sK';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ═══ PERMISOS POR PLAN ═══
 const PLAN_FEATURES = {
-  gratuito:    { nora_ia:false, historial_dias:7, alimentacion_plan:false, retos:false, chequeos:false, fases_ciclo:false },
-  pro_mensual: { nora_ia:true,  historial_dias:999, alimentacion_plan:true, retos:true, chequeos:true, fases_ciclo:true },
-  pro_anual:   { nora_ia:true,  historial_dias:999, alimentacion_plan:true, retos:true, chequeos:true, fases_ciclo:true, analisis_trimestral:true }
+  gratuito: {
+    nora_ia: false,
+    historial_dias: 7,
+    alimentacion_plan: false,
+    retos: false,
+    suplementos_guia: false,
+    chequeos: false,
+    reportes: false,
+    fases_ciclo: false,
+  },
+  pro_mensual: {
+    nora_ia: true,
+    historial_dias: 999,
+    alimentacion_plan: true,
+    retos: true,
+    suplementos_guia: true,
+    chequeos: true,
+    reportes: true,
+    fases_ciclo: true,
+  },
+  pro_anual: {
+    nora_ia: true,
+    historial_dias: 999,
+    alimentacion_plan: true,
+    retos: true,
+    suplementos_guia: true,
+    chequeos: true,
+    reportes: true,
+    fases_ciclo: true,
+    analisis_trimestral: true,
+    export_pdf: true,
+  }
 };
 
+// ═══ USUARIO ACTUAL ═══
 let CURRENT_USER = null;
 let CURRENT_PLAN = 'gratuito';
+let PLAN_ACTIVO  = false;
 
+// ═══ VERIFICAR SESION ═══
 async function verificarSesion() {
   const session = localStorage.getItem('avarica_session');
   if (!session) return false;
   try {
     const s = JSON.parse(session);
-    const { data, error } = await sb.from('usuarios').select('*').eq('email', s.email).single();
+    // Verificar con Supabase que el usuario existe y su plan está activo
+    const { data, error } = await sb
+      .from('usuarios')
+      .select('*')
+      .eq('email', s.email)
+      .single();
     if (error || !data) return false;
+
     CURRENT_USER = data;
     CURRENT_PLAN = data.plan || 'gratuito';
-    if (data.fecha_vencimiento && new Date(data.fecha_vencimiento) < new Date()) {
-      CURRENT_PLAN = 'gratuito';
-      await sb.from('usuarios').update({plan:'gratuito'}).eq('email', s.email);
+
+    // Verificar si el plan está vencido
+    if (data.fecha_vencimiento) {
+      const vence = new Date(data.fecha_vencimiento);
+      PLAN_ACTIVO = vence > new Date() && data.activo;
+      if (!PLAN_ACTIVO) {
+        CURRENT_PLAN = 'gratuito';
+        // Actualizar en BD
+        await sb.from('usuarios').update({plan:'gratuito'}).eq('email', s.email);
+      }
+    } else {
+      PLAN_ACTIVO = data.plan === 'gratuito';
     }
+
     DATA.userName = data.nombre;
-    DATA.email = data.email;
-    DATA.userId = data.id;
+    DATA.email    = data.email;
+    DATA.userId   = data.id;
     return true;
   } catch(e) { return false; }
 }
 
+// ═══ LOGIN ═══
 async function loginSupabase(email, password) {
-  const btn = document.getElementById('login-btn');
-  btn.textContent = 'Verificando...'; btn.disabled = true;
-  const { data, error } = await sb.from('usuarios').select('*').eq('email', email.toLowerCase().trim()).single();
-  if (error || !data || data.password_hash !== btoa(password)) {
-    showToast('❌ Correo o contraseña incorrectos');
-    btn.textContent = 'Iniciar sesión'; btn.disabled = false;
+  showLoadingBtn('login-btn', 'Verificando...');
+  try {
+    const { data, error } = await sb
+      .from('usuarios')
+      .select('*')
+      .eq('email', email.toLowerCase().trim())
+      .single();
+
+    if (error || !data) {
+      showToast('❌ Correo o contraseña incorrectos');
+      resetBtn('login-btn', 'Iniciar sesión');
+      return false;
+    }
+
+    // Simple password check (en producción usar bcrypt)
+    if (data.password_hash !== btoa(password)) {
+      showToast('❌ Correo o contraseña incorrectos');
+      resetBtn('login-btn', 'Iniciar sesión');
+      return false;
+    }
+
+    // Guardar sesión
+    localStorage.setItem('avarica_session', JSON.stringify({
+      email: data.email,
+      id: data.id
+    }));
+
+    CURRENT_USER = data;
+    CURRENT_PLAN = data.plan || 'gratuito';
+    DATA.userName = data.nombre;
+    DATA.email    = data.email;
+    DATA.userId   = data.id;
+
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+    aplicarPlan();
+    return true;
+  } catch(e) {
+    showToast('❌ Error de conexión');
+    resetBtn('login-btn', 'Iniciar sesión');
+    return false;
+  }
+}
+
+// ═══ REGISTRO ═══
+async function registrarUsuario() {
+  const name  = document.getElementById('ob-name').value.trim();
+  const email = document.getElementById('ob-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('ob-password').value;
+
+  if (!name)  { alert('¿Cómo te llamas? 🌸'); return; }
+  if (!email || !email.includes('@')) { alert('Ingresa un correo válido'); return; }
+  if (pass.length < 8) { alert('La contraseña debe tener al menos 8 caracteres'); return; }
+
+  showLoadingBtn('ob-start-btn', 'Creando cuenta...');
+
+  // Verificar si ya existe
+  const { data: existing } = await sb
+    .from('usuarios')
+    .select('id')
+    .eq('email', email)
+    .single();
+
+  if (existing) {
+    showToast('⚠️ Este correo ya tiene una cuenta. Inicia sesión.');
+    resetBtn('ob-start-btn', 'Comenzar mi seguimiento 🌸');
     return;
   }
-  localStorage.setItem('avarica_session', JSON.stringify({email: data.email, id: data.id}));
-  CURRENT_USER = data; CURRENT_PLAN = data.plan || 'gratuito';
-  DATA.userName = data.nombre; DATA.email = data.email; DATA.userId = data.id;
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  initApp(); aplicarPlan();
-}
 
-async function registrarEnSupabase(nombre, email, pass, extraData) {
-  const { data: existing } = await sb.from('usuarios').select('id').eq('email', email).single();
-  if (existing) { showToast('⚠️ Este correo ya tiene cuenta. Inicia sesión.'); return false; }
-  const { data, error } = await sb.from('usuarios').insert([{
-    email, nombre, password_hash: btoa(pass), plan: 'gratuito', activo: true, ...extraData
-  }]).select().single();
-  if (error) { showToast('❌ Error: ' + error.message); return false; }
-  localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
-  CURRENT_USER = data; CURRENT_PLAN = 'gratuito';
-  DATA.userName = nombre; DATA.email = email; DATA.userId = data.id;
-  return true;
-}
-
-function aplicarPlan() {
-  const f = PLAN_FEATURES[CURRENT_PLAN] || PLAN_FEATURES.gratuito;
-  const badge = document.getElementById('perfil-plan-badge');
-  if (badge) {
-    const labels = {gratuito:'🆓 Plan Gratuito', pro_mensual:'🌸 Pro Mensual', pro_anual:'🏆 Pro Anual'};
-    badge.textContent = labels[CURRENT_PLAN];
-    badge.style.background = CURRENT_PLAN==='gratuito'?'var(--surface2)':CURRENT_PLAN==='pro_anual'?'linear-gradient(135deg,#B8860B,#DAA520)':'linear-gradient(135deg,var(--purple),var(--brand))';
-    badge.style.color = CURRENT_PLAN==='gratuito'?'var(--text-muted)':'white';
-  }
-  if (!f.retos) lockNav(4, 'retos');
-  if (!f.chequeos) lockNav(5, 'chequeos');
-  if (!f.alimentacion_plan) lockNav(3, 'alimentacion');
-}
-
-function lockNav(idx, feature) {
-  const nav = document.querySelectorAll('.nav-item')[idx];
-  if (!nav) return;
-  nav.style.opacity = '.4';
-  nav.onclick = () => {
-    document.getElementById('upgrade-msg').textContent = 'Esta función es exclusiva del plan Pro. Actualiza para acceder.';
-    document.getElementById('upgrade-modal').classList.add('open');
+  // Crear usuario en Supabase
+  const userData = {
+    email,
+    nombre: name,
+    password_hash: btoa(pass),
+    plan: 'gratuito',
+    activo: true,
+    pais:        document.getElementById('ob-country')?.value || '',
+    edad:        document.getElementById('ob-age')?.value || '',
+    peso:        document.getElementById('ob-weight')?.value || '',
+    talla:       document.getElementById('ob-height')?.value || '',
+    diagnostico: document.getElementById('ob-diag')?.value || '',
+    objetivo:    document.getElementById('ob-objetivo')?.value || '',
+    ultimo_periodo: document.getElementById('ob-last-period')?.value || '',
+    ciclo_len:   document.getElementById('ob-cycle-len')?.value || '',
+    ciclo_tipo:  document.getElementById('ob-cycle-type')?.value || '',
   };
+
+  const { data, error } = await sb.from('usuarios').insert([userData]).select().single();
+
+  if (error) {
+    showToast('❌ Error al crear cuenta: ' + error.message);
+    resetBtn('ob-start-btn', 'Comenzar mi seguimiento 🌸');
+    return;
+  }
+
+  // Guardar sesión
+  localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
+
+  CURRENT_USER = data;
+  CURRENT_PLAN = 'gratuito';
+  DATA.userName = name;
+  DATA.email    = email;
+  DATA.userId   = data.id;
+
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp();
+  aplicarPlan();
+  showToast('🌸 ¡Bienvenida a Ovárica!');
+}
+
+// ═══ APLICAR RESTRICCIONES POR PLAN ═══
+function aplicarPlan() {
+  const features = PLAN_FEATURES[CURRENT_PLAN] || PLAN_FEATURES.gratuito;
+
+  // Actualizar badge del plan en perfil
+  const planBadge = document.getElementById('perfil-plan-badge');
+  if (planBadge) {
+    const labels = {
+      gratuito:    '🆓 Plan Gratuito',
+      pro_mensual: '🌸 Plan Pro Mensual',
+      pro_anual:   '🏆 Plan Pro Anual'
+    };
+    const colors = {
+      gratuito:    'background:var(--surface2);color:var(--text-muted)',
+      pro_mensual: 'background:linear-gradient(135deg,var(--purple),var(--brand));color:white',
+      pro_anual:   'background:linear-gradient(135deg,#B8860B,#DAA520);color:white'
+    };
+    planBadge.textContent = labels[CURRENT_PLAN];
+    planBadge.style.cssText = colors[CURRENT_PLAN] + ';display:inline-flex;align-items:center;border-radius:50px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;margin-top:.7rem';
+  }
+
+  // Bloquear navegación para plan gratuito
+  const navItems = [
+    { screen: 'alimentos', feature: 'alimentacion_plan', nav: 3 },
+    { screen: 'retos',     feature: 'retos',             nav: 4 },
+    { screen: 'medico',    feature: 'chequeos',          nav: 5 },
+    { screen: 'periodo',   feature: 'fases_ciclo',       nav: 2 },
+  ];
+
+  navItems.forEach(item => {
+    if (!features[item.feature]) {
+      const navBtn = document.querySelectorAll('.nav-item')[item.nav];
+      if (navBtn) {
+        navBtn.onclick = () => mostrarUpgrade(item.feature);
+        navBtn.style.opacity = '.5';
+      }
+    }
+  });
+}
+
+// ═══ MODAL UPGRADE ═══
+function mostrarUpgrade(feature) {
+  const msgs = {
+    nora_ia:          'Nora IA solo está disponible en el plan Pro.',
+    alimentacion_plan:'El plan de alimentación solo está en el plan Pro.',
+    retos:            'Los retos de 21 días solo están en el plan Pro.',
+    chequeos:         'Los chequeos médicos solo están en el plan Pro.',
+    fases_ciclo:      'Las fases del ciclo detalladas son exclusivas del plan Pro.',
+    reportes:         'Los reportes solo están disponibles en el plan Pro.',
+  };
+  const msg = msgs[feature] || 'Esta función es exclusiva del plan Pro.';
+  document.getElementById('upgrade-msg').textContent = msg;
+  document.getElementById('upgrade-modal').classList.add('open');
+}
+
+// ═══ GUARDAR DATOS EN SUPABASE ═══
+async function saveRegistroSupabase(dateKey, registroData) {
+  if (!CURRENT_USER?.id) return;
+  const { error } = await sb.from('registros').upsert({
+    usuario_id: CURRENT_USER.id,
+    fecha: dateKey,
+    ...registroData
+  }, { onConflict: 'usuario_id,fecha' });
+  if (error) console.error('Error guardando registro:', error);
+}
+
+async function savePeriodoSupabase(dateKey, periodoData) {
+  if (!CURRENT_USER?.id) return;
+  const { error } = await sb.from('periodo').upsert({
+    usuario_id: CURRENT_USER.id,
+    fecha: dateKey,
+    ...periodoData
+  }, { onConflict: 'usuario_id,fecha' });
+  if (error) console.error('Error guardando periodo:', error);
 }
 
 async function cargarDatosSupabase() {
   if (!CURRENT_USER?.id) return;
-  const uid = CURRENT_USER.id;
-  const [r,p,a,su,re,ch] = await Promise.all([
-    sb.from('registros').select('*').eq('usuario_id',uid),
-    sb.from('periodo').select('*').eq('usuario_id',uid),
-    sb.from('alimentos').select('*').eq('usuario_id',uid),
-    sb.from('suplementos').select('*').eq('usuario_id',uid),
-    sb.from('retos').select('*').eq('usuario_id',uid),
-    sb.from('chequeos').select('*').eq('usuario_id',uid),
-  ]);
-  if(r.data) r.data.forEach(x=>{ DATA.registros[x.fecha]=x; });
-  if(p.data) p.data.forEach(x=>{ DATA.periodo[x.fecha]=x; });
-  if(a.data) a.data.forEach(x=>{ DATA.alimentos[x.fecha]=x; });
-  if(su.data) su.data.forEach(x=>{ DATA.suplementos[x.fecha]=x.tomados; });
-  if(re.data) re.data.forEach(x=>{ DATA.retos[x.reto_id]=x.dias; });
-  if(ch.data) DATA.chequeos=ch.data;
+  try {
+    const uid = CURRENT_USER.id;
+    const [regRes, perRes, aliRes, supRes, retRes, cheRes] = await Promise.all([
+      sb.from('registros').select('*').eq('usuario_id', uid),
+      sb.from('periodo').select('*').eq('usuario_id', uid),
+      sb.from('alimentos').select('*').eq('usuario_id', uid),
+      sb.from('suplementos').select('*').eq('usuario_id', uid),
+      sb.from('retos').select('*').eq('usuario_id', uid),
+      sb.from('chequeos').select('*').eq('usuario_id', uid),
+    ]);
+
+    // Transformar a formato DATA
+    if (regRes.data) regRes.data.forEach(r => { DATA.registros[r.fecha] = r; });
+    if (perRes.data) perRes.data.forEach(p => { DATA.periodo[p.fecha] = p; });
+    if (aliRes.data) aliRes.data.forEach(a => { DATA.alimentos[a.fecha] = a; });
+    if (supRes.data) supRes.data.forEach(s => { DATA.suplementos[s.fecha] = s.tomados; });
+    if (retRes.data) retRes.data.forEach(r => { DATA.retos[r.reto_id] = r.dias; });
+    if (cheRes.data) DATA.chequeos = cheRes.data;
+
+    console.log('✅ Datos cargados desde Supabase');
+  } catch(e) {
+    console.error('Error cargando datos:', e);
+  }
+}
+
+// ═══ HELPERS ═══
+function showLoadingBtn(id, txt) {
+  const btn = document.getElementById(id);
+  if (btn) { btn.textContent = txt; btn.disabled = true; btn.style.opacity = '.7'; }
+}
+function resetBtn(id, txt) {
+  const btn = document.getElementById(id);
+  if (btn) { btn.textContent = txt; btn.disabled = false; btn.style.opacity = '1'; }
 }
 
 function cerrarSesionSupabase() {
-  if(confirm('¿Cerrar sesión?')) {
+  if (confirm('¿Cerrar sesión?')) {
     localStorage.removeItem('avarica_session');
-    CURRENT_USER=null;
-    document.getElementById('app').style.display='none';
-    document.getElementById('login-screen').style.display='flex';
+    CURRENT_USER = null;
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
   }
 }
+</script>
+
+<script>
 // ═══ DATA ═══
 const DATA = {
   userName:'', age:'', country:'', weight:'', height:'',
@@ -1320,7 +1543,14 @@ function saveRegistro(){
     ejercicio:ejercicioHoy?{tipos:getChecked('ejercicio-tipo'),extra:getChecked('ejercicio-extra'),duracion:document.getElementById('dur-slider').value}:null,
     sueno:getChecked('sueno'), dolor:parseInt(document.getElementById('dolor-slider').value), ts:Date.now()
   };
-  saveData(); updateStats(); renderCalendar(); updateNoraInsight(); showToast('✅ Registro guardado');
+  saveData(); updateStats(); renderCalendar(); updateNoraInsight();
+  saveRegistroSupabase(selectedRegistroDate, {
+    sintomas: DATA.registros[selectedRegistroDate].sintomas,
+    ejercicio: DATA.registros[selectedRegistroDate].ejercicio,
+    sueno: DATA.registros[selectedRegistroDate].sueno,
+    dolor: DATA.registros[selectedRegistroDate].dolor
+  });
+  showToast('✅ Registro guardado');
 }
 
 // ═══ SAVE ALIMENTOS ═══
@@ -1713,7 +1943,8 @@ function buildPerfil(){
 
 function openEditPerfil(){showScreen('inicio'); showToast('✏️ Edición de perfil disponible próximamente')}
 
-function confirmLogout(){
+function confirmLogout(){ cerrarSesionSupabase(); return;
+  // old:
   if(confirm('¿Cerrar sesión? Tus datos quedarán guardados en este dispositivo.')){
     document.getElementById('app').style.display='none';
     document.getElementById('onboarding').style.display='none';
@@ -1786,54 +2017,15 @@ function bootApp(){
   // else: onboarding is already visible by default
 }
 
-document.getElementById('ob-start-btn').addEventListener('click', async ()=>{
-  const nombre = document.getElementById('ob-name').value.trim();
-  const email  = document.getElementById('ob-email').value.trim().toLowerCase();
-  const pass   = document.getElementById('ob-password').value;
-  if(!nombre){alert('¿Cómo te llamas? 🌸');return;}
-  if(!email||!email.includes('@')){alert('Ingresa un correo válido');return;}
-  if(pass.length<8){alert('La contraseña debe tener mínimo 8 caracteres');return;}
-  const ok = await registrarEnSupabase(nombre, email, pass, {
-    pais: document.getElementById('ob-country')?.value||'',
-    edad: document.getElementById('ob-age')?.value||'',
-    peso: document.getElementById('ob-weight')?.value||'',
-    talla: document.getElementById('ob-height')?.value||'',
-    diagnostico: document.getElementById('ob-diag')?.value||'',
-    objetivo: document.getElementById('ob-objetivo')?.value||'',
-    ultimo_periodo: document.getElementById('ob-last-period')?.value||'',
-  });
-  if(ok){
-    document.getElementById('onboarding').style.display='none';
-    document.getElementById('app').style.display='block';
-    initApp(); aplicarPlan();
-    showToast('🌸 ¡Bienvenida a Ovárica!');
-  }
-});
+document.getElementById('ob-start-btn').addEventListener('click', registrarUsuario);
 document.getElementById('login-btn').addEventListener('click', ()=>{
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
-  if(!email){showToast('⚠️ Ingresa tu correo');return;}
+  if(!email){showToast('⚠️ Ingresa tu correo'); return}
   loginSupabase(email, pass);
 });
-  const email=document.getElementById('login-email').value.trim();
-  if(!email){showToast('⚠️ Ingresa tu correo'); return}
-  if(DATA.email && email.toLowerCase()!==DATA.email.toLowerCase()){
-    showToast('❌ Correo o contraseña incorrectos'); return;
-  }
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').style.display='block';
-  initApp();
-});
 
-verificarSesion().then(ok=>{
-  if(ok){
-    document.getElementById('onboarding').style.display='none';
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='block';
-    initApp();
-    cargarDatosSupabase().then(()=>{ renderCalendar(); updateStats(); aplicarPlan(); });
-  }
-});
+bootApp();
 </script>
 </body>
 </html>
