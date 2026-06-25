@@ -814,7 +814,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <button class="day-edit-btn" onclick="editDayFromModal()">✏️ Editar este registro</button>
   </div>
 </div>
-
+  <div class="modal-overlay" id="upgrade-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div style="text-align:center;padding:.5rem 0 1rem">
+      <div style="font-size:3rem;margin-bottom:.8rem">🔒</div>
+      <div class="modal-title" style="text-align:center">Función exclusiva Pro</div>
+      <div class="modal-body" style="text-align:center;margin-bottom:1.5rem" id="upgrade-msg">Esta función es exclusiva del plan Pro.</div>
+      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank" style="display:block;background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border-radius:12px;padding:1rem;font-weight:700;text-decoration:none;text-align:center;margin-bottom:.7rem">🏆 Pro Anual · $59.99/año — 7 días gratis</a>
+      <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" target="_blank" style="display:block;background:var(--brand-pale);color:var(--brand);border:1.5px solid var(--brand-soft);border-radius:12px;padding:.85rem;font-weight:600;text-decoration:none;text-align:center">🌸 Pro Mensual · $9.99/mes — 14 días gratis</a>
+    </div>
+  </div>
+</div>
+  
 <!-- TOAST -->
 <div class="toast" id="toast">✅ Guardado</div>
 
@@ -824,6 +836,123 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 </style>
 
 <script>
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://psekkcsivbosurxnuhgg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_0lm0LjjMhUUU4s5Q_K4xMA_yNLUf9sK';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const PLAN_FEATURES = {
+  gratuito:    { nora_ia:false, historial_dias:7, alimentacion_plan:false, retos:false, chequeos:false, fases_ciclo:false },
+  pro_mensual: { nora_ia:true,  historial_dias:999, alimentacion_plan:true, retos:true, chequeos:true, fases_ciclo:true },
+  pro_anual:   { nora_ia:true,  historial_dias:999, alimentacion_plan:true, retos:true, chequeos:true, fases_ciclo:true, analisis_trimestral:true }
+};
+
+let CURRENT_USER = null;
+let CURRENT_PLAN = 'gratuito';
+
+async function verificarSesion() {
+  const session = localStorage.getItem('avarica_session');
+  if (!session) return false;
+  try {
+    const s = JSON.parse(session);
+    const { data, error } = await sb.from('usuarios').select('*').eq('email', s.email).single();
+    if (error || !data) return false;
+    CURRENT_USER = data;
+    CURRENT_PLAN = data.plan || 'gratuito';
+    if (data.fecha_vencimiento && new Date(data.fecha_vencimiento) < new Date()) {
+      CURRENT_PLAN = 'gratuito';
+      await sb.from('usuarios').update({plan:'gratuito'}).eq('email', s.email);
+    }
+    DATA.userName = data.nombre;
+    DATA.email = data.email;
+    DATA.userId = data.id;
+    return true;
+  } catch(e) { return false; }
+}
+
+async function loginSupabase(email, password) {
+  const btn = document.getElementById('login-btn');
+  btn.textContent = 'Verificando...'; btn.disabled = true;
+  const { data, error } = await sb.from('usuarios').select('*').eq('email', email.toLowerCase().trim()).single();
+  if (error || !data || data.password_hash !== btoa(password)) {
+    showToast('❌ Correo o contraseña incorrectos');
+    btn.textContent = 'Iniciar sesión'; btn.disabled = false;
+    return;
+  }
+  localStorage.setItem('avarica_session', JSON.stringify({email: data.email, id: data.id}));
+  CURRENT_USER = data; CURRENT_PLAN = data.plan || 'gratuito';
+  DATA.userName = data.nombre; DATA.email = data.email; DATA.userId = data.id;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp(); aplicarPlan();
+}
+
+async function registrarEnSupabase(nombre, email, pass, extraData) {
+  const { data: existing } = await sb.from('usuarios').select('id').eq('email', email).single();
+  if (existing) { showToast('⚠️ Este correo ya tiene cuenta. Inicia sesión.'); return false; }
+  const { data, error } = await sb.from('usuarios').insert([{
+    email, nombre, password_hash: btoa(pass), plan: 'gratuito', activo: true, ...extraData
+  }]).select().single();
+  if (error) { showToast('❌ Error: ' + error.message); return false; }
+  localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
+  CURRENT_USER = data; CURRENT_PLAN = 'gratuito';
+  DATA.userName = nombre; DATA.email = email; DATA.userId = data.id;
+  return true;
+}
+
+function aplicarPlan() {
+  const f = PLAN_FEATURES[CURRENT_PLAN] || PLAN_FEATURES.gratuito;
+  const badge = document.getElementById('perfil-plan-badge');
+  if (badge) {
+    const labels = {gratuito:'🆓 Plan Gratuito', pro_mensual:'🌸 Pro Mensual', pro_anual:'🏆 Pro Anual'};
+    badge.textContent = labels[CURRENT_PLAN];
+    badge.style.background = CURRENT_PLAN==='gratuito'?'var(--surface2)':CURRENT_PLAN==='pro_anual'?'linear-gradient(135deg,#B8860B,#DAA520)':'linear-gradient(135deg,var(--purple),var(--brand))';
+    badge.style.color = CURRENT_PLAN==='gratuito'?'var(--text-muted)':'white';
+  }
+  if (!f.retos) lockNav(4, 'retos');
+  if (!f.chequeos) lockNav(5, 'chequeos');
+  if (!f.alimentacion_plan) lockNav(3, 'alimentacion');
+}
+
+function lockNav(idx, feature) {
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if (!nav) return;
+  nav.style.opacity = '.4';
+  nav.onclick = () => {
+    document.getElementById('upgrade-msg').textContent = 'Esta función es exclusiva del plan Pro. Actualiza para acceder.';
+    document.getElementById('upgrade-modal').classList.add('open');
+  };
+}
+
+async function cargarDatosSupabase() {
+  if (!CURRENT_USER?.id) return;
+  const uid = CURRENT_USER.id;
+  const [r,p,a,su,re,ch] = await Promise.all([
+    sb.from('registros').select('*').eq('usuario_id',uid),
+    sb.from('periodo').select('*').eq('usuario_id',uid),
+    sb.from('alimentos').select('*').eq('usuario_id',uid),
+    sb.from('suplementos').select('*').eq('usuario_id',uid),
+    sb.from('retos').select('*').eq('usuario_id',uid),
+    sb.from('chequeos').select('*').eq('usuario_id',uid),
+  ]);
+  if(r.data) r.data.forEach(x=>{ DATA.registros[x.fecha]=x; });
+  if(p.data) p.data.forEach(x=>{ DATA.periodo[x.fecha]=x; });
+  if(a.data) a.data.forEach(x=>{ DATA.alimentos[x.fecha]=x; });
+  if(su.data) su.data.forEach(x=>{ DATA.suplementos[x.fecha]=x.tomados; });
+  if(re.data) re.data.forEach(x=>{ DATA.retos[x.reto_id]=x.dias; });
+  if(ch.data) DATA.chequeos=ch.data;
+}
+
+function cerrarSesionSupabase() {
+  if(confirm('¿Cerrar sesión?')) {
+    localStorage.removeItem('avarica_session');
+    CURRENT_USER=null;
+    document.getElementById('app').style.display='none';
+    document.getElementById('login-screen').style.display='flex';
+  }
+}
 // ═══ DATA ═══
 const DATA = {
   userName:'', age:'', country:'', weight:'', height:'',
@@ -1657,8 +1786,35 @@ function bootApp(){
   // else: onboarding is already visible by default
 }
 
-document.getElementById('ob-start-btn').addEventListener('click', startApp);
+document.getElementById('ob-start-btn').addEventListener('click', async ()=>{
+  const nombre = document.getElementById('ob-name').value.trim();
+  const email  = document.getElementById('ob-email').value.trim().toLowerCase();
+  const pass   = document.getElementById('ob-password').value;
+  if(!nombre){alert('¿Cómo te llamas? 🌸');return;}
+  if(!email||!email.includes('@')){alert('Ingresa un correo válido');return;}
+  if(pass.length<8){alert('La contraseña debe tener mínimo 8 caracteres');return;}
+  const ok = await registrarEnSupabase(nombre, email, pass, {
+    pais: document.getElementById('ob-country')?.value||'',
+    edad: document.getElementById('ob-age')?.value||'',
+    peso: document.getElementById('ob-weight')?.value||'',
+    talla: document.getElementById('ob-height')?.value||'',
+    diagnostico: document.getElementById('ob-diag')?.value||'',
+    objetivo: document.getElementById('ob-objetivo')?.value||'',
+    ultimo_periodo: document.getElementById('ob-last-period')?.value||'',
+  });
+  if(ok){
+    document.getElementById('onboarding').style.display='none';
+    document.getElementById('app').style.display='block';
+    initApp(); aplicarPlan();
+    showToast('🌸 ¡Bienvenida a Ovárica!');
+  }
+});
 document.getElementById('login-btn').addEventListener('click', ()=>{
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  if(!email){showToast('⚠️ Ingresa tu correo');return;}
+  loginSupabase(email, pass);
+});
   const email=document.getElementById('login-email').value.trim();
   if(!email){showToast('⚠️ Ingresa tu correo'); return}
   if(DATA.email && email.toLowerCase()!==DATA.email.toLowerCase()){
@@ -1669,7 +1825,15 @@ document.getElementById('login-btn').addEventListener('click', ()=>{
   initApp();
 });
 
-bootApp();
+verificarSesion().then(ok=>{
+  if(ok){
+    document.getElementById('onboarding').style.display='none';
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    initApp();
+    cargarDatosSupabase().then(()=>{ renderCalendar(); updateStats(); aplicarPlan(); });
+  }
+});
 </script>
 </body>
 </html>
