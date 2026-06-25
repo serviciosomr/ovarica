@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -723,6 +724,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
            style="display:flex;align-items:center;justify-content:center;gap:6px;background:white;border:1.5px solid rgba(201,81,122,.3);color:var(--brand);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;text-decoration:none">
           📧 Contactar soporte
         </a>
+        <button onclick="openFeedbackModal()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--purple-pale);color:var(--purple);border:1.5px solid rgba(155,109,181,.3);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">
+          💡 Dar sugerencia o feedback
+        </button>
       </div>
     </div>
 
@@ -838,6 +842,33 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         🔒 Pago seguro vía Hotmart · Garantía 7 días
       </div>
     </div>
+  </div>
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div class="modal-overlay" id="feedback-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">💡 Tu opinión nos importa</div>
+    <div class="modal-body" style="margin-bottom:1rem">Cuéntanos qué te gusta, qué mejorarías o qué te gustaría que tuviera Ovárica. Cada sugerencia nos ayuda a mejorar. 🌸</div>
+    <select class="modal-select" id="fb-tipo">
+      <option value="">¿Qué tipo de feedback?</option>
+      <option value="bug">🐛 Algo no funciona bien</option>
+      <option value="mejora">✨ Quiero mejorar algo existente</option>
+      <option value="nueva">💡 Idea para función nueva</option>
+      <option value="contenido">📚 Sobre el contenido médico</option>
+      <option value="otro">💬 Otro</option>
+    </select>
+    <textarea class="modal-input" id="fb-texto" placeholder="Escribe aquí tu sugerencia o comentario..." style="min-height:100px;resize:vertical"></textarea>
+    <select class="modal-select" id="fb-satisfaccion">
+      <option value="">¿Cómo calificarías la app?</option>
+      <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+      <option value="4">⭐⭐⭐⭐ Muy buena</option>
+      <option value="3">⭐⭐⭐ Buena, mejorable</option>
+      <option value="2">⭐⭐ Necesita mejoras</option>
+      <option value="1">⭐ Muchos problemas</option>
+    </select>
+    <button class="save-btn" onclick="enviarFeedback()">Enviar feedback 🌸</button>
   </div>
 </div>
 
@@ -1787,20 +1818,96 @@ function renderRetoDots(id){
 
 // ═══ WEEKLY PLAN ═══
 const PLANS={
-  leve:[
+  antiinflamatorio:[
     {day:'Lunes',meals:[{t:'Desayuno',f:'Avena con canela, manzana y nueces'},{t:'Almuerzo',f:'Arroz integral, pollo a la plancha, ensalada verde'},{t:'Merienda',f:'Yogur natural con berries'},{t:'Cena',f:'Sopa de verduras con legumbres'}]},
-    {day:'Martes',meals:[{t:'Desayuno',f:'Huevos revueltos con espinaca y tostada integral'},{t:'Almuerzo',f:'Quinoa con garbanzos y vegetales asados'},{t:'Merienda',f:'Manzana con mantequilla de almendras'},{t:'Cena',f:'Pescado al horno con batata y brócoli'}]},
-    {day:'Miércoles',meals:[{t:'Desayuno',f:'Smoothie verde (espinaca, plátano, chía, leche de almendras)'},{t:'Almuerzo',f:'Ensalada de atún con aguacate y limón'},{t:'Merienda',f:'Nueces y frutos secos sin sal'},{t:'Cena',f:'Pollo guisado con vegetales y arroz integral'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Huevos con espinaca y tostada integral'},{t:'Almuerzo',f:'Quinoa con garbanzos y vegetales asados'},{t:'Merienda',f:'Manzana con mantequilla de almendras'},{t:'Cena',f:'Pescado al horno con batata y brócoli'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Smoothie verde (espinaca, plátano, chía)'},{t:'Almuerzo',f:'Ensalada de atún con aguacate y limón'},{t:'Merienda',f:'Nueces y frutos secos sin sal'},{t:'Cena',f:'Pollo guisado con vegetales y arroz integral'}]},
     {day:'Jueves',meals:[{t:'Desayuno',f:'Tostadas integrales con aguacate y huevo'},{t:'Almuerzo',f:'Lentejas guisadas con vegetales'},{t:'Merienda',f:'Kiwi o fresas frescas'},{t:'Cena',f:'Tortilla de verduras con ensalada'}]},
-    {day:'Viernes',meals:[{t:'Desayuno',f:'Yogur griego con semillas de chía y berries'},{t:'Almuerzo',f:'Salmón al horno con quinoa y espárragos'},{t:'Merienda',f:'Hummus con vegetales crudos'},{t:'Cena',f:'Sopa de pollo con verduras y fideos integrales'}]},
-    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de avena con miel y frutas'},{t:'Almuerzo',f:'Bowl de pollo con arroz, aguacate y maíz'},{t:'Merienda',f:'Palitos de zanahoria y pepino con tzatziki'},{t:'Cena',f:'Pizza integral con vegetales y queso feta'}]},
-    {day:'Domingo',meals:[{t:'Desayuno',f:'Omelette de 3 huevos con champiñones y tomate'},{t:'Almuerzo',f:'Pollo al horno con batata, ensalada mixta'},{t:'Merienda',f:'Puñado de almendras'},{t:'Cena',f:'Crema de calabaza con semillas de girasol'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Yogur griego con chía y berries'},{t:'Almuerzo',f:'Salmón al horno con quinoa y espárragos'},{t:'Merienda',f:'Hummus con vegetales crudos'},{t:'Cena',f:'Sopa de pollo con verduras'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de avena con miel y frutas'},{t:'Almuerzo',f:'Bowl de pollo con arroz y aguacate'},{t:'Merienda',f:'Zanahoria y pepino con tzatziki'},{t:'Cena',f:'Pizza integral con vegetales y queso feta'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Omelette con champiñones y tomate'},{t:'Almuerzo',f:'Pollo al horno con batata y ensalada'},{t:'Merienda',f:'Almendras'},{t:'Cena',f:'Crema de calabaza con semillas'}]},
+  ],
+  sin_azucar:[
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Huevos revueltos con espinaca y aguacate'},{t:'Almuerzo',f:'Pechuga de pollo con brócoli al vapor y aceite de oliva'},{t:'Merienda',f:'Puñado de nueces y almendras'},{t:'Cena',f:'Salmón con espárragos y limón'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Tortilla de 3 huevos con pimientos y cebolla'},{t:'Almuerzo',f:'Ensalada grande con atún, aceitunas y vegetales'},{t:'Merienda',f:'Apio con mantequilla de almendras natural'},{t:'Cena',f:'Pollo al horno con vegetales mediterráneos'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego sin azúcar con canela y nueces'},{t:'Almuerzo',f:'Carne magra con ensalada de col y zanahoria'},{t:'Merienda',f:'Pepino con hummus casero'},{t:'Cena',f:'Bacalao al horno con brócoli y ajo'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Batido: espinaca, proteína, leche de almendras sin azúcar'},{t:'Almuerzo',f:'Pavo a la plancha con ensalada verde abundante'},{t:'Merienda',f:'Fresas frescas (sin azúcar añadida)'},{t:'Cena',f:'Sardinas con ensalada de rúcula y tomate cherry'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Huevos pochados con espinaca y tomate'},{t:'Almuerzo',f:'Pollo a la plancha con coliflor asada'},{t:'Merienda',f:'Queso cottage con pepino'},{t:'Cena',f:'Camarones salteados con zucchini y pimientos'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Tortilla de espinaca y champiñones'},{t:'Almuerzo',f:'Ensalada de pollo con aguacate, nueces y vinagreta'},{t:'Merienda',f:'Arándanos frescos'},{t:'Cena',f:'Lomo de cerdo magro con vegetales asados'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Smoothie bowl: berries, semillas de chía, coco rallado sin azúcar'},{t:'Almuerzo',f:'Pollo al limón con ensalada mediterránea'},{t:'Merienda',f:'Mix de nueces y semillas'},{t:'Cena',f:'Salmón con espinacas salteadas con ajo'}]},
+  ],
+  bajo_carbohidratos:[
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Aguacate con huevos y tomate cherry'},{t:'Almuerzo',f:'Ensalada César con pollo a la plancha (sin crutones)'},{t:'Merienda',f:'Queso mozzarella con tomate'},{t:'Cena',f:'Carne magra con coliflor salteada'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Batido proteico con espinaca y leche de almendras'},{t:'Almuerzo',f:'Bowl de atún con aguacate, pepino y alga nori'},{t:'Merienda',f:'Nueces macadamia'},{t:'Cena',f:'Pollo a la plancha con brócoli y mantequilla clarificada'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego entero con semillas de girasol'},{t:'Almuerzo',f:'Salmón con espárragos y aceite de oliva'},{t:'Merienda',f:'Apio con queso crema natural'},{t:'Cena',f:'Tortilla francesa con jamón serrano y espinacas'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Huevos revueltos con bacon y aguacate'},{t:'Almuerzo',f:'Ensalada de pollo con nueces, queso y rúcula'},{t:'Merienda',f:'Palitos de zanahoria con guacamole'},{t:'Cena',f:'Rape al horno con limón y hierbas'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Omelette de queso brie y champiñones'},{t:'Almuerzo',f:'Ceviche de camarones con aguacate'},{t:'Merienda',f:'Pepinos con tzatziki casero'},{t:'Cena',f:'Chuletas de cerdo con coliflor gratinada'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de almendra (sin harina de trigo) con berries'},{t:'Almuerzo',f:'Pollo Thai con vegetales salteados (sin arroz)'},{t:'Merienda',f:'Mix de nueces y semillas'},{t:'Cena',f:'Bistec con ensalada verde y aceite de oliva'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de yogur griego con frutos secos y canela'},{t:'Almuerzo',f:'Cordero asado con vegetales mediterráneos'},{t:'Merienda',f:'Queso cheddar con pepino'},{t:'Cena',f:'Sopa de pollo con verduras (sin fideos)'}]},
+  ],
+  mediterraneo:[
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Pan integral con aceite de oliva, tomate y orégano'},{t:'Almuerzo',f:'Ensalada griega con feta, aceitunas y vegetales'},{t:'Merienda',f:'Higos frescos con nueces'},{t:'Cena',f:'Pescado blanco con garbanzos y hierbas'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Yogur griego con miel de abeja y nueces'},{t:'Almuerzo',f:'Pasta integral con salsa de tomate casera y atún'},{t:'Merienda',f:'Dátiles y almendras'},{t:'Cena',f:'Pollo al limón con tabbouleh'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Tostada con hummus, pepino y zanahoria'},{t:'Almuerzo',f:'Lentejas rojas con cúrcuma y vegetales'},{t:'Merienda',f:'Uvas y queso manchego'},{t:'Cena',f:'Berenjena rellena de carne magra y tomate'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Batido de frutas con semillas de chía'},{t:'Almuerzo',f:'Arroz con verduras y sardinas en aceite de oliva'},{t:'Merienda',f:'Aceitunas con queso feta'},{t:'Cena',f:'Pulpo a la gallega con patata'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Shakshuka (huevos en salsa de tomate con especias)'},{t:'Almuerzo',f:'Cuscús con verduras asadas y pollo'},{t:'Merienda',f:'Fruta de temporada'},{t:'Cena',f:'Salmón con ensalada de rúcula y limón'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Crepes de avena con frutas del bosque'},{t:'Almuerzo',f:'Paella de mariscos con arroz integral'},{t:'Merienda',f:'Hummus con pan pita integral'},{t:'Cena',f:'Brochetas de pollo con vegetales a la parrilla'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Pan con tomate, jamón serrano y aceite de oliva'},{t:'Almuerzo',f:'Cocido mediterráneo con legumbres y verduras'},{t:'Merienda',f:'Naranja y almendras'},{t:'Cena',f:'Ensalada niçoise con atún fresco'}]},
+  ],
+  vegano:[
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Tazón de avena con leche de avena, chía y frutas'},{t:'Almuerzo',f:'Bowl de arroz integral, tofu, edamame y aguacate'},{t:'Merienda',f:'Manzana con crema de cacahuate natural'},{t:'Cena',f:'Curry de garbanzos con espinacas y arroz basmati'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Tostadas de aguacate con tomate y semillas de cáñamo'},{t:'Almuerzo',f:'Ensalada de quinoa con garbanzos, pepino y limón'},{t:'Merienda',f:'Batido de plátano, espinaca y leche de almendras'},{t:'Cena',f:'Tacos de frijoles negros con pico de gallo y lechuga'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Pancakes de avena y plátano sin huevo'},{t:'Almuerzo',f:'Sopa de lentejas rojas con cúrcuma y jengibre'},{t:'Merienda',f:'Hummus con vegetales crudos'},{t:'Cena',f:'Salteado de tofu con brócoli, pimientos y salsa de soja'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Yogur de soja con granola sin azúcar y berries'},{t:'Almuerzo',f:'Wrap integral con hummus, rúcula y vegetales asados'},{t:'Merienda',f:'Palomitas de maíz naturales'},{t:'Cena',f:'Pasta integral con pesto de albahaca y tomates cherry'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Smoothie de mango, espinaca, proteína vegetal'},{t:'Almuerzo',f:'Buddha bowl con quinoa, remolacha y tahini'},{t:'Merienda',f:'Mix de frutos secos y semillas'},{t:'Cena',f:'Berenjenas rellenas de arroz, verduras y especias'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Tostadas francesas veganas con leche de coco y canela'},{t:'Almuerzo',f:'Hamburguesa de lentejas con ensalada y batata'},{t:'Merienda',f:'Fruta fresca de temporada'},{t:'Cena',f:'Pizza de coliflor con vegetales y queso vegano'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Tazón açaí con granola, coco rallado y frutas'},{t:'Almuerzo',f:'Lasaña de berenjena y tofu con salsa de tomate'},{t:'Merienda',f:'Dátiles con mantequilla de almendras'},{t:'Cena',f:'Caldo de verduras con fideos y tofu'}]},
+  ],
+  fertilidad:[
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Huevos con espinaca y semillas de calabaza (zinc)'},{t:'Almuerzo',f:'Salmón con quinoa y brócoli (omega 3 + folato)'},{t:'Merienda',f:'Nueces y semillas de girasol'},{t:'Cena',f:'Pollo con lentejas y vegetales de hoja verde'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Avena con semillas de chía, berries y miel'},{t:'Almuerzo',f:'Ensalada de espinaca con huevo duro, aguacate y salmón ahumado'},{t:'Merienda',f:'Batido de granada y berries (antioxidantes)'},{t:'Cena',f:'Sardinas con batata al horno y ensalada verde'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego con nueces, semillas de lino y frutas del bosque'},{t:'Almuerzo',f:'Lentejas con zanahoria, cúrcuma y jengibre'},{t:'Merienda',f:'Higos frescos con almendras'},{t:'Cena',f:'Bacalao al vapor con espárragos y aceite de oliva'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Tostada integral con aguacate, huevo y semillas de cáñamo'},{t:'Almuerzo',f:'Bowl de arroz integral con edamame y tofu (fitoestrógenos)'},{t:'Merienda',f:'Smoothie: espinaca, plátano, leche de almendras'},{t:'Cena',f:'Pollo al horno con alcachofas y limón'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Omelette de espinaca con tomate y queso feta'},{t:'Almuerzo',f:'Caballa al horno con ensalada de remolacha (hierro + omega 3)'},{t:'Merienda',f:'Dátiles con mantequilla de almendras'},{t:'Cena',f:'Caldo de huesos con vegetales (colágeno + minerales)'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de avena con frutos rojos y semillas de chía'},{t:'Almuerzo',f:'Pavo con quinoa y espinacas (vitamina B y zinc)'},{t:'Merienda',f:'Granada con nueces'},{t:'Cena',f:'Salmón con espárragos y limón'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de semillas: chía, girasol, calabaza con yogur y berries'},{t:'Almuerzo',f:'Cordero magro con verduras asadas (hierro hemo)'},{t:'Merienda',f:'Té verde con almendras'},{t:'Cena',f:'Sopa de miso con tofu y algas (minerales y fitoestrógenos)'}]},
   ]
 };
+// Keep leve as alias
+PLANS.leve = PLANS.antiinflamatorio;
+
+let currentNutritionPlan = 'antiinflamatorio';
+
+const PLAN_DESCRIPTIONS = {
+  antiinflamatorio: { name:'🌿 Antiinflamatorio', desc:'Reduce inflamación sistémica. Ideal para SOMP activo.' },
+  sin_azucar: { name:'🚫 Sin azúcar', desc:'Elimina azúcares procesadas. Mejora resistencia a insulina.' },
+  bajo_carbohidratos: { name:'⚡ Bajo en carbos', desc:'Reduce carbohidratos. Regula glucosa e insulina rápidamente.' },
+  mediterraneo: { name:'🫒 Mediterráneo', desc:'Equilibrado y sostenible. Antiinflamatorio a largo plazo.' },
+  vegano: { name:'🌱 Vegano', desc:'Plant-based. Rico en fitoestrógenos que regulan hormonas.' },
+  fertilidad: { name:'🥚 Fertilidad', desc:'Nutrientes clave para la salud reproductiva y hormonal.' }
+};
+
 function buildWeeklyPlan(){
-  const c=document.getElementById('weekly-plan-container'); c.innerHTML='';
-  const plan=PLANS['leve'];
-  document.getElementById('nora-food-insight').innerHTML=`Basado en tu perfil, te recomiendo una alimentación <span class="nora-highlight">antiinflamatoria de bajo índice glucémico</span>. Esto mejorará tu sensibilidad a la insulina y ayudará a regular tus hormonas semana a semana. 🥗`;
+  const c=document.getElementById('weekly-plan-container'); if(!c) return;
+  
+  // Build plan selector
+  const selectorHtml = `
+    <div style="margin-bottom:1rem">
+      <div style="font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.5rem">Elige tu plan esta semana</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">
+        ${Object.entries(PLAN_DESCRIPTIONS).map(([k,v])=>`
+          <button onclick="selectNutritionPlan('${k}')" id="plan-btn-${k}"
+            style="padding:.4rem .8rem;border-radius:50px;font-size:.72rem;font-weight:600;cursor:pointer;border:1.5px solid;transition:all .2s;font-family:'DM Sans',sans-serif;${k===currentNutritionPlan?'background:var(--brand);color:white;border-color:var(--brand)':'background:var(--surface2);color:var(--text-muted);border-color:transparent'}">
+            ${v.name}
+          </button>`).join('')}
+      </div>
+    </div>`;
+  
+  const planInfo = PLAN_DESCRIPTIONS[currentNutritionPlan];
+  document.getElementById('nora-food-insight').innerHTML=`<strong>${planInfo.name}</strong> — ${planInfo.desc} 🌸`;
+  
+  c.innerHTML = selectorHtml;
+  const plan = PLANS[currentNutritionPlan] || PLANS.antiinflamatorio;
   plan.forEach(p=>{
     const div=document.createElement('div'); div.className='week-day-card';
     div.innerHTML=`<div class="week-day-title">📅 ${p.day}</div>${p.meals.map(m=>`<div class="meal-row"><div class="meal-type">${m.t}</div><div class="meal-food">${m.f}</div></div>`).join('')}`;
@@ -1808,8 +1915,27 @@ function buildWeeklyPlan(){
   });
 }
 
+function selectNutritionPlan(planKey){
+  currentNutritionPlan = planKey;
+  buildWeeklyPlan();
+}
+
 // ═══ SHOPPING LIST ═══
-const SHOP_FOODS=['🥬 Espinaca / kale','🥑 Aguacate (4 unidades)','🫐 Berries (blueberries/fresas)','🥚 Huevos (1 docena)','🍗 Pechuga de pollo (1kg)','🐟 Salmón o atún fresco','🫘 Lentejas o garbanzos','🌾 Avena integral','🍠 Batata / camote','🥦 Brócoli','🥕 Zanahoria','🫒 Aceite de oliva extra virgen','🍋 Limones','🌻 Semillas de chía / linaza','🥜 Almendras o nueces'];
+// Shopping items now dynamic based on cart
+if(!DATA.shopCart) DATA.shopCart = {};
+
+const SHOP_FOODS_ALL = [
+  '🥬 Espinaca / kale','🥑 Aguacate','🫐 Berries (blueberries/fresas)',
+  '🥚 Huevos (1 docena)','🍗 Pechuga de pollo (1kg)','🐟 Salmón o atún fresco',
+  '🫘 Lentejas o garbanzos','🌾 Avena integral','🍠 Batata / camote',
+  '🥦 Brócoli','🥕 Zanahoria','🫒 Aceite de oliva extra virgen',
+  '🍋 Limones','🌻 Semillas de chía / linaza','🥜 Almendras o nueces',
+  '🧄 Ajo','🧅 Cebolla','🍅 Tomates cherry','🥒 Pepinos','🫑 Pimientos',
+  '🍌 Plátanos','🍎 Manzanas','🫚 Aceite de coco','🥛 Leche de almendras',
+  '🧀 Queso feta','🫙 Hummus','🌿 Cúrcuma / jengibre','🥩 Carne magra',
+  '🍤 Camarones','🥜 Mantequilla de almendras','🫐 Arándanos secos',
+];
+const SHOP_FOODS = SHOP_FOODS_ALL;
 const SHOP_SUPLEM=['🌿 Mio-inositol (4g/día)','☀️ Vitamina D3 (2000 UI)','🐟 Omega 3 (1g EPA+DHA)','⚡ Magnesio glicinato (300mg)','🛡️ Zinc (15-25mg)','🌱 Berberina (500mg) — consultar médico'];
 
 const BUDGETS={
@@ -1823,16 +1949,42 @@ const BUDGETS={
   default:{name:'tu país',currency:'$',foods:80,suplem:70,total:150},
 };
 
+let customShopItem = '';
+
 function buildShoppingList(){
   const sf=document.getElementById('shop-alimentos'); sf.innerHTML='';
   const ss=document.getElementById('shop-suplementos'); ss.innerHTML='';
-  SHOP_FOODS.forEach((item,i)=>{
-    const key='food-'+i; const bought=DATA.shopBought[key]||false;
-    const div=document.createElement('div'); div.className='shop-item'+(bought?' bought':'');
-    div.innerHTML=`<div class="shop-check">${bought?'✓':''}</div>${item}`;
-    div.onclick=()=>{DATA.shopBought[key]=!DATA.shopBought[key]; saveData(); buildShoppingList()};
+  if(!DATA.shopCart) DATA.shopCart={};
+  if(!DATA.shopCustom) DATA.shopCustom=[];
+
+  // Add custom item UI
+  const addDiv=document.createElement('div');
+  addDiv.style.cssText='display:flex;gap:.5rem;margin-bottom:.7rem';
+  addDiv.innerHTML=`
+    <input id="shop-custom-input" placeholder="Agregar alimento..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/>
+    <button onclick="addCustomShopItem()" style="background:var(--brand);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap">+ Agregar</button>`;
+  sf.appendChild(addDiv);
+
+  // All items (default + custom)
+  const allFoods = [...SHOP_FOODS_ALL, ...DATA.shopCustom];
+  allFoods.forEach((item,i)=>{
+    const key='food-'+i;
+    const inCart=DATA.shopCart[key]||false;
+    const bought=DATA.shopBought[key]||false;
+    const div=document.createElement('div');
+    div.style.cssText=`display:flex;align-items:center;gap:8px;padding:.45rem .6rem;border-radius:var(--r-sm);background:${inCart?(bought?'var(--success-pale)':'var(--brand-pale)'):'var(--bg2)'};margin-bottom:.3rem;font-size:.78rem;border:1.5px solid ${inCart?(bought?'var(--success)':'var(--brand)'):'transparent'};transition:all .15s`;
+    div.innerHTML=`
+      <div onclick="toggleCart('${key}')" style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${inCart?'var(--brand)':'rgba(180,130,200,.4)'};background:${inCart?'var(--brand)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;cursor:pointer">${inCart?'✓':''}</div>
+      <span style="${bought?'text-decoration:line-through;opacity:.6':''};flex:1;cursor:pointer" onclick="toggleCart('${key}')">${item}</span>
+      ${inCart?`<div onclick="toggleBought('${key}')" style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${bought?'var(--success)':'rgba(76,175,133,.4)'};background:${bought?'var(--success)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;cursor:pointer">${bought?'✓':''}</div>`:''}`;
     sf.appendChild(div);
   });
+
+  // Cart legend
+  const legend = document.createElement('div');
+  legend.innerHTML='<div style="font-size:.65rem;color:var(--text-muted);margin-top:.5rem">✓ = en mi lista &nbsp; ✓✓ = ya compré</div>';
+  sf.appendChild(legend);
+
   SHOP_SUPLEM.forEach((item,i)=>{
     const key='suplem-'+i; const bought=DATA.shopBought[key]||false;
     const div=document.createElement('div'); div.className='shop-item'+(bought?' bought':'');
@@ -1840,15 +1992,39 @@ function buildShoppingList(){
     div.onclick=()=>{DATA.shopBought[key]=!DATA.shopBought[key]; saveData(); buildShoppingList()};
     ss.appendChild(div);
   });
-  // Budget
+
+  // Budget based on cart selection
+  const cartCount = Object.values(DATA.shopCart).filter(Boolean).length;
   const budget=BUDGETS[DATA.country]||BUDGETS.default;
+  const estimatedFoods = cartCount > 0 ? Math.round((budget.foods / SHOP_FOODS_ALL.length) * cartCount) : 0;
   document.getElementById('budget-country').textContent=budget.name;
   const br=document.getElementById('budget-rows');
   br.innerHTML=`
-    <div class="budget-row"><span>🥦 Alimentos (semana)</span><span class="budget-amt">${budget.currency}${budget.foods.toLocaleString()}</span></div>
-    <div class="budget-row"><span>💊 Suplementos (mes / 4 sem.)</span><span class="budget-amt">${budget.currency}${budget.suplem.toLocaleString()}</span></div>
-    <div class="budget-row"><span>💰 Total estimado semana</span><span class="budget-amt">${budget.currency}${budget.total.toLocaleString()}</span></div>
-    <div style="font-size:.68rem;color:var(--text-muted);margin-top:.4rem">*Estimado referencial. Precios varían según tienda y temporada.</div>`;
+    <div class="budget-row"><span>🛒 Artículos seleccionados</span><span class="budget-amt">${cartCount} items</span></div>
+    <div class="budget-row"><span>🥦 Estimado alimentos seleccionados</span><span class="budget-amt">${cartCount>0?budget.currency+estimatedFoods.toLocaleString():'Selecciona items'}</span></div>
+    <div class="budget-row"><span>💊 Suplementos (mes)</span><span class="budget-amt">${budget.currency}${budget.suplem.toLocaleString()}</span></div>
+    <div class="budget-row"><span>💰 Total estimado</span><span class="budget-amt">${cartCount>0?budget.currency+(estimatedFoods+Math.round(budget.suplem/4)).toLocaleString():'—'}</span></div>
+    <div style="font-size:.68rem;color:var(--text-muted);margin-top:.4rem">Selecciona los artículos que necesitas comprar para ver el presupuesto.</div>`;
+}
+
+function toggleCart(key){
+  if(!DATA.shopCart) DATA.shopCart={};
+  DATA.shopCart[key]=!DATA.shopCart[key];
+  if(!DATA.shopCart[key]) delete DATA.shopBought[key];
+  saveData(); buildShoppingList();
+}
+function toggleBought(key){
+  DATA.shopBought[key]=!DATA.shopBought[key];
+  saveData(); buildShoppingList();
+}
+function addCustomShopItem(){
+  const inp = document.getElementById('shop-custom-input');
+  const val = inp?.value.trim();
+  if(!val) return;
+  if(!DATA.shopCustom) DATA.shopCustom=[];
+  DATA.shopCustom.push('✏️ '+val);
+  inp.value='';
+  saveData(); buildShoppingList();
 }
 
 // ═══ MEDICAL ═══
@@ -1907,6 +2083,19 @@ function handleNoraBadge(){
 function closeNoraModal(e){if(e.target===document.getElementById('nora-modal')) document.getElementById('nora-modal').classList.remove('open')}
 
 // ═══ TOAST ═══
+function openFeedbackModal(){document.getElementById('feedback-modal').classList.add('open')}
+async function enviarFeedback(){
+  const tipo=document.getElementById('fb-tipo').value;
+  const texto=document.getElementById('fb-texto').value.trim();
+  const satisfaccion=document.getElementById('fb-satisfaccion').value;
+  if(!texto){showToast('⚠️ Escribe tu feedback primero');return;}
+  // Save to Supabase or just email
+  const asunto=encodeURIComponent('Feedback Ovárica: '+tipo);
+  const cuerpo=encodeURIComponent(`Tipo: ${tipo}\nCalificación: ${satisfaccion}/5\n\n${texto}\n\nUsuaria: ${DATA.email||'anónima'}`);
+  window.open(`mailto:soporte@ovarica.site?subject=${asunto}&body=${cuerpo}`);
+  document.getElementById('feedback-modal').classList.remove('open');
+  showToast('🌸 ¡Gracias por tu feedback!');
+}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 
 // ═══ FASES DEL CICLO ═══
