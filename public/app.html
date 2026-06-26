@@ -27,24 +27,16 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;overflow:hidden}
-
-/* SCREENS */
 .screen{position:absolute;inset:0;bottom:var(--nav-h);overflow-y:auto;padding:env(safe-area-inset-top,12px) var(--gap) var(--gap);display:none;flex-direction:column;gap:var(--gap);-webkit-overflow-scrolling:touch;background:var(--bg)}
 .screen.active{display:flex}
-
-/* HEADER */
 .app-header{display:flex;align-items:center;justify-content:space-between;padding-top:max(env(safe-area-inset-top),14px);padding-bottom:2px}
 .logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
 .logo .ova{color:var(--brand)}.logo .rica{color:var(--purple)}
 .tagline{font-size:.65rem;color:var(--text-muted);font-weight:400;letter-spacing:.07em;text-transform:uppercase}
 .nora-badge{display:flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--brand-soft);border-radius:50px;padding:6px 13px 6px 8px;font-size:.75rem;font-weight:600;color:var(--brand);cursor:pointer;box-shadow:var(--shadow)}
 .nora-badge-avatar{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--brand));display:flex;align-items:center;justify-content:center;font-size:.65rem}
-
-/* CARDS */
 .card{background:var(--surface);border-radius:var(--r);padding:1.1rem;border:1px solid rgba(180,130,200,.12);box-shadow:var(--shadow)}
 .card-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-
-/* CALENDAR */
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
 .cal-month{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;color:var(--text)}
 .cal-btn{background:var(--surface2);border:1px solid rgba(180,130,200,.15);color:var(--purple);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center}
@@ -62,8 +54,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .cal-legend{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.5rem}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:.6rem;color:var(--text-muted)}
 .legend-dot{width:7px;height:7px;border-radius:50%}
-
-/* NORA */
 .nora-card{background:linear-gradient(135deg,#FFF0F5,#F3E8FF);border:1.5px solid var(--brand-soft);border-radius:var(--r);padding:1rem 1.1rem;box-shadow:var(--shadow-md)}
 .nora-header{display:flex;align-items:center;gap:10px;margin-bottom:.6rem}
 .nora-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--brand));display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 3px 10px rgba(201,81,122,.3);flex-shrink:0}
@@ -71,34 +61,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .nora-label{font-size:.67rem;color:var(--text-muted);margin-top:1px}
 .nora-text{font-size:.83rem;line-height:1.65;color:var(--text)}
 .nora-highlight{color:var(--brand);font-weight:600}
-
-/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
 .stat-card{background:var(--surface);border-radius:var(--r-sm);padding:.8rem .5rem;text-align:center;border:1px solid rgba(180,130,200,.12);box-shadow:var(--shadow)}
 .stat-number{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;line-height:1}
 .stat-label{font-size:.6rem;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
-
-/* PHASE */
 .phase-banner{border-radius:var(--r);padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem;background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale));border:1px solid rgba(180,130,200,.2);box-shadow:var(--shadow)}
 .phase-icon{font-size:1.4rem}.phase-name{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--purple)}
 .phase-desc{font-size:.71rem;color:var(--text-muted);margin-top:2px}
-
-/* NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-top:1px solid rgba(180,130,200,.15);display:flex;padding-bottom:env(safe-area-inset-bottom,0);z-index:100;box-shadow:0 -4px 20px rgba(180,120,180,.08)}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--text-muted);transition:color .2s;border:none;background:none;font-family:'DM Sans',sans-serif}
 .nav-item.active{color:var(--brand)}
 .nav-icon{font-size:1.2rem}.nav-label{font-size:.55rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
-
-/* SECTION TITLE */
 .section-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
 .section-sub{font-size:.78rem;color:var(--text-muted)}
-
-/* DATE SELECTOR */
 .date-selector{display:flex;align-items:center;gap:.6rem;background:var(--surface);border:1.5px solid var(--brand-soft);border-radius:var(--r-sm);padding:.6rem 1rem;margin-bottom:.3rem}
 .date-selector label{font-size:.75rem;color:var(--text-muted);font-weight:500;white-space:nowrap}
 .date-input{background:transparent;border:none;color:var(--brand);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;outline:none;flex:1}
-
-/* CHECKLIST */
 .checklist-section{margin-bottom:.9rem}
 .checklist-label{font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.45rem;display:flex;align-items:center;gap:6px}
 .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
@@ -109,19 +87,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .check-box{width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid rgba(180,130,200,.4);display:flex;align-items:center;justify-content:center;font-size:.62rem;transition:all .18s;color:white}
 .check-item.checked .check-box{background:var(--brand);border-color:var(--brand)}
 .check-item.checked.green .check-box{background:var(--success);border-color:var(--success)}
-
-/* INTENSITY */
 .intensity-row{display:flex;gap:.5rem;margin-bottom:.8rem}
 .intensity-btn{flex:1;padding:.5rem;background:var(--surface2);border:1.5px solid transparent;border-radius:var(--r-sm);color:var(--text-muted);font-size:.73rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;text-align:center}
 .intensity-btn.active{border-color:var(--exercise);color:var(--exercise);background:var(--exercise-pale)}
-
-/* SLIDER */
 .slider-row{display:flex;align-items:center;gap:.8rem;margin:.5rem 0 .9rem}
 .slider-row input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--surface2);border-radius:4px;outline:none}
 .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--brand);cursor:pointer;box-shadow:0 2px 6px rgba(201,81,122,.3)}
 .slider-val{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--brand);min-width:32px;text-align:right}
-
-/* RETOS */
 .reto-card{background:var(--surface);border-radius:var(--r);padding:1rem 1.1rem;border:1px solid rgba(180,130,200,.12);margin-bottom:.7rem;box-shadow:var(--shadow)}
 .reto-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
 .reto-title{font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;color:var(--text)}
@@ -132,8 +104,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .reto-dot{width:20px;height:20px;border-radius:50%;background:var(--surface2);border:1.5px solid rgba(180,130,200,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.55rem;transition:all .18s;color:transparent}
 .reto-dot.done{background:linear-gradient(135deg,var(--purple),var(--brand));border-color:transparent;color:white}
 .reto-dot.done::after{content:'✓'}
-
-/* SUPLEMENTOS */
 .suplem-card{background:var(--surface);border-radius:var(--r-sm);margin-bottom:.5rem;border:1px solid rgba(180,130,200,.12);overflow:hidden;box-shadow:var(--shadow)}
 .suplem-header{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1rem;cursor:pointer}
 .suplem-left{display:flex;align-items:center;gap:10px}
@@ -143,40 +113,28 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .info-btn{background:var(--purple-pale);border:none;color:var(--purple);width:26px;height:26px;border-radius:50%;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .suplem-info{padding:.7rem 1rem .9rem;font-size:.77rem;color:var(--text-muted);line-height:1.65;display:none;border-top:1px solid rgba(180,130,200,.1);background:var(--purple-pale)}
 .suplem-info.open{display:block}
-
-/* SAVE BTN */
 .save-btn{width:100%;padding:.9rem;background:linear-gradient(135deg,var(--purple),var(--brand));border:none;border-radius:var(--r-sm);color:white;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:opacity .2s;box-shadow:0 4px 15px rgba(201,81,122,.3)}
 .save-btn:active{opacity:.85}
-
-/* FLOW */
 .flow-selector{display:flex;gap:.5rem}
 .flow-btn{flex:1;padding:.5rem .3rem;background:var(--surface2);border:1.5px solid transparent;border-radius:var(--r-sm);color:var(--text-muted);font-size:.68rem;font-weight:500;cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;transition:all .18s}
 .flow-btn.active{border-color:var(--brand);color:var(--brand);background:var(--brand-pale)}
-
-/* FOOD PLAN */
 .week-day-card{background:var(--surface);border-radius:var(--r-sm);padding:.8rem;border:1px solid rgba(180,130,200,.12);margin-bottom:.5rem;box-shadow:var(--shadow)}
 .week-day-title{font-weight:600;font-size:.82rem;color:var(--purple);margin-bottom:.4rem}
 .meal-row{display:flex;gap:.5rem;align-items:flex-start;padding:.3rem 0;border-bottom:1px solid var(--bg2);font-size:.75rem}
 .meal-row:last-child{border-bottom:none}
 .meal-type{color:var(--text-muted);font-weight:600;min-width:70px;font-size:.7rem;text-transform:uppercase}
 .meal-food{color:var(--text);flex:1}
-
-/* SHOPPING LIST */
 .shop-section{margin-bottom:.8rem}
 .shop-label{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4rem}
 .shop-item{display:flex;align-items:center;gap:8px;padding:.45rem .6rem;border-radius:var(--r-sm);background:var(--bg2);margin-bottom:.3rem;font-size:.78rem;cursor:pointer;border:1.5px solid transparent;transition:all .15s}
 .shop-item.bought{background:var(--success-pale);border-color:var(--success);color:var(--success);text-decoration:line-through;opacity:.7}
-.shop-check{width:16px;height:16px;border-radius:4px;border:1.5px solid rgba(180,130,200,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;transition:all .15s}
+.shop-check{width:16px;height:16px;border-radius:4px;border:1.5px solid rgba(180,130,200,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;transition:all .15px}
 .shop-item.bought .shop-check{background:var(--success);border-color:var(--success)}
-
-/* BUDGET */
 .budget-card{background:linear-gradient(135deg,var(--food-pale),#FFF8F0);border:1.5px solid rgba(232,146,26,.25);border-radius:var(--r);padding:1rem}
 .budget-title{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--food);margin-bottom:.5rem}
 .budget-row{display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;font-size:.8rem;border-bottom:1px solid rgba(232,146,26,.1)}
 .budget-row:last-child{border-bottom:none;font-weight:700;color:var(--food);margin-top:.3rem}
 .budget-amt{font-weight:600}
-
-/* MEDICAL */
 .medical-item{background:var(--surface);border-radius:var(--r-sm);padding:.8rem 1rem;border:1px solid rgba(180,130,200,.12);margin-bottom:.5rem;display:flex;align-items:center;gap:.8rem;box-shadow:var(--shadow)}
 .medical-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .medical-name{font-size:.83rem;font-weight:500;color:var(--text);flex:1}
@@ -186,17 +144,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .medical-status.pending{background:var(--brand-pale);color:var(--brand)}
 .medical-status.soon{background:var(--food-pale);color:var(--food)}
 .add-medical-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--medical-pale);border:1.5px dashed rgba(43,168,160,.4);border-radius:var(--r-sm);padding:.8rem;font-size:.82rem;font-weight:500;color:var(--medical);cursor:pointer;margin-bottom:.5rem}
-
-/* DAY DETAIL */
 .day-pill{display:inline-flex;align-items:center;gap:5px;padding:.35rem .75rem;border-radius:50px;font-size:.75rem;font-weight:500;margin:.25rem .2rem}
 .day-section-title{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin:.7rem 0 .35rem;color:var(--text-muted)}
 .day-edit-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--brand-pale);border:1.5px solid var(--brand-soft);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:600;color:var(--brand);cursor:pointer;margin-top:.8rem;width:100%}
-
-/* TOAST */
 .toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--success);color:white;padding:.7rem 1.4rem;border-radius:50px;font-size:.82rem;font-weight:600;opacity:0;transition:all .3s;z-index:200;white-space:nowrap;box-shadow:0 4px 15px rgba(76,175,133,.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(45,26,53,.5);z-index:300;display:none;align-items:flex-end}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:var(--r) var(--r) 0 0;padding:1.4rem;width:100%;max-height:85vh;overflow-y:auto;animation:slideUp .3s ease}
@@ -207,8 +159,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .modal-input{background:var(--bg2);border:1.5px solid rgba(180,130,200,.2);border-radius:var(--r-sm);padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;width:100%;margin-bottom:.6rem}
 .modal-input:focus{border-color:var(--brand)}
 .modal-select{background:var(--bg2);border:1.5px solid rgba(180,130,200,.2);border-radius:var(--r-sm);padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;width:100%;margin-bottom:.6rem;-webkit-appearance:none}
-
-/* ONBOARDING */
 #onboarding{position:fixed;inset:0;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);z-index:500;overflow-y:auto;padding:2rem 1.4rem 3rem;display:flex;flex-direction:column;align-items:center}
 .ob-logo{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;margin:1.5rem 0 .2rem;text-align:center}
 .ob-logo .ova{color:var(--brand)}.ob-logo .rica{color:var(--purple)}
@@ -221,30 +171,26 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .ob-select{background:var(--surface);border:1.5px solid rgba(180,130,200,.25);border-radius:var(--r-sm);padding:.8rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;width:100%;-webkit-appearance:none;box-shadow:var(--shadow)}
 .ob-btn{background:linear-gradient(135deg,var(--purple),var(--brand));border:none;border-radius:var(--r-sm);padding:1rem;color:white;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;margin-top:.8rem;box-shadow:0 4px 18px rgba(201,81,122,.35)}
 .ob-disclaimer{font-size:.67rem;color:var(--text-muted);margin-top:.6rem;line-height:1.6;text-align:center}
-
-/* UTILITY */
 .mt-sm{margin-top:.5rem}.mb-sm{margin-bottom:.5rem}
 .color-brand{color:var(--brand)}.color-muted{color:var(--text-muted)}
 .fw-6{font-weight:600}.fs-sm{font-size:.78rem}
 .pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600}
 .divider{height:1px;background:rgba(180,130,200,.12);margin:.4rem 0}
+.tab-btn{flex:1;padding:.5rem;background:transparent;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .18s}
+.tab-btn.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
 </style>
 </head>
 <body>
-
-<!-- WELCOME SCREEN -->
+<!-- WELCOME/LOGIN SCREEN -->
 <div id="login-screen" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);z-index:500;align-items:flex-start;justify-content:center;flex-direction:column;padding:1.5rem;overflow-y:auto">
   <div style="width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;margin:0 auto;padding:1.5rem 0 2rem">
-
-    <!-- Logo -->
     <div style="text-align:center;margin-bottom:1.5rem">
       <div style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;margin-bottom:.3rem;line-height:1.2">
         <span style="color:var(--brand)">OVÁ</span><span style="color:var(--purple)">RICA</span>
       </div>
       <div style="font-size:.7rem;color:var(--text-muted);letter-spacing:.09em;text-transform:uppercase">Tu salud hormonal, en tus manos</div>
     </div>
-
-    <!-- Welcome panel (default) -->
+    <!-- Welcome panel -->
     <div id="panel-welcome" style="width:100%">
       <div style="background:white;border-radius:var(--r);padding:2rem 1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12);text-align:center">
         <div style="font-size:2.8rem;margin-bottom:.8rem">🌸</div>
@@ -257,7 +203,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         </button>
       </div>
     </div>
-
     <!-- Install panel -->
     <div id="panel-install" style="display:none;width:100%">
       <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12)">
@@ -267,30 +212,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.9rem;text-align:center">
             <div style="font-size:1.5rem;margin-bottom:.4rem">🍎</div>
             <div style="font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:.4rem">iPhone</div>
-            <div style="font-size:.67rem;color:var(--text-muted);line-height:1.7;text-align:left">
-              1. Abre en <strong>Safari</strong><br/>
-              2. Toca el ícono compartir 📤<br/>
-              3. Baja y toca "Añadir a pantalla de inicio"<br/>
-              4. Toca "Añadir" ✅
-            </div>
+            <div style="font-size:.67rem;color:var(--text-muted);line-height:1.7;text-align:left">1. Abre en <strong>Safari</strong><br/>2. Toca el ícono compartir 📤<br/>3. Baja y toca "Añadir a pantalla de inicio"<br/>4. Toca "Añadir" ✅</div>
           </div>
           <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.9rem;text-align:center">
             <div style="font-size:1.5rem;margin-bottom:.4rem">🤖</div>
             <div style="font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Android</div>
-            <div style="font-size:.67rem;color:var(--text-muted);line-height:1.7;text-align:left">
-              1. Abre en <strong>Chrome</strong><br/>
-              2. Toca los 3 puntitos ⋮<br/>
-              3. Toca "Añadir a pantalla de inicio"<br/>
-              4. Toca "Añadir" ✅
-            </div>
+            <div style="font-size:.67rem;color:var(--text-muted);line-height:1.7;text-align:left">1. Abre en <strong>Chrome</strong><br/>2. Toca los 3 puntitos ⋮<br/>3. Toca "Añadir a pantalla de inicio"<br/>4. Toca "Añadir" ✅</div>
           </div>
         </div>
-        <div style="background:var(--brand-pale);border-radius:var(--r-sm);padding:.7rem 1rem;font-size:.72rem;color:var(--brand);text-align:center">
-          ✨ Sin descargar nada de Play Store o App Store
-        </div>
+        <div style="background:var(--brand-pale);border-radius:var(--r-sm);padding:.7rem 1rem;font-size:.72rem;color:var(--brand);text-align:center">✨ Sin descargar nada de Play Store o App Store</div>
       </div>
     </div>
-
     <!-- Login panel -->
     <div id="panel-login" style="display:none;width:100%">
       <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12)">
@@ -303,12 +235,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <div style="text-align:center;margin-top:.9rem;font-size:.78rem;color:var(--text-muted)">
           ¿No tienes cuenta? <span style="color:var(--brand);cursor:pointer;font-weight:600" onclick="showPanel('register')">Regístrate gratis</span>
         </div>
+        <!-- FIX: "Olvidé contraseña" con mensaje real en lugar de toast -->
         <div style="text-align:center;margin-top:.4rem;font-size:.75rem">
-          <span style="color:var(--brand);cursor:pointer" onclick="showToast('📧 Escribe a soporte@ovarica.site para restablecer tu contraseña')">¿Olvidaste tu contraseña?</span>
+          <span style="color:var(--brand);cursor:pointer;text-decoration:underline" onclick="showForgotPassword()">¿Olvidaste tu contraseña?</span>
+        </div>
+        <div id="forgot-msg" style="display:none;margin-top:.8rem;background:var(--brand-pale);border:1.5px solid var(--brand-soft);border-radius:var(--r-sm);padding:.75rem 1rem;font-size:.78rem;color:var(--text);line-height:1.65">
+          📧 Escríbenos a <strong><a href="mailto:soporte@ovarica.site?subject=Restablecer%20contrase%C3%B1a" style="color:var(--brand)">soporte@ovarica.site</a></strong> con el asunto <em>"Restablecer contraseña"</em> y el correo de tu cuenta. Te la restableceremos en menos de 24 horas. 🌸
         </div>
       </div>
     </div>
-
     <!-- Register redirect panel -->
     <div id="panel-register" style="display:none;width:100%">
       <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12);text-align:center">
@@ -317,25 +252,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Crear tu cuenta</div>
         <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6">Completa tu perfil para personalizar tu experiencia. Solo toma 3 minutos.</div>
         <button class="ob-btn" style="width:100%" onclick="goToOnboarding()">Continuar con el registro 🌸</button>
-        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.8rem">
-          Al registrarte aceptas nuestros <span style="color:var(--brand)">Términos de uso</span>
-        </div>
+        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.8rem">Al registrarte aceptas nuestros <span style="color:var(--brand)">Términos de uso</span></div>
       </div>
     </div>
-
     <div style="font-size:.68rem;color:var(--text-muted);text-align:center;margin-top:1rem;line-height:1.7">
       Ovárica no reemplaza el diagnóstico médico.<br/>
       <a href="mailto:soporte@ovarica.site" style="color:var(--brand);text-decoration:none">soporte@ovarica.site</a>
     </div>
   </div>
 </div>
-
 <!-- ONBOARDING -->
 <div id="onboarding">
   <div class="ob-logo"><span class="ova">OVÁ</span><span class="rica">RICA</span></div>
   <div class="ob-tagline">Tu salud hormonal, en tus manos</div>
   <div class="ob-form">
-
     <div class="ob-section">👤 Sobre ti</div>
     <input class="ob-input" id="ob-name" placeholder="¿Cómo te llamas?" type="text"/>
     <input class="ob-input" id="ob-email" placeholder="Correo electrónico (para iniciar sesión)" type="email"/>
@@ -366,8 +296,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <option value="UY">🇺🇾 Uruguay</option>
         <option value="BR">🇧🇷 Brasil</option>
         <option value="PR">🇵🇷 Puerto Rico</option>
-        <option value="JM">🇯🇲 Jamaica</option>
-        <option value="TT">🇹🇹 Trinidad y Tobago</option>
         </optgroup>
         <optgroup label="Europa">
         <option value="ES">🇪🇸 España</option>
@@ -376,40 +304,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <option value="DE">🇩🇪 Alemania</option>
         <option value="IT">🇮🇹 Italia</option>
         <option value="GB">🇬🇧 Reino Unido</option>
-        <option value="NL">🇳🇱 Países Bajos</option>
-        <option value="BE">🇧🇪 Bélgica</option>
-        <option value="CH">🇨🇭 Suiza</option>
-        <option value="SE">🇸🇪 Suecia</option>
-        <option value="NO">🇳🇴 Noruega</option>
-        <option value="DK">🇩🇰 Dinamarca</option>
-        <option value="FI">🇫🇮 Finlandia</option>
-        <option value="PL">🇵🇱 Polonia</option>
-        <option value="RO">🇷🇴 Rumanía</option>
-        <option value="GR">🇬🇷 Grecia</option>
-        <option value="IE">🇮🇪 Irlanda</option>
         </optgroup>
         <optgroup label="América del Norte">
         <option value="US">🇺🇸 Estados Unidos</option>
         <option value="CA">🇨🇦 Canadá</option>
-        </optgroup>
-        <optgroup label="Asia">
-        <option value="JP">🇯🇵 Japón</option>
-        <option value="CN">🇨🇳 China</option>
-        <option value="IN">🇮🇳 India</option>
-        <option value="KR">🇰🇷 Corea del Sur</option>
-        <option value="PH">🇵🇭 Filipinas</option>
-        <option value="SG">🇸🇬 Singapur</option>
-        </optgroup>
-        <optgroup label="África">
-        <option value="NG">🇳🇬 Nigeria</option>
-        <option value="ZA">🇿🇦 Sudáfrica</option>
-        <option value="EG">🇪🇬 Egipto</option>
-        <option value="GH">🇬🇭 Ghana</option>
-        <option value="KE">🇰🇪 Kenia</option>
-        </optgroup>
-        <optgroup label="Oceanía">
-        <option value="AU">🇦🇺 Australia</option>
-        <option value="NZ">🇳🇿 Nueva Zelanda</option>
         </optgroup>
         <option value="other">🌍 Otro país</option>
       </select>
@@ -418,7 +316,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <input class="ob-input" id="ob-weight" placeholder="Peso (kg)" type="number" min="30" max="200"/>
       <input class="ob-input" id="ob-height" placeholder="Talla (cm)" type="number" min="130" max="210"/>
     </div>
-
     <div class="ob-section">🩺 Tu situación</div>
     <select class="ob-select" id="ob-diag">
       <option value="">¿Cuál es tu situación?</option>
@@ -435,9 +332,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <option value="peso">Bajar de peso con SOMP</option>
       <option value="bienestar">Mejorar mi bienestar general</option>
     </select>
-
     <div class="ob-section">🩸 Tu ciclo menstrual</div>
-    <input class="ob-input" id="ob-last-period" placeholder="Fecha de último periodo (dd/mm/aaaa)" type="date"/>
+    <input class="ob-input" id="ob-last-period" placeholder="Fecha de último periodo" type="date"/>
     <div class="ob-row">
       <input class="ob-input" id="ob-cycle-len" placeholder="Duración ciclo (días)" type="number" min="15" max="90"/>
       <input class="ob-input" id="ob-period-len" placeholder="Días de sangrado" type="number" min="1" max="15"/>
@@ -454,20 +350,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <option value="leve">Leve</option>
       <option value="moderado">Moderado</option>
       <option value="abundante">Abundante</option>
-      <option value="variable">Variable (cambia cada mes)</option>
+      <option value="variable">Variable</option>
     </select>
     <select class="ob-select" id="ob-pain">
       <option value="">Nivel de dolor menstrual</option>
       <option value="ninguno">Sin dolor</option>
-      <option value="leve">Leve (molestia tolerable)</option>
-      <option value="moderado">Moderado (afecta mis actividades)</option>
-      <option value="severo">Severo (incapacitante)</option>
+      <option value="leve">Leve</option>
+      <option value="moderado">Moderado</option>
+      <option value="severo">Severo</option>
     </select>
-
     <div class="ob-section">🥗 Alimentación</div>
     <select class="ob-select" id="ob-diet">
       <option value="">Tipo de alimentación actual</option>
-      <option value="omnivora">Omnívora (como de todo)</option>
+      <option value="omnivora">Omnívora</option>
       <option value="vegetariana">Vegetariana</option>
       <option value="vegana">Vegana</option>
       <option value="sin-gluten">Sin gluten</option>
@@ -477,9 +372,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <option value="">Meta de alimentación este mes</option>
       <option value="leve">Pequeños cambios graduales</option>
       <option value="moderado">Mejorar significativamente</option>
-      <option value="intenso">Cambio profundo (muy comprometida)</option>
+      <option value="intenso">Cambio profundo</option>
     </select>
-
     <div class="ob-section">⚠️ Condiciones adicionales</div>
     <select class="ob-select" id="ob-extra">
       <option value="ninguna">Sin condiciones adicionales</option>
@@ -489,15 +383,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <option value="diabetes">Diabetes tipo 2</option>
       <option value="multiple">Varias condiciones</option>
     </select>
-
     <button class="ob-btn" type="button" id="ob-start-btn">Comenzar mi seguimiento 🌸</button>
-    <div class="ob-disclaimer">Ovárica no reemplaza el diagnóstico médico. Siempre consulta a tu ginecólogo o endocrinólogo.</div>
+    <div class="ob-disclaimer">Ovárica no reemplaza el diagnóstico médico.</div>
   </div>
 </div>
-
 <!-- APP -->
 <div id="app" style="display:none;height:100%">
-
   <!-- INICIO -->
   <div class="screen active" id="screen-inicio">
     <div class="app-header">
@@ -506,7 +397,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     </div>
     <div class="phase-banner">
       <div class="phase-icon">🌸</div>
-      <div><div class="phase-name" id="phase-name">Fase Folicular</div><div class="phase-desc" id="phase-desc">Días 6–13 · Tu energía está aumentando. Buen momento para ejercitarte.</div></div>
+      <div><div class="phase-name" id="phase-name">Fase Folicular</div><div class="phase-desc" id="phase-desc">Días 6–13 · Tu energía está aumentando.</div></div>
     </div>
     <div class="stats-row">
       <div class="stat-card"><div class="stat-number color-brand" id="stat-racha">0</div><div class="stat-label">Días racha</div></div>
@@ -518,7 +409,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <div class="nora-avatar">🌸</div>
         <div><div class="nora-name">NORA · IA</div><div class="nora-label">Resumen semanal</div></div>
       </div>
-      <div class="nora-text" id="nora-weekly">Bienvenida 🌸 Empieza a registrar tus datos para que <span class="nora-highlight">Nora</span> pueda detectar los patrones de tu cuerpo y darte insights personalizados.</div>
+      <div class="nora-text" id="nora-weekly">Bienvenida 🌸 Empieza a registrar tus datos para que <span class="nora-highlight">Nora</span> pueda detectar los patrones de tu cuerpo.</div>
     </div>
     <div class="card">
       <div class="cal-nav">
@@ -548,25 +439,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <label>📅 Fecha:</label>
       <input class="date-input" type="date" id="registro-date-input" onchange="onRegistroDateChange(this.value)"/>
     </div>
-
-    <div class="card">
-      <div class="card-title">🔴 Síntomas reproductivos & hormonales</div>
-      <div class="check-grid" id="check-repro"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">✨ Piel, cabello & apariencia</div>
-      <div class="check-grid" id="check-piel"></div>
-    </div>
+    <div class="card"><div class="card-title">🔴 Síntomas reproductivos & hormonales</div><div class="check-grid" id="check-repro"></div></div>
+    <div class="card"><div class="card-title">✨ Piel, cabello & apariencia</div><div class="check-grid" id="check-piel"></div></div>
     <div class="card">
       <div class="card-title">⚡ Energía, neurológicos & digestivos</div>
       <div class="checklist-section"><div class="checklist-label">Energía & neurológicos</div><div class="check-grid" id="check-neuro"></div></div>
       <div class="checklist-section"><div class="checklist-label">Cardiovasculares</div><div class="check-grid" id="check-cardio"></div></div>
       <div class="checklist-section"><div class="checklist-label">Digestivos & metabólicos</div><div class="check-grid" id="check-digest"></div></div>
     </div>
-    <div class="card">
-      <div class="card-title">🩷 Salud mental & emocional</div>
-      <div class="check-grid" id="check-mental"></div>
-    </div>
+    <div class="card"><div class="card-title">🩷 Salud mental & emocional</div><div class="check-grid" id="check-mental"></div></div>
     <div class="card">
       <div class="card-title">💢 Nivel de dolor/malestar hoy</div>
       <div class="slider-row">
@@ -576,10 +457,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <span class="slider-val" id="dolor-val">0</span>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title">😴 Sueño</div>
-      <div class="check-grid" id="check-sueno"></div>
-    </div>
+    <div class="card"><div class="card-title">😴 Sueño</div><div class="check-grid" id="check-sueno"></div></div>
     <div class="card">
       <div class="card-title">🏋️ Ejercicio</div>
       <div class="check-grid mb-sm">
@@ -604,21 +482,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <button class="save-btn" onclick="saveRegistro()">💾 Guardar registro</button>
   </div>
 
-  <!-- CICLO MENSTRUAL - FASES -->
+  <!-- CICLO MENSTRUAL -->
   <div class="screen" id="screen-periodo">
     <div class="section-title">🩸 Mi ciclo</div>
     <div class="section-sub" id="ciclo-hoy-label">Hoy · día X del ciclo</div>
-
-    <!-- Fase actual destacada -->
     <div id="fase-actual-card" class="card" style="border:none;padding:0;overflow:hidden;box-shadow:var(--shadow-md)"></div>
-
-    <!-- Rueda de fases -->
     <div class="card">
       <div class="card-title">🔄 Las 4 fases de tu ciclo</div>
       <div id="fases-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem"></div>
     </div>
-
-    <!-- Registro de periodo -->
     <div class="card">
       <div class="card-title">📝 Registrar periodo en esta fecha</div>
       <div class="date-selector" style="margin-bottom:.7rem">
@@ -650,13 +522,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         </div>
       </div>
     </div>
-
-    <!-- Predicciones -->
     <div class="card" style="border:1px solid rgba(91,143,208,.2);background:var(--exercise-pale)">
       <div class="card-title" style="color:var(--exercise)">🥚 Predicciones de Nora</div>
       <div id="predicciones-text" style="font-size:.82rem;color:var(--text);line-height:1.7"></div>
     </div>
-
     <button class="save-btn" onclick="savePeriodo()">💾 Guardar registro del periodo</button>
   </div>
 
@@ -664,28 +533,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   <div class="screen" id="screen-alimentos">
     <div class="section-title">🥗 Alimentación & Suplementos</div>
     <div class="section-sub">Plan personalizado + lista de compras</div>
-
-    <!-- Tabs -->
     <div style="display:flex;gap:.5rem;background:var(--surface2);border-radius:var(--r-sm);padding:4px">
       <button class="tab-btn active" id="tab-diario" onclick="switchTab('diario')">Registro diario</button>
       <button class="tab-btn" id="tab-plan" onclick="switchTab('plan')">Plan semanal</button>
       <button class="tab-btn" id="tab-compras" onclick="switchTab('compras')">🛒 Compras</button>
     </div>
-
-    <!-- Diario -->
     <div id="ali-diario">
-      <div class="date-selector">
-        <label>📅 Fecha:</label>
-        <input class="date-input" type="date" id="ali-date-input"/>
-      </div>
-      <div class="card">
-        <div class="card-title">❌ Alimentos que inflaman</div>
-        <div class="check-grid" id="check-ali-malo"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">✅ Alimentos que regulan</div>
-        <div class="check-grid" id="check-ali-bueno"></div>
-      </div>
+      <div class="date-selector"><label>📅 Fecha:</label><input class="date-input" type="date" id="ali-date-input"/></div>
+      <div class="card"><div class="card-title">❌ Alimentos que inflaman</div><div class="check-grid" id="check-ali-malo"></div></div>
+      <div class="card"><div class="card-title">✅ Alimentos que regulan</div><div class="check-grid" id="check-ali-bueno"></div></div>
       <div class="card">
         <div class="card-title">💧 Hidratación</div>
         <div style="display:flex;align-items:center;gap:.8rem">
@@ -693,14 +549,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <span class="fs-sm color-muted" id="vasos-label">0 / 8 vasos</span>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title">💊 Suplementos de hoy</div>
-        <div id="suplem-list"></div>
-      </div>
+      <div class="card"><div class="card-title">💊 Suplementos de hoy</div><div id="suplem-list"></div></div>
       <button class="save-btn" onclick="saveAlimentos()">💾 Guardar registro</button>
     </div>
-
-    <!-- Plan semanal -->
     <div id="ali-plan" style="display:none">
       <div class="nora-card">
         <div class="nora-header"><div class="nora-avatar">🌸</div><div><div class="nora-name">NORA · Plan semanal</div><div class="nora-label">Basado en tu perfil y objetivos</div></div></div>
@@ -708,8 +559,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       </div>
       <div id="weekly-plan-container"></div>
     </div>
-
-    <!-- Compras -->
     <div id="ali-compras" style="display:none">
       <div class="budget-card">
         <div class="budget-title">💰 Estimado semanal — <span id="budget-country">tu país</span></div>
@@ -717,15 +566,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       </div>
       <div class="card" style="margin-top:.5rem">
         <div class="card-title">🛒 Lista de compras</div>
-        <div class="shop-section">
-          <div class="shop-label">🥦 Alimentos</div>
-          <div id="shop-alimentos"></div>
-        </div>
+        <div class="shop-section"><div class="shop-label">🥦 Alimentos</div><div id="shop-alimentos"></div></div>
         <div class="divider"></div>
-        <div class="shop-section">
-          <div class="shop-label">💊 Suplementos</div>
-          <div id="shop-suplementos"></div>
-        </div>
+        <div class="shop-section"><div class="shop-label">💊 Suplementos</div><div id="shop-suplementos"></div></div>
       </div>
     </div>
   </div>
@@ -736,7 +579,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="section-sub">Construye hábitos que regulan tu SOMP</div>
     <div class="nora-card">
       <div class="nora-header"><div class="nora-avatar">🌸</div><div><div class="nora-name">NORA · Hábitos</div><div class="nora-label">Por qué 21 días</div></div></div>
-      <div class="nora-text">Los hábitos tardan <span class="nora-highlight">21 días</span> en formarse. Toca cada día para marcarlo. Tu consistencia está reprogramando tu metabolismo hormonal. ✅</div>
+      <div class="nora-text">Los hábitos tardan <span class="nora-highlight">21 días</span> en formarse. Tu consistencia está reprogramando tu metabolismo hormonal. ✅</div>
     </div>
     <div id="retos-container"></div>
   </div>
@@ -750,79 +593,58 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     </button>
     <div class="nora-card">
       <div class="nora-header"><div class="nora-avatar">🌸</div><div><div class="nora-name">NORA · Preventivo</div><div class="nora-label">Recomendaciones para SOMP</div></div></div>
-      <div class="nora-text">Las mujeres con SOMP deben hacer seguimiento anual de <span class="nora-highlight">glucosa, insulina, perfil lipídico, tiroides y Papanicolaou</span>. Registra tus chequeos aquí para que Nora te avise cuando sea momento de repetirlos.</div>
+      <div class="nora-text">Las mujeres con SOMP deben hacer seguimiento anual de <span class="nora-highlight">glucosa, insulina, perfil lipídico, tiroides y Papanicolaou</span>.</div>
     </div>
     <div class="add-medical-btn" onclick="openAddMedical()">＋ Agregar chequeo o cita médica</div>
     <div id="medical-list"></div>
   </div>
 
-  <!-- PERFIL & CONFIGURACIÓN -->
+  <!-- PERFIL -->
   <div class="screen" id="screen-perfil">
     <div class="section-title">👤 Mi perfil</div>
     <div class="section-sub" id="perfil-sub">Tu cuenta y configuración</div>
-
-    <!-- Avatar & nombre -->
     <div class="card" style="text-align:center;background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale))">
       <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--brand));margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 4px 16px rgba(201,81,122,.3)">🌸</div>
       <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700" id="perfil-nombre">—</div>
       <div style="font-size:.75rem;color:var(--text-muted);margin-top:3px" id="perfil-diag">—</div>
       <div id="perfil-plan-badge" style="display:inline-flex;align-items:center;border-radius:50px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;margin-top:.7rem;background:var(--surface2);color:var(--text-muted)">🆓 Plan Gratuito</div>
     </div>
-
-    <!-- Datos personales -->
     <div class="card">
       <div class="card-title">📋 Mis datos personales</div>
       <div id="perfil-datos-list"></div>
       <button class="day-edit-btn" style="margin-top:.8rem" onclick="openEditPerfil()">✏️ Editar mis datos</button>
     </div>
-
-    <!-- Mi ciclo -->
     <div class="card">
       <div class="card-title">🩸 Mi historial de ciclo</div>
       <div id="perfil-ciclo-list"></div>
     </div>
 
-    <!-- Suscripción & Pagos -->
+    <!-- FIX: Suscripción dinámica según plan -->
     <div class="card" style="border:1px solid rgba(201,81,122,.2);background:var(--brand-pale)">
       <div class="card-title" style="color:var(--brand)">💳 Suscripción & Pagos</div>
       <div style="font-size:.82rem;color:var(--text);line-height:1.7;margin-bottom:1rem">
         Los pagos se gestionan de forma segura a través de <strong>Hotmart</strong>. Para gestionar tu suscripción, historial de pagos o cancelar, accede directamente desde los enlaces de abajo.
       </div>
-      <div style="display:flex;flex-direction:column;gap:.5rem">
-        <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" target="_blank"
-           style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--brand);color:white;border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-decoration:none">
-          🌸 Suscribirme · Pro Mensual $9.99/mes
-        </a>
-        <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank"
-           style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--purple-pale);color:var(--purple);border:1.5px solid rgba(120,75,160,.3);border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-decoration:none">
-          💎 Suscribirme · Pro Anual $59.99/año
-        </a>
-        <a href="mailto:soporte@ovarica.site"
-           style="display:flex;align-items:center;justify-content:center;gap:6px;background:white;border:1.5px solid rgba(201,81,122,.3);color:var(--brand);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;text-decoration:none">
-          📧 Contactar soporte
-        </a>
-        <button onclick="openFeedbackModal()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--purple-pale);color:var(--purple);border:1.5px solid rgba(155,109,181,.3);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">
-          💡 Dar sugerencia o feedback
-        </button>
+      <div style="display:flex;flex-direction:column;gap:.5rem" id="suscripcion-btns">
+        <!-- buildSuscripcionBtns() se llama en buildPerfil() -->
       </div>
     </div>
 
-    <!-- Toggles -->
+    <!-- Configuración -->
     <div class="card">
       <div class="card-title">⚙️ Configuración de la app</div>
       <div style="display:flex;flex-direction:column;gap:.4rem" id="config-toggles"></div>
     </div>
 
-    <!-- Cerrar sesión -->
     <button onclick="confirmLogout()" style="width:100%;padding:.8rem;background:transparent;border:1.5px solid rgba(180,130,200,.3);border-radius:var(--r-sm);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;margin-bottom:.5rem">
       Cerrar sesión
     </button>
     <div style="text-align:center;font-size:.68rem;color:var(--text-muted);line-height:1.7">
-      Ovárica no reemplaza el diagnóstico médico.<br/>© 2026 Ovárica · v1.0.0
+      Ovárica no reemplaza el diagnóstico médico.<br/>© 2026 Ovárica · v1.1.0
     </div>
   </div>
 
-  <!-- BOTTOM NAV (7 tabs) -->
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="showScreen('inicio')"><div class="nav-icon">🏠</div><div class="nav-label">Inicio</div></button>
     <button class="nav-item" onclick="showScreen('registro')"><div class="nav-icon">📋</div><div class="nav-label">Registro</div></button>
@@ -833,8 +655,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <button class="nav-item" onclick="showScreen('perfil')"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></button>
   </nav>
 </div>
-
-<!-- NORA MODAL -->
+<!-- MODALS -->
 <div class="modal-overlay" id="nora-modal" onclick="closeNoraModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -851,8 +672,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     </div>
   </div>
 </div>
-
-<!-- ADD MEDICAL MODAL -->
 <div class="modal-overlay" id="medical-modal" onclick="closeMedicalModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -883,30 +702,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <button class="save-btn" onclick="saveMedical()">✅ Guardar chequeo</button>
   </div>
 </div>
-
-<!-- DAY DETAIL MODAL -->
 <div class="modal-overlay" id="day-modal" onclick="closeDayModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" id="day-modal-title">📅 Lunes 22 de junio</div>
+    <div class="modal-title" id="day-modal-title">📅 Día</div>
     <div id="day-modal-body"></div>
     <div style="display:flex;gap:.5rem;margin-top:.8rem">
-    <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Editar</button>
-    <button class="day-edit-btn" style="flex:1;background:#FEE9E9;border-color:#E05070;color:#E05070" onclick="deleteRegistroFromModal()">🗑️ Eliminar</button>
-  </div>
+      <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Editar</button>
+      <button class="day-edit-btn" style="flex:1;background:#FEE9E9;border-color:#E05070;color:#E05070" onclick="deleteRegistroFromModal()">🗑️ Eliminar</button>
+    </div>
   </div>
 </div>
-
-<!-- UPGRADE MODAL -->
 <div class="modal-overlay" id="upgrade-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <div class="modal-handle"></div>
     <div style="text-align:center;padding:.5rem 0 1rem">
       <div style="font-size:3rem;margin-bottom:.8rem">🔒</div>
       <div class="modal-title" style="text-align:center">Función exclusiva Pro</div>
-      <div class="modal-body" style="text-align:center;margin-bottom:1.5rem" id="upgrade-msg">
-        Esta función está disponible en el plan Pro.
-      </div>
+      <div class="modal-body" style="text-align:center;margin-bottom:1.5rem" id="upgrade-msg">Esta función está disponible en el plan Pro.</div>
       <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank"
          style="display:block;background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border-radius:12px;padding:1rem;font-size:.95rem;font-weight:700;text-decoration:none;text-align:center;margin-bottom:.7rem;box-shadow:0 4px 15px rgba(218,165,32,.3)">
         🏆 Pro Anual · $59.99/año — 7 días gratis
@@ -915,19 +728,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
          style="display:block;background:var(--brand-pale);color:var(--brand);border:1.5px solid var(--brand-soft);border-radius:12px;padding:.85rem;font-size:.88rem;font-weight:600;text-decoration:none;text-align:center;margin-bottom:.5rem">
         🌸 Pro Mensual · $9.99/mes — 14 días gratis
       </a>
-      <div style="font-size:.7rem;color:var(--text-muted);margin-top:.5rem">
-        🔒 Pago seguro vía Hotmart · Garantía 7 días
-      </div>
+      <div style="font-size:.7rem;color:var(--text-muted);margin-top:.5rem">🔒 Pago seguro vía Hotmart · Garantía 7 días</div>
     </div>
   </div>
 </div>
-
-<!-- FEEDBACK MODAL -->
 <div class="modal-overlay" id="feedback-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">💡 Tu opinión nos importa</div>
-    <div class="modal-body" style="margin-bottom:1rem">Cuéntanos qué te gusta, qué mejorarías o qué te gustaría que tuviera Ovárica. Cada sugerencia nos ayuda a mejorar. 🌸</div>
+    <div class="modal-body" style="margin-bottom:1rem">Cuéntanos qué te gusta, qué mejorarías o qué te gustaría que tuviera Ovárica. 🌸</div>
     <select class="modal-select" id="fb-tipo">
       <option value="">¿Qué tipo de feedback?</option>
       <option value="bug">🐛 Algo no funciona bien</option>
@@ -948,141 +757,62 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <button class="save-btn" onclick="enviarFeedback()">Enviar feedback 🌸</button>
   </div>
 </div>
-
-<!-- TOAST -->
 <div class="toast" id="toast">✅ Guardado</div>
-
-<style>
-.tab-btn{flex:1;padding:.5rem;background:transparent;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .18s}
-.tab-btn.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
-</style>
-
-
-<!-- SUPABASE SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-// ═══════════════════════════════════════════════════
-// OVÁRICA — Supabase Integration
-// INSTRUCCIONES: Reemplaza las dos líneas de abajo
-// con tus claves reales de Supabase
-// ═══════════════════════════════════════════════════
 const SUPABASE_URL  = 'https://psekkcsivbosurxnuhgg.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_0lm0LjjMhUUU4s5Q_K4xMA_yNLUf9sK';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ═══ PERMISOS POR PLAN ═══
 const PLAN_FEATURES = {
-  gratuito: {
-    nora_ia: false,
-    historial_dias: 7,
-    alimentacion_plan: false,
-    retos: false,
-    suplementos_guia: false,
-    chequeos: false,
-    reportes: false,
-    fases_ciclo: false,
-  },
-  pro_mensual: {
-    nora_ia: true,
-    historial_dias: 999,
-    alimentacion_plan: true,
-    retos: true,
-    suplementos_guia: true,
-    chequeos: true,
-    reportes: true,
-    fases_ciclo: true,
-  },
-  pro_anual: {
-    nora_ia: true,
-    historial_dias: 999,
-    alimentacion_plan: true,
-    retos: true,
-    suplementos_guia: true,
-    chequeos: true,
-    reportes: true,
-    fases_ciclo: true,
-    analisis_trimestral: true,
-    export_pdf: true,
-  }
+  gratuito: { nora_ia:false, historial_dias:7, alimentacion_plan:false, retos:false, suplementos_guia:false, chequeos:false, reportes:false, fases_ciclo:false },
+  pro_mensual: { nora_ia:true, historial_dias:999, alimentacion_plan:true, retos:true, suplementos_guia:true, chequeos:true, reportes:true, fases_ciclo:true },
+  pro_anual: { nora_ia:true, historial_dias:999, alimentacion_plan:true, retos:true, suplementos_guia:true, chequeos:true, reportes:true, fases_ciclo:true, analisis_trimestral:true, export_pdf:true }
 };
 
-// ═══ USUARIO ACTUAL ═══
 let CURRENT_USER = null;
 let CURRENT_PLAN = 'gratuito';
 let PLAN_ACTIVO  = false;
 
-// ═══ VERIFICAR SESION ═══
-// ═══ SYSTEME.IO INTEGRATION ═══
-// INSTRUCCIÓN: Reemplaza con tu API Key de Systeme.io
-// Encuéntrala en: Systeme.io → Configuración → API Keys
 const SYSTEME_API_KEY = 'kzjj1v120766zuhvykm7afur008rm0j42mugxqdwx6a4d4l9yt7b626ucjyj95by';
 
 async function registrarEnSystemeIO(nombre, email, plan) {
   try {
-    // Split name
     const parts = nombre.trim().split(' ');
     const firstName = parts[0];
     const lastName = parts.slice(1).join(' ') || '';
-
-    // Tag based on plan
-    const tagName = plan === 'gratuito' ? 'Ovarica - Gratuito' :
-                    plan === 'pro_mensual' ? 'Ovarica - Pro Mensual' : 'Ovarica - Pro Anual';
-
+    const tagName = plan === 'gratuito' ? 'Ovarica - Gratuito' : plan === 'pro_mensual' ? 'Ovarica - Pro Mensual' : 'Ovarica - Pro Anual';
     const response = await fetch('https://api.systeme.io/api/contacts', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': SYSTEME_API_KEY
-      },
-      body: JSON.stringify({
-        email,
-        firstName,
-        lastName,
-        fields: [],
-        tags: [tagName]
-      })
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': SYSTEME_API_KEY },
+      body: JSON.stringify({ email, firstName, lastName, fields: [], tags: [tagName] })
     });
-
-    if (response.ok) {
-      console.log('✅ Contacto registrado en Systeme.io');
-    } else {
-      console.log('Systeme.io response:', response.status);
-    }
-  } catch(e) {
-    console.log('Systeme.io error (non-critical):', e.message);
-  }
+    if (response.ok) console.log('✅ Contacto registrado en Systeme.io');
+    else console.log('Systeme.io response:', response.status);
+  } catch(e) { console.log('Systeme.io error (non-critical):', e.message); }
 }
 
+// ═══ FIX 1: verificarSesion - lógica PLAN_ACTIVO corregida ═══
 async function verificarSesion() {
   const session = localStorage.getItem('avarica_session');
   if (!session) return false;
   try {
     const s = JSON.parse(session);
-    // Verificar con Supabase que el usuario existe y su plan está activo
-    const { data, error } = await sb
-      .from('usuarios')
-      .select('*')
-      .eq('email', s.email)
-      .single();
+    const { data, error } = await sb.from('usuarios').select('*').eq('email', s.email).single();
     if (error || !data) return false;
-
     CURRENT_USER = data;
     CURRENT_PLAN = data.plan || 'gratuito';
-
-    // Verificar si el plan está vencido
     if (data.fecha_vencimiento) {
       const vence = new Date(data.fecha_vencimiento);
       PLAN_ACTIVO = vence > new Date() && data.activo;
       if (!PLAN_ACTIVO) {
         CURRENT_PLAN = 'gratuito';
-        // Actualizar en BD
         await sb.from('usuarios').update({plan:'gratuito'}).eq('email', s.email);
       }
     } else {
-      PLAN_ACTIVO = data.plan === 'gratuito';
+      // FIX: Sin fecha_vencimiento → plan activo (cualquier plan incluyendo pro)
+      PLAN_ACTIVO = true;
     }
-
     DATA.userName = data.nombre;
     DATA.email    = data.email;
     DATA.userId   = data.id;
@@ -1094,139 +824,83 @@ async function verificarSesion() {
 async function loginSupabase(email, password) {
   showLoadingBtn('login-btn', 'Verificando...');
   try {
-    const { data, error } = await sb
-      .from('usuarios')
-      .select('*')
-      .eq('email', email.toLowerCase().trim())
-      .single();
-
-    if (error || !data) {
-      showToast('❌ Correo o contraseña incorrectos');
-      resetBtn('login-btn', 'Iniciar sesión');
-      return false;
-    }
-
-    // Simple password check (en producción usar bcrypt)
-    if (data.password_hash !== btoa(password)) {
-      showToast('❌ Correo o contraseña incorrectos');
-      resetBtn('login-btn', 'Iniciar sesión');
-      return false;
-    }
-
-    // Guardar sesión
-    localStorage.setItem('avarica_session', JSON.stringify({
-      email: data.email,
-      id: data.id
-    }));
-
+    const { data, error } = await sb.from('usuarios').select('*').eq('email', email.toLowerCase().trim()).single();
+    if (error || !data) { showToast('❌ Correo o contraseña incorrectos'); resetBtn('login-btn', 'Iniciar sesión'); return false; }
+    if (data.password_hash !== btoa(password)) { showToast('❌ Correo o contraseña incorrectos'); resetBtn('login-btn', 'Iniciar sesión'); return false; }
+    localStorage.setItem('avarica_session', JSON.stringify({ email: data.email, id: data.id }));
     CURRENT_USER = data;
     CURRENT_PLAN = data.plan || 'gratuito';
     DATA.userName = data.nombre;
     DATA.email    = data.email;
     DATA.userId   = data.id;
-
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     initApp();
     aplicarPlan();
+    // FIX 8: Re-verificar plan desde DB al login para capturar compras recientes
+    setTimeout(async ()=>{
+      try {
+        const { data: fresh } = await sb.from('usuarios').select('plan').eq('email', data.email).single();
+        if(fresh && fresh.plan !== CURRENT_PLAN){
+          CURRENT_PLAN = fresh.plan;
+          aplicarPlan();
+          buildPerfil();
+          showToast('🎉 Plan actualizado: ' + CURRENT_PLAN.replace('_',' '));
+        }
+      } catch(e){}
+    }, 800);
     return true;
-  } catch(e) {
-    showToast('❌ Error de conexión');
-    resetBtn('login-btn', 'Iniciar sesión');
-    return false;
-  }
+  } catch(e) { showToast('❌ Error de conexión'); resetBtn('login-btn', 'Iniciar sesión'); return false; }
 }
 
-// ═══ REGISTRO ═══
+// ═══ REGISTRO DE USUARIO ═══
 async function registrarUsuario() {
   const name  = document.getElementById('ob-name').value.trim();
   const email = document.getElementById('ob-email').value.trim().toLowerCase();
   const pass  = document.getElementById('ob-password').value;
-
   if (!name)  { alert('¿Cómo te llamas? 🌸'); return; }
   if (!email || !email.includes('@')) { alert('Ingresa un correo válido'); return; }
   if (pass.length < 8) { alert('La contraseña debe tener al menos 8 caracteres'); return; }
-
-  // Validate required fields
   const lastPeriod = document.getElementById('ob-last-period').value;
   if (!lastPeriod) { alert('Por favor ingresa la fecha de tu último periodo 🌸'); return; }
-
   const btn = document.getElementById('ob-start-btn');
-  btn.textContent = 'Creando cuenta...';
-  btn.disabled = true;
-  btn.style.opacity = '.7';
-
+  btn.textContent = 'Creando cuenta...'; btn.disabled = true; btn.style.opacity = '.7';
   try {
-    // Verificar si ya existe
-    const { data: existing, error: checkError } = await sb
-      .from('usuarios')
-      .select('id')
-      .eq('email', email)
-      .single();
-
+    const { data: existing } = await sb.from('usuarios').select('id').eq('email', email).single();
     if (existing) {
-      // User exists - show login instead
       alert('⚠️ Este correo ya tiene una cuenta. Te llevamos al inicio de sesión.');
-      btn.textContent = 'Comenzar mi seguimiento 🌸';
-      btn.disabled = false;
-      btn.style.opacity = '1';
+      btn.textContent = 'Comenzar mi seguimiento 🌸'; btn.disabled = false; btn.style.opacity = '1';
       document.getElementById('onboarding').style.display = 'none';
       document.getElementById('login-screen').style.display = 'flex';
       document.getElementById('login-email').value = email;
       return;
     }
-
-  // Crear usuario en Supabase
-  const userData = {
-    email,
-    nombre: name,
-    password_hash: btoa(pass),
-    plan: 'gratuito',
-    activo: true,
-    pais:        document.getElementById('ob-country')?.value || '',
-    edad:        document.getElementById('ob-age')?.value || '',
-    peso:        document.getElementById('ob-weight')?.value || '',
-    talla:       document.getElementById('ob-height')?.value || '',
-    diagnostico: document.getElementById('ob-diag')?.value || '',
-    objetivo:    document.getElementById('ob-objetivo')?.value || '',
-    ultimo_periodo: document.getElementById('ob-last-period')?.value || '',
-    ciclo_len:   document.getElementById('ob-cycle-len')?.value || '',
-    ciclo_tipo:  document.getElementById('ob-cycle-type')?.value || '',
-  };
-
-  const { data, error } = await sb.from('usuarios').insert([userData]).select().single();
-
-  if (error) {
-    console.error('Supabase error:', error);
-    alert('❌ Error al crear cuenta: ' + error.message + '. Por favor intenta de nuevo.');
-    btn.textContent = 'Comenzar mi seguimiento 🌸';
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    return;
-  }
-
-  // Guardar sesión
-  localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
-
-    CURRENT_USER = data;
-    CURRENT_PLAN = 'gratuito';
-    DATA.userName = name;
-    DATA.email    = email;
-    DATA.userId   = data.id;
-    DATA.lastPeriod = document.getElementById('ob-last-period').value;
-    DATA.cycleLen   = parseInt(document.getElementById('ob-cycle-len').value)||28;
-    DATA.country    = document.getElementById('ob-country').value;
-    DATA.age        = document.getElementById('ob-age').value;
-    saveData();
+    const userData = {
+      email, nombre: name, password_hash: btoa(pass), plan: 'gratuito', activo: true,
+      pais: document.getElementById('ob-country')?.value || '',
+      edad: document.getElementById('ob-age')?.value || '',
+      peso: document.getElementById('ob-weight')?.value || '',
+      talla: document.getElementById('ob-height')?.value || '',
+      diagnostico: document.getElementById('ob-diag')?.value || '',
+      objetivo: document.getElementById('ob-objetivo')?.value || '',
+      ultimo_periodo: document.getElementById('ob-last-period')?.value || '',
+      ciclo_len: document.getElementById('ob-cycle-len')?.value || '',
+      ciclo_tipo: document.getElementById('ob-cycle-type')?.value || '',
+    };
+    const { data, error } = await sb.from('usuarios').insert([userData]).select().single();
+    if (error) { console.error('Supabase error:', error); alert('❌ Error al crear cuenta: ' + error.message); btn.textContent = 'Comenzar mi seguimiento 🌸'; btn.disabled = false; btn.style.opacity = '1'; return; }
     localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
-
-    // Register in Systeme.io for welcome email
+    CURRENT_USER = data; CURRENT_PLAN = 'gratuito';
+    DATA.userName = name; DATA.email = email; DATA.userId = data.id;
+    DATA.lastPeriod = lastPeriod;
+    DATA.cycleLen = parseInt(document.getElementById('ob-cycle-len').value)||28;
+    DATA.country = document.getElementById('ob-country').value;
+    DATA.age = document.getElementById('ob-age').value;
+    saveData();
     registrarEnSystemeIO(name, email, 'gratuito');
-
     document.getElementById('onboarding').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    initApp();
-    aplicarPlan();
+    initApp(); aplicarPlan();
     showToast('🌸 ¡Bienvenida a Ovárica!');
   } catch(err) {
     console.error('Registration error:', err);
@@ -1239,42 +913,31 @@ async function registrarUsuario() {
 // ═══ APLICAR RESTRICCIONES POR PLAN ═══
 function aplicarPlan() {
   const features = PLAN_FEATURES[CURRENT_PLAN] || PLAN_FEATURES.gratuito;
-
-  // Actualizar badge del plan en perfil
   const planBadge = document.getElementById('perfil-plan-badge');
   if (planBadge) {
-    const labels = {
-      gratuito:    '🆓 Plan Gratuito',
-      pro_mensual: '🌸 Plan Pro Mensual',
-      pro_anual:   '🏆 Plan Pro Anual'
-    };
-    const colors = {
-      gratuito:    'background:var(--surface2);color:var(--text-muted)',
-      pro_mensual: 'background:linear-gradient(135deg,var(--purple),var(--brand));color:white',
-      pro_anual:   'background:linear-gradient(135deg,#B8860B,#DAA520);color:white'
-    };
+    const labels = { gratuito:'🆓 Plan Gratuito', pro_mensual:'🌸 Plan Pro Mensual', pro_anual:'🏆 Plan Pro Anual' };
+    const colors = { gratuito:'background:var(--surface2);color:var(--text-muted)', pro_mensual:'background:linear-gradient(135deg,var(--purple),var(--brand));color:white', pro_anual:'background:linear-gradient(135deg,#B8860B,#DAA520);color:white' };
     planBadge.textContent = labels[CURRENT_PLAN];
     planBadge.style.cssText = colors[CURRENT_PLAN] + ';display:inline-flex;align-items:center;border-radius:50px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;margin-top:.7rem';
   }
-
-  // Bloquear navegación para plan gratuito
   const navItems = [
     { screen: 'alimentos', feature: 'alimentacion_plan', nav: 3 },
     { screen: 'retos',     feature: 'retos',             nav: 4 },
     { screen: 'medico',    feature: 'chequeos',          nav: 5 },
     { screen: 'periodo',   feature: 'fases_ciclo',       nav: 2 },
   ];
-
   navItems.forEach(item => {
-    if (!features[item.feature]) {
-      const navBtn = document.querySelectorAll('.nav-item')[item.nav];
-      if (navBtn) {
+    const navBtn = document.querySelectorAll('.nav-item')[item.nav];
+    if (navBtn) {
+      if (!features[item.feature]) {
         navBtn.onclick = () => mostrarUpgrade(item.feature);
         navBtn.style.opacity = '.5';
+      } else {
+        navBtn.onclick = () => showScreen(item.screen);
+        navBtn.style.opacity = '1';
       }
     }
   });
-  // Also block Registro tab after 7 days for free plan
   if(CURRENT_PLAN === 'gratuito'){
     const allDates = Object.keys(DATA.registros);
     if(allDates.length >= 7){
@@ -1284,40 +947,18 @@ function aplicarPlan() {
   }
 }
 
-// ═══ MODAL UPGRADE ═══
 function mostrarUpgrade(feature) {
   const msgs = {
-    nora_ia:          'Nora IA solo está disponible en el plan Pro.',
-    alimentacion_plan:'El plan de alimentación solo está en el plan Pro.',
-    retos:            'Los retos de 21 días solo están en el plan Pro.',
-    chequeos:         'Los chequeos médicos solo están en el plan Pro.',
-    fases_ciclo:      'Las fases del ciclo detalladas son exclusivas del plan Pro.',
-    reportes:         'Los reportes solo están disponibles en el plan Pro.',
+    nora_ia:'Nora IA solo está disponible en el plan Pro.', alimentacion_plan:'El plan de alimentación solo está en el plan Pro.', retos:'Los retos de 21 días solo están en el plan Pro.', chequeos:'Los chequeos médicos solo están en el plan Pro.', fases_ciclo:'Las fases del ciclo detalladas son exclusivas del plan Pro.', reportes:'Los reportes solo están disponibles en el plan Pro.',
   };
-  const msg = msgs[feature] || 'Esta función es exclusiva del plan Pro.';
-  document.getElementById('upgrade-msg').textContent = msg;
+  document.getElementById('upgrade-msg').textContent = msgs[feature] || 'Esta función es exclusiva del plan Pro.';
   document.getElementById('upgrade-modal').classList.add('open');
 }
 
-// ═══ GUARDAR DATOS EN SUPABASE ═══
 async function saveRegistroSupabase(dateKey, registroData) {
   if (!CURRENT_USER?.id) return;
-  const { error } = await sb.from('registros').upsert({
-    usuario_id: CURRENT_USER.id,
-    fecha: dateKey,
-    ...registroData
-  }, { onConflict: 'usuario_id,fecha' });
+  const { error } = await sb.from('registros').upsert({ usuario_id: CURRENT_USER.id, fecha: dateKey, ...registroData }, { onConflict: 'usuario_id,fecha' });
   if (error) console.error('Error guardando registro:', error);
-}
-
-async function savePeriodoSupabase(dateKey, periodoData) {
-  if (!CURRENT_USER?.id) return;
-  const { error } = await sb.from('periodo').upsert({
-    usuario_id: CURRENT_USER.id,
-    fecha: dateKey,
-    ...periodoData
-  }, { onConflict: 'usuario_id,fecha' });
-  if (error) console.error('Error guardando periodo:', error);
 }
 
 async function cargarDatosSupabase() {
@@ -1332,59 +973,126 @@ async function cargarDatosSupabase() {
       sb.from('retos').select('*').eq('usuario_id', uid),
       sb.from('chequeos').select('*').eq('usuario_id', uid),
     ]);
-
-    // Transformar a formato DATA
     if (regRes.data) regRes.data.forEach(r => { DATA.registros[r.fecha] = r; });
     if (perRes.data) perRes.data.forEach(p => { DATA.periodo[p.fecha] = p; });
     if (aliRes.data) aliRes.data.forEach(a => { DATA.alimentos[a.fecha] = a; });
     if (supRes.data) supRes.data.forEach(s => { DATA.suplementos[s.fecha] = s.tomados; });
     if (retRes.data) retRes.data.forEach(r => { DATA.retos[r.reto_id] = r.dias; });
     if (cheRes.data) DATA.chequeos = cheRes.data;
-
     console.log('✅ Datos cargados desde Supabase');
-  } catch(e) {
-    console.error('Error cargando datos:', e);
-  }
+  } catch(e) { console.error('Error cargando datos:', e); }
 }
 
-// ═══ HELPERS ═══
-function showLoadingBtn(id, txt) {
-  const btn = document.getElementById(id);
-  if (btn) { btn.textContent = txt; btn.disabled = true; btn.style.opacity = '.7'; }
-}
-function resetBtn(id, txt) {
-  const btn = document.getElementById(id);
-  if (btn) { btn.textContent = txt; btn.disabled = false; btn.style.opacity = '1'; }
-}
+function showLoadingBtn(id, txt) { const btn = document.getElementById(id); if (btn) { btn.textContent = txt; btn.disabled = true; btn.style.opacity = '.7'; } }
+function resetBtn(id, txt) { const btn = document.getElementById(id); if (btn) { btn.textContent = txt; btn.disabled = false; btn.style.opacity = '1'; } }
 
 function cerrarSesionSupabase() {
   if (confirm('¿Cerrar sesión?')) {
     localStorage.removeItem('avarica_session');
-    CURRENT_USER = null;
-    CURRENT_PLAN = 'gratuito';
+    CURRENT_USER = null; CURRENT_PLAN = 'gratuito';
     document.getElementById('app').style.display = 'none';
     const ls = document.getElementById('login-screen');
     ls.style.display = 'flex';
     showPanel('welcome');
   }
 }
-</script>
 
+// ═══ FIX: Olvidé mi contraseña ═══
+function showForgotPassword(){
+  const msg = document.getElementById('forgot-msg');
+  if(msg) { msg.style.display = msg.style.display==='none' ? 'block' : 'none'; }
+}
+
+// ═══ FIX: Actualizar plan desde Supabase (botón en perfil) ═══
+async function refreshPlanFromDB(){
+  const session = localStorage.getItem('avarica_session');
+  if(!session){ showToast('⚠️ No hay sesión activa'); return; }
+  const btn = document.getElementById('refresh-plan-btn');
+  if(btn){ btn.textContent = '🔄 Verificando...'; btn.disabled = true; }
+  try {
+    const s = JSON.parse(session);
+    const { data, error } = await sb.from('usuarios').select('*').eq('email', s.email).single();
+    if(error || !data){ showToast('❌ Error al verificar'); return; }
+    const planAnterior = CURRENT_PLAN;
+    CURRENT_USER = data;
+    CURRENT_PLAN = data.plan || 'gratuito';
+    DATA.userName = data.nombre;
+    if(CURRENT_PLAN !== planAnterior){
+      showToast('🎉 ¡Plan actualizado a ' + CURRENT_PLAN.replace(/_/g,' ') + '!');
+    } else {
+      showToast('✅ Plan verificado: ' + CURRENT_PLAN.replace(/_/g,' '));
+    }
+    aplicarPlan();
+    buildPerfil();
+  } catch(e) { showToast('❌ Error de conexión'); }
+  finally { if(btn){ btn.textContent = '🔄 Actualizar mi plan'; btn.disabled = false; } }
+}
+
+// ═══ FIX: Botones de suscripción dinámicos según plan ═══
+function buildSuscripcionBtns(){
+  const c = document.getElementById('suscripcion-btns');
+  if(!c) return;
+  let html = '';
+  if(CURRENT_PLAN === 'gratuito'){
+    html += `
+      <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--brand);color:white;border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-decoration:none">
+        🌸 Suscribirme · Pro Mensual $9.99/mes
+      </a>
+      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--purple-pale);color:var(--purple);border:1.5px solid rgba(120,75,160,.3);border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-decoration:none">
+        💎 Suscribirme · Pro Anual $59.99/año
+      </a>`;
+  } else if(CURRENT_PLAN === 'pro_mensual'){
+    html += `
+      <div style="background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-align:center">
+        🌸 Plan Pro Mensual activo ✓
+      </div>
+      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#B8860B22,#DAA52022);color:#8B6914;border:1.5px solid #DAA520;border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-decoration:none">
+        💎 Cambiar a Pro Anual y ahorrar $59/año
+      </a>
+      <a href="https://hotmart.com/my-account/purchases" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:6px;background:white;border:1.5px solid rgba(201,81,122,.3);color:var(--text-muted);border-radius:var(--r-sm);padding:.7rem;font-size:.78rem;font-weight:500;text-decoration:none">
+        📋 Gestionar o cancelar en Hotmart
+      </a>`;
+  } else if(CURRENT_PLAN === 'pro_anual'){
+    html += `
+      <div style="background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border-radius:var(--r-sm);padding:.75rem;font-size:.82rem;font-weight:600;text-align:center">
+        🏆 Plan Pro Anual activo ✓ — ¡Gracias por tu apoyo!
+      </div>
+      <a href="https://hotmart.com/my-account/purchases" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:6px;background:white;border:1.5px solid rgba(201,81,122,.3);color:var(--text-muted);border-radius:var(--r-sm);padding:.7rem;font-size:.78rem;font-weight:500;text-decoration:none">
+        📋 Gestionar suscripción en Hotmart
+      </a>`;
+  }
+  html += `
+    <button id="refresh-plan-btn" onclick="refreshPlanFromDB()"
+      style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--success-pale);color:var(--success);border:1.5px solid rgba(76,175,133,.3);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">
+      🔄 Actualizar mi plan
+    </button>
+    <a href="mailto:soporte@ovarica.site"
+       style="display:flex;align-items:center;justify-content:center;gap:6px;background:white;border:1.5px solid rgba(201,81,122,.3);color:var(--brand);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;text-decoration:none">
+      📧 Contactar soporte
+    </a>
+    <button onclick="openFeedbackModal()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:var(--purple-pale);color:var(--purple);border:1.5px solid rgba(155,109,181,.3);border-radius:var(--r-sm);padding:.7rem;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">
+      💡 Dar sugerencia o feedback
+    </button>`;
+  c.innerHTML = html;
+}
+</script>
 <script>
 // ═══ DATA ═══
 const DATA = {
   userName:'', age:'', country:'', weight:'', height:'',
-  diagnostico:'', objetivo:'', lastPeriod:'', cycleLen:28,
-  periodLen:5, cycleType:'irregular', flow:'moderado', pain:'leve',
-  diet:'omnivora', goalFood:'leve', extra:'ninguna',
-  registros:{}, periodo:{}, retos:{}, suplementos:{}, alimentos:{},
-  chequeos:[], shopBought:{}
+  diagnostico:'', objetivo:'', lastPeriod:'', cycleLen:28, periodLen:5,
+  cycleType:'irregular', flow:'moderado', pain:'leve', diet:'omnivora',
+  goalFood:'leve', extra:'ninguna', registros:{}, periodo:{}, retos:{},
+  suplementos:{}, alimentos:{}, chequeos:[], shopBought:{}, config:{}
 };
-
 function saveData(){localStorage.setItem('avarica_v2', JSON.stringify(DATA))}
 function loadData(){const s=localStorage.getItem('avarica_v2'); if(s) Object.assign(DATA, JSON.parse(s))}
 
-// ═══ DATES ═══
 const todayDate = new Date();
 function fmtDate(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function fmtDisplay(d){
@@ -1392,60 +1100,20 @@ function fmtDisplay(d){
   const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   return `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
-
 let selectedRegistroDate = fmtDate(todayDate);
 let selectedPeriodoDate  = fmtDate(todayDate);
 let calYear  = todayDate.getFullYear();
 let calMonth = todayDate.getMonth();
-
-// ═══ ONBOARDING ═══
-function startApp(){
-  const name = document.getElementById('ob-name').value.trim();
-  const email = document.getElementById('ob-email').value.trim();
-  if(!name){alert('¿Cómo te llamas? 🌸'); return}
-  if(!email){alert('Ingresa tu correo electrónico para poder iniciar sesión'); return}
-  DATA.userName    = name;
-  DATA.email       = email;
-  DATA.password    = document.getElementById('ob-password').value;
-  DATA.age         = document.getElementById('ob-age').value;
-  DATA.country     = document.getElementById('ob-country').value;
-  DATA.weight      = document.getElementById('ob-weight').value;
-  DATA.height      = document.getElementById('ob-height').value;
-  DATA.diagnostico = document.getElementById('ob-diag').value;
-  DATA.objetivo    = document.getElementById('ob-objetivo').value;
-  DATA.lastPeriod  = document.getElementById('ob-last-period').value;
-  DATA.cycleLen    = parseInt(document.getElementById('ob-cycle-len').value)||28;
-  DATA.periodLen   = parseInt(document.getElementById('ob-period-len').value)||5;
-  DATA.cycleType   = document.getElementById('ob-cycle-type').value;
-  DATA.flow        = document.getElementById('ob-flow').value;
-  DATA.pain        = document.getElementById('ob-pain').value;
-  DATA.diet        = document.getElementById('ob-diet').value;
-  DATA.goalFood    = document.getElementById('ob-goal-food').value;
-  DATA.extra       = document.getElementById('ob-extra').value;
-  saveData();
-  document.getElementById('onboarding').style.display='none';
-  document.getElementById('app').style.display='block';
-  initApp();
-}
 
 // ═══ INIT ═══
 function initApp(){
   document.getElementById('registro-date-input').value = fmtDate(todayDate);
   document.getElementById('periodo-date-input').value  = fmtDate(todayDate);
   document.getElementById('ali-date-input').value      = fmtDate(todayDate);
-  buildCheckItems();
-  buildRetos();
-  buildSuplem();
-  buildVasos();
-  buildWeeklyPlan();
-  buildShoppingList();
-  buildMedicalList();
-  renderCalendar();
-  updateStats();
-  updateNoraInsight();
-  updateHomePhaseBanner();
+  buildCheckItems(); buildRetos(); buildSuplem(); buildVasos();
+  buildWeeklyPlan(); buildShoppingList(); buildMedicalList();
+  renderCalendar(); updateStats(); updateNoraInsight(); updateHomePhaseBanner();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
-  // Check notifications after brief delay
   setTimeout(checkAndSendNotifications, 3000);
 }
 
@@ -1466,13 +1134,21 @@ function showScreen(name){
   if(name==='periodo') buildFasesCiclo();
   if(name==='perfil') buildPerfil();
 }
-
-// ═══ TABS ═══
 function switchTab(tab){
   ['diario','plan','compras'].forEach(t=>{
     document.getElementById('ali-'+t).style.display = t===tab?'block':'none';
     document.getElementById('tab-'+t).classList.toggle('active', t===tab);
   });
+}
+function showPanel(panel){
+  ['welcome','login','register','install'].forEach(p=>{
+    const el=document.getElementById('panel-'+p);
+    if(el) el.style.display = p===panel?'block':'none';
+  });
+}
+function goToOnboarding(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('onboarding').style.display='flex';
 }
 
 // ═══ CALENDAR ═══
@@ -1524,61 +1200,18 @@ function openDayDetail(ds){
   const r=DATA.registros[ds]; const a=DATA.alimentos[ds]; const su=DATA.suplementos[ds];
   const p=DATA.periodo[ds]; const meds=DATA.chequeos.filter(c=>c.date===ds);
   let html='';
-  // Periodo
-  if(p){
-    html+=`<div class="day-section-title">🩸 Periodo</div>`;
-    html+=`<span class="day-pill" style="background:var(--brand-pale);color:var(--brand)">Flujo: ${p.flujo||'registrado'}</span>`;
-    if(p.dolor>0) html+=`<span class="day-pill" style="background:#FEE;color:var(--danger)">Dolor: ${p.dolor}/10</span>`;
-  }
-  // Síntomas
+  if(p){ html+=`<div class="day-section-title">🩸 Periodo</div><span class="day-pill" style="background:var(--brand-pale);color:var(--brand)">Flujo: ${p.flujo||'registrado'}</span>`; if(p.dolor>0) html+=`<span class="day-pill" style="background:#FEE;color:var(--danger)">Dolor: ${p.dolor}/10</span>`; }
   if(r?.sintomas?.length>0){
     html+=`<div class="day-section-title">🔴 Síntomas (${r.sintomas.length})</div>`;
-    const SINT_NAMES={
-      'ciclo-irregular':'Ciclo irregular','amenorrea':'Sin menstruación','sangrado-abundante':'Sangrado abundante',
-      'dolor-pelvico':'Dolor pélvico','acne-cara':'Acné cara','alopecia':'Caída cabello','vello-facial':'Vello facial',
-      'fatiga-despertar':'Fatiga al despertar','fatiga-dia':'Fatiga diurna','brain-fog':'Brain fog',
-      'dolor-cabeza':'Dolor de cabeza','insomnio':'Insomnio','ansiedad':'Ansiedad','tristeza':'Tristeza',
-      'irritabilidad':'Irritabilidad','hinchazón':'Hinchazón','antojo-dulce':'Antojo dulce','nauseas':'Náuseas'
-    };
-    r.sintomas.slice(0,8).forEach(s=>{ html+=`<span class="day-pill" style="background:#FEE9E9;color:var(--danger)">${SINT_NAMES[s]||s}</span>`});
-    if(r.sintomas.length>8) html+=`<span class="day-pill" style="background:var(--surface2);color:var(--text-muted)">+${r.sintomas.length-8} más</span>`;
+    r.sintomas.slice(0,8).forEach(s=>{ html+=`<span class="day-pill" style="background:#FEE9E9;color:var(--danger)">${s.replace(/-/g,' ')}</span>`});
     if(r.dolor>0) html+=`<span class="day-pill" style="background:#FEE9E9;color:var(--danger)">Dolor: ${r.dolor}/10</span>`;
   }
-  // Ejercicio
-  if(r?.ejercicio){
-    html+=`<div class="day-section-title">🏋️ Ejercicio</div>`;
-    html+=`<span class="day-pill" style="background:var(--exercise-pale);color:var(--exercise)">✅ Activa · ${r.ejercicio.duracion||30} min</span>`;
-    r.ejercicio.tipos?.forEach(t=>{ html+=`<span class="day-pill" style="background:var(--exercise-pale);color:var(--exercise)">${t}</span>`});
-  } else if(r){
-    html+=`<div class="day-section-title">🏋️ Ejercicio</div><span class="day-pill" style="background:var(--surface2);color:var(--text-muted)">Descanso activo</span>`;
-  }
-  // Alimentación
-  if(a){
-    html+=`<div class="day-section-title">🥗 Alimentación</div>`;
-    if(a.malo?.length>0) html+=`<span class="day-pill" style="background:#FEE9E9;color:var(--danger)">⚠️ ${a.malo.length} alimentos a evitar</span>`;
-    if(a.bueno?.length>0) html+=`<span class="day-pill" style="background:var(--success-pale);color:var(--success)">✅ ${a.bueno.length} alimentos reguladores</span>`;
-    if(a.vasos>0) html+=`<span class="day-pill" style="background:var(--exercise-pale);color:var(--exercise)">💧 ${a.vasos}/8 vasos</span>`;
-  }
-  // Suplementos
-  if(su){
-    const taken=Object.entries(su).filter(([k,v])=>v).map(([k])=>k);
-    if(taken.length>0){
-      html+=`<div class="day-section-title">💊 Suplementos (${taken.length})</div>`;
-      html+=`<span class="day-pill" style="background:var(--success-pale);color:var(--success)">✅ ${taken.length} suplementos tomados</span>`;
-    }
-  }
-  // Sueño
-  if(r?.sueno?.length>0){
-    html+=`<div class="day-section-title">😴 Sueño</div>`;
-    const sleepMap={'6-8h':'6–8 horas','mas-8h':'Más de 8h','menos-6h':'Menos de 6h','descansada-am':'Amanecí descansada','cansada-am':'Amanecí cansada'};
-    const sleepKey=r.sueno.find(s=>['6-8h','mas-8h','menos-6h'].includes(s));
-    if(sleepKey) html+=`<span class="day-pill" style="background:var(--purple-pale);color:var(--purple)">${sleepMap[sleepKey]||sleepKey}</span>`;
-  }
-  // Chequeos
-  if(meds.length>0){
-    html+=`<div class="day-section-title">🩺 Chequeos médicos</div>`;
-    meds.forEach(m=>{ html+=`<span class="day-pill" style="background:var(--medical-pale);color:var(--medical)">🩺 ${m.name}</span>`});
-  }
+  if(r?.ejercicio){ html+=`<div class="day-section-title">🏋️ Ejercicio</div><span class="day-pill" style="background:var(--exercise-pale);color:var(--exercise)">✅ Activa · ${r.ejercicio.duracion||30} min</span>`; }
+  else if(r){ html+=`<div class="day-section-title">🏋️ Ejercicio</div><span class="day-pill" style="background:var(--surface2);color:var(--text-muted)">Descanso activo</span>`; }
+  if(a){ html+=`<div class="day-section-title">🥗 Alimentación</div>`; if(a.malo?.length>0) html+=`<span class="day-pill" style="background:#FEE9E9;color:var(--danger)">⚠️ ${a.malo.length} a evitar</span>`; if(a.bueno?.length>0) html+=`<span class="day-pill" style="background:var(--success-pale);color:var(--success)">✅ ${a.bueno.length} reguladores</span>`; if(a.vasos>0) html+=`<span class="day-pill" style="background:var(--exercise-pale);color:var(--exercise)">💧 ${a.vasos}/8 vasos</span>`; }
+  if(su){ const taken=Object.entries(su).filter(([k,v])=>v).map(([k])=>k); if(taken.length>0){ html+=`<div class="day-section-title">💊 Suplementos (${taken.length})</div><span class="day-pill" style="background:var(--success-pale);color:var(--success)">✅ ${taken.length} tomados</span>`; } }
+  if(r?.sueno?.length>0){ html+=`<div class="day-section-title">😴 Sueño</div>`; const sleepKey=r.sueno.find(s=>['6-8h','mas-8h','menos-6h'].includes(s)); if(sleepKey) html+=`<span class="day-pill" style="background:var(--purple-pale);color:var(--purple)">${sleepKey}</span>`; }
+  if(meds.length>0){ html+=`<div class="day-section-title">🩺 Chequeos</div>`; meds.forEach(m=>{ html+=`<span class="day-pill" style="background:var(--medical-pale);color:var(--medical)">🩺 ${m.name}</span>`}); }
   if(!html) html=`<div style="text-align:center;padding:1.5rem;color:var(--text-muted);font-size:.85rem">Sin registros para este día.<br/><br/>Toca <strong>Editar</strong> para agregar datos.</div>`;
   body.innerHTML=html;
   document.getElementById('day-modal').classList.add('open');
@@ -1586,19 +1219,10 @@ function openDayDetail(ds){
 function closeDayModal(e){if(e.target===document.getElementById('day-modal')) document.getElementById('day-modal').classList.remove('open')}
 function deleteRegistroFromModal(){
   if(!confirm('¿Eliminar el registro de este día?')) return;
-  delete DATA.registros[currentDetailDate];
-  delete DATA.alimentos[currentDetailDate];
-  delete DATA.periodo[currentDetailDate];
-  saveData();
-  renderCalendar();
-  updateStats();
+  delete DATA.registros[currentDetailDate]; delete DATA.alimentos[currentDetailDate]; delete DATA.periodo[currentDetailDate];
+  saveData(); renderCalendar(); updateStats();
   document.getElementById('day-modal').classList.remove('open');
   showToast('🗑️ Registro eliminado');
-  // Re-enable registro nav if under 7 days
-  if(CURRENT_PLAN === 'gratuito'){
-    const regBtn = document.querySelectorAll('.nav-item')[1];
-    if(regBtn && Object.keys(DATA.registros).length < 7) regBtn.style.opacity = '1';
-  }
 }
 function editDayFromModal(){
   document.getElementById('day-modal').classList.remove('open');
@@ -1607,44 +1231,21 @@ function editDayFromModal(){
   showScreen('registro');
 }
 
-// ═══ DATE CHANGES ═══
 function onRegistroDateChange(v){
   selectedRegistroDate=v;
-  // Clear all checkboxes
-  document.querySelectorAll('.check-item').forEach(el=>{
-    el.classList.remove('checked','green');
-    const box=el.querySelector('.check-box');
-    if(box) box.textContent='';
-  });
+  document.querySelectorAll('.check-item').forEach(el=>{ el.classList.remove('checked','green'); const box=el.querySelector('.check-box'); if(box) box.textContent=''; });
   document.querySelectorAll('.intensity-btn').forEach(b=>b.classList.remove('active'));
   ejercicioHoy=null;
-  document.getElementById('ejercicio-si').classList.remove('checked');
-  document.getElementById('ejercicio-no').classList.remove('checked');
-  document.getElementById('ej-si-box').textContent='';
-  document.getElementById('ej-no-box').textContent='';
+  document.getElementById('ejercicio-si').classList.remove('checked'); document.getElementById('ejercicio-no').classList.remove('checked');
+  document.getElementById('ej-si-box').textContent=''; document.getElementById('ej-no-box').textContent='';
   document.getElementById('ejercicio-detail').style.display='none';
-  document.getElementById('dolor-slider').value=0;
-  document.getElementById('dolor-val').textContent='0';
-  // Load existing data for that date if any
+  document.getElementById('dolor-slider').value=0; document.getElementById('dolor-val').textContent='0';
   const r=DATA.registros[v];
   if(r){
-    if(r.sintomas) r.sintomas.forEach(val=>{
-      const el=document.querySelector(`.check-item[data-val="${val}"]`);
-      if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}
-    });
+    if(r.sintomas) r.sintomas.forEach(val=>{ const el=document.querySelector(`.check-item[data-val="${val}"]`); if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}});
     if(r.dolor) {document.getElementById('dolor-slider').value=r.dolor;document.getElementById('dolor-val').textContent=r.dolor;}
-    if(r.sueno) r.sueno.forEach(val=>{
-      const el=document.querySelector(`.check-item[data-val="${val}"]`);
-      if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}
-    });
-    if(r.ejercicio){
-      toggleEjercicio(true);
-      if(r.ejercicio.tipos) r.ejercicio.tipos.forEach(val=>{
-        const el=document.querySelector(`.check-item[data-val="${val}"]`);
-        if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}
-      });
-      if(r.ejercicio.duracion){document.getElementById('dur-slider').value=r.ejercicio.duracion;document.getElementById('dur-val').textContent=r.ejercicio.duracion+'min';}
-    }
+    if(r.sueno) r.sueno.forEach(val=>{ const el=document.querySelector(`.check-item[data-val="${val}"]`); if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}});
+    if(r.ejercicio){ toggleEjercicio(true); if(r.ejercicio.duracion){document.getElementById('dur-slider').value=r.ejercicio.duracion;document.getElementById('dur-val').textContent=r.ejercicio.duracion+'min';} }
   }
 }
 function onPeriodoDateChange(v){selectedPeriodoDate=v}
@@ -1661,84 +1262,20 @@ function buildCheck(id, items, group, isGreen=false){
     c.appendChild(div);
   });
 }
-
 function buildCheckItems(){
-  buildCheck('check-repro',[
-    {v:'ciclo-irregular',l:'🔴 Ciclo irregular'},{v:'amenorrea',l:'⛔ Sin menstruación'},
-    {v:'sangrado-abundante',l:'💧 Sangrado abundante'},{v:'manchado',l:'🩸 Manchado inter-ciclo'},
-    {v:'dolor-pelvico',l:'💢 Dolor pélvico'},{v:'dolor-sexual',l:'❗ Dolor relaciones'},
-    {v:'presion-pelvis',l:'⬇️ Presión pélvica'},{v:'libido-bajo',l:'💔 Bajo deseo sexual'},
-  ],'repro');
-  buildCheck('check-piel',[
-    {v:'acne-cara',l:'🔴 Acné cara'},{v:'acne-espalda',l:'🔴 Acné espalda'},
-    {v:'vello-facial',l:'🧔 Vello facial'},{v:'hirsutismo',l:'🦵 Vello excesivo'},
-    {v:'alopecia',l:'💆 Caída de cabello'},{v:'cabello-graso',l:'🫧 Cabello graso'},
-    {v:'acantosis',l:'🟫 Manchas cuello/axilas'},{v:'piel-grasa',l:'✨ Piel muy grasa'},
-    {v:'piel-seca',l:'🏜️ Piel muy seca'},{v:'acrocordones',l:'🏷️ Etiquetas de piel'},
-  ],'piel');
-  buildCheck('check-neuro',[
-    {v:'fatiga-despertar',l:'😴 Fatiga al despertar'},{v:'fatiga-dia',l:'🥱 Fatiga diurna'},
-    {v:'brain-fog',l:'🌫️ Brain fog'},{v:'dolor-cabeza',l:'🤕 Dolor de cabeza'},
-    {v:'migrana',l:'⚡ Migraña'},{v:'insomnio',l:'🌙 Insomnio'},
-    {v:'sueno-no-rep',l:'😪 Sueño no reparador'},{v:'apnea',l:'😤 Apnea del sueño'},
-  ],'neuro');
-  buildCheck('check-cardio',[
-    {v:'presion-alta',l:'🩺 Presión alta'},{v:'palpitaciones',l:'💓 Palpitaciones'},
-    {v:'mareos',l:'😵 Mareos'},{v:'sofocos',l:'🔥 Sofocos'},
-  ],'cardio');
-  buildCheck('check-digest',[
-    {v:'antojo-dulce',l:'🍬 Antojo de dulce'},{v:'hambre-const',l:'😋 Hambre constante'},
-    {v:'bajon-energia',l:'📉 Bajón post-comida'},{v:'hinchazón',l:'🎈 Hinchazón'},
-    {v:'retencion',l:'💧 Retención líquidos'},{v:'estreñimiento',l:'😣 Estreñimiento'},
-    {v:'digestion-lenta',l:'🐢 Digestión lenta'},{v:'nauseas',l:'🤢 Náuseas'},
-  ],'digest');
-  buildCheck('check-mental',[
-    {v:'ansiedad',l:'😰 Ansiedad'},{v:'panico',l:'😱 Pánico'},
-    {v:'tristeza',l:'😢 Tristeza/depresión'},{v:'irritabilidad',l:'😤 Irritabilidad'},
-    {v:'cambios-humor',l:'🎭 Cambios de humor'},{v:'baja-autoestima',l:'💔 Baja autoestima'},
-    {v:'aislamiento',l:'🧍 Aislamiento'},{v:'brain-fog-em',l:'🤔 Niebla mental'},
-  ],'mental');
-  buildCheck('check-sueno',[
-    {v:'menos-6h',l:'⚠️ Menos de 6h'},{v:'6-8h',l:'✅ 6–8 horas'},
-    {v:'mas-8h',l:'🌙 Más de 8h'},{v:'pantallas',l:'📱 Pantallas al dormir'},
-    {v:'dificil-dormir',l:'🌀 Difícil dormir'},{v:'desperte',l:'😤 Me desperté varias veces'},
-    {v:'cansada-am',l:'😩 Amanecí cansada'},{v:'descansada-am',l:'😊 Amanecí descansada'},
-  ],'sueno');
-  buildCheck('check-ejercicio',[
-    {v:'pierna',l:'🦵 Pierna/Glúteos'},{v:'tren-sup',l:'💪 Tren superior'},
-    {v:'cuerpo-comp',l:'🤸 Cuerpo completo'},{v:'cardio-mod',l:'🚶 Cardio moderado'},
-    {v:'cardio-int',l:'🔥 HIIT/Cardio intenso'},{v:'yoga',l:'🧘 Yoga/Pilates'},
-    {v:'ciclismo',l:'🚴 Spinning/Ciclismo'},{v:'movilidad',l:'🤾 Movilidad/Stretching'},
-  ],'ejercicio-tipo');
-  buildCheck('check-ejercicio-extra',[
-    {v:'hidrat-bien',l:'💧 Me hidraté bien'},{v:'bien-sentida',l:'😊 Me sentí bien'},
-    {v:'fatiga-ej',l:'😓 Sentí fatiga'},{v:'dolor-ej',l:'😣 Sentí dolor'},
-  ],'ejercicio-extra', true);
-  buildCheck('check-ali-malo',[
-    {v:'azucar',l:'🍬 Azúcar procesada'},{v:'harinas',l:'🍞 Harinas refinadas'},
-    {v:'ultraprocesados',l:'🍟 Ultraprocesados'},{v:'aceites-ref',l:'🫙 Aceites refinados'},
-    {v:'lacteos-conv',l:'🥛 Lácteos convencionales'},{v:'alcohol',l:'🍷 Alcohol'},
-    {v:'cafeina-ex',l:'☕ Cafeína excesiva'},{v:'frituras',l:'🍳 Frituras'},
-    {v:'edulcorantes',l:'💊 Edulcorantes artif.'},{v:'azucar-jugos',l:'🧃 Jugos de caja'},
-  ],'ali-malo');
-  buildCheck('check-ali-bueno',[
-    {v:'hojas-verdes',l:'🥬 Hojas verdes'},{v:'proteina',l:'🍗 Proteína de calidad'},
-    {v:'grasas-buenas',l:'🥑 Grasas buenas'},{v:'bajo-ig',l:'🌾 Carbos bajo IG'},
-    {v:'berries',l:'🫐 Berries'},{v:'agua',l:'💧 Agua suficiente'},
-    {v:'infusiones',l:'🫖 Infusiones'},{v:'semillas',l:'🌻 Semillas'},
-    {v:'aceite-oliva',l:'🫒 Aceite de oliva'},{v:'legumbres',l:'🫘 Legumbres'},
-  ],'ali-bueno', true);
-  buildCheck('check-color',[
-    {v:'rojo-brillante',l:'🔴 Rojo brillante'},{v:'rojo-oscuro',l:'🟤 Rojo oscuro'},
-    {v:'marron',l:'🟫 Marrón'},{v:'rosa',l:'🩷 Rosa'},
-  ],'color-periodo');
-  buildCheck('check-periodo-sint',[
-    {v:'colicos',l:'💢 Cólicos'},{v:'dolor-espalda',l:'🦴 Espalda baja'},
-    {v:'nauseas-p',l:'🤢 Náuseas'},{v:'diarrea',l:'💨 Diarrea'},
-    {v:'coagulos',l:'🩸 Coágulos'},{v:'senos-sensibles',l:'💔 Senos sensibles'},
-    {v:'piernas-pesadas',l:'🦵 Piernas pesadas'},{v:'hinchazón-p',l:'🎈 Hinchazón'},
-  ],'periodo-sint');
-  // Intensity
+  buildCheck('check-repro',[{v:'ciclo-irregular',l:'🔴 Ciclo irregular'},{v:'amenorrea',l:'⛔ Sin menstruación'},{v:'sangrado-abundante',l:'💧 Sangrado abundante'},{v:'manchado',l:'🩸 Manchado inter-ciclo'},{v:'dolor-pelvico',l:'💢 Dolor pélvico'},{v:'dolor-sexual',l:'❗ Dolor relaciones'},{v:'presion-pelvis',l:'⬇️ Presión pélvica'},{v:'libido-bajo',l:'💔 Bajo deseo sexual'}],'repro');
+  buildCheck('check-piel',[{v:'acne-cara',l:'🔴 Acné cara'},{v:'acne-espalda',l:'🔴 Acné espalda'},{v:'vello-facial',l:'🧔 Vello facial'},{v:'hirsutismo',l:'🦵 Vello excesivo'},{v:'alopecia',l:'💆 Caída de cabello'},{v:'cabello-graso',l:'🫧 Cabello graso'},{v:'acantosis',l:'🟫 Manchas cuello/axilas'},{v:'piel-grasa',l:'✨ Piel muy grasa'},{v:'piel-seca',l:'🏜️ Piel muy seca'},{v:'acrocordones',l:'🏷️ Etiquetas de piel'}],'piel');
+  buildCheck('check-neuro',[{v:'fatiga-despertar',l:'😴 Fatiga al despertar'},{v:'fatiga-dia',l:'🥱 Fatiga diurna'},{v:'brain-fog',l:'🌫️ Brain fog'},{v:'dolor-cabeza',l:'🤕 Dolor de cabeza'},{v:'migrana',l:'⚡ Migraña'},{v:'insomnio',l:'🌙 Insomnio'},{v:'sueno-no-rep',l:'😪 Sueño no reparador'},{v:'apnea',l:'😤 Apnea del sueño'}],'neuro');
+  buildCheck('check-cardio',[{v:'presion-alta',l:'🩺 Presión alta'},{v:'palpitaciones',l:'💓 Palpitaciones'},{v:'mareos',l:'😵 Mareos'},{v:'sofocos',l:'🔥 Sofocos'}],'cardio');
+  buildCheck('check-digest',[{v:'antojo-dulce',l:'🍬 Antojo de dulce'},{v:'hambre-const',l:'😋 Hambre constante'},{v:'bajon-energia',l:'📉 Bajón post-comida'},{v:'hinchazón',l:'🎈 Hinchazón'},{v:'retencion',l:'💧 Retención líquidos'},{v:'estreñimiento',l:'😣 Estreñimiento'},{v:'digestion-lenta',l:'🐢 Digestión lenta'},{v:'nauseas',l:'🤢 Náuseas'}],'digest');
+  buildCheck('check-mental',[{v:'ansiedad',l:'😰 Ansiedad'},{v:'panico',l:'😱 Pánico'},{v:'tristeza',l:'😢 Tristeza/depresión'},{v:'irritabilidad',l:'😤 Irritabilidad'},{v:'cambios-humor',l:'🎭 Cambios de humor'},{v:'baja-autoestima',l:'💔 Baja autoestima'},{v:'aislamiento',l:'🧍 Aislamiento'},{v:'brain-fog-em',l:'🤔 Niebla mental'}],'mental');
+  buildCheck('check-sueno',[{v:'menos-6h',l:'⚠️ Menos de 6h'},{v:'6-8h',l:'✅ 6–8 horas'},{v:'mas-8h',l:'🌙 Más de 8h'},{v:'pantallas',l:'📱 Pantallas al dormir'},{v:'dificil-dormir',l:'🌀 Difícil dormir'},{v:'desperte',l:'😤 Me desperté varias veces'},{v:'cansada-am',l:'😩 Amanecí cansada'},{v:'descansada-am',l:'😊 Amanecí descansada'}],'sueno');
+  buildCheck('check-ejercicio',[{v:'pierna',l:'🦵 Pierna/Glúteos'},{v:'tren-sup',l:'💪 Tren superior'},{v:'cuerpo-comp',l:'🤸 Cuerpo completo'},{v:'cardio-mod',l:'🚶 Cardio moderado'},{v:'cardio-int',l:'🔥 HIIT/Cardio intenso'},{v:'yoga',l:'🧘 Yoga/Pilates'},{v:'ciclismo',l:'🚴 Spinning/Ciclismo'},{v:'movilidad',l:'🤾 Movilidad/Stretching'}],'ejercicio-tipo');
+  buildCheck('check-ejercicio-extra',[{v:'hidrat-bien',l:'💧 Me hidraté bien'},{v:'bien-sentida',l:'😊 Me sentí bien'},{v:'fatiga-ej',l:'😓 Sentí fatiga'},{v:'dolor-ej',l:'😣 Sentí dolor'}],'ejercicio-extra',true);
+  buildCheck('check-ali-malo',[{v:'azucar',l:'🍬 Azúcar procesada'},{v:'harinas',l:'🍞 Harinas refinadas'},{v:'ultraprocesados',l:'🍟 Ultraprocesados'},{v:'aceites-ref',l:'🫙 Aceites refinados'},{v:'lacteos-conv',l:'🥛 Lácteos convencionales'},{v:'alcohol',l:'🍷 Alcohol'},{v:'cafeina-ex',l:'☕ Cafeína excesiva'},{v:'frituras',l:'🍳 Frituras'},{v:'edulcorantes',l:'💊 Edulcorantes artif.'},{v:'azucar-jugos',l:'🧃 Jugos de caja'}],'ali-malo');
+  buildCheck('check-ali-bueno',[{v:'hojas-verdes',l:'🥬 Hojas verdes'},{v:'proteina',l:'🍗 Proteína de calidad'},{v:'grasas-buenas',l:'🥑 Grasas buenas'},{v:'bajo-ig',l:'🌾 Carbos bajo IG'},{v:'berries',l:'🫐 Berries'},{v:'agua',l:'💧 Agua suficiente'},{v:'infusiones',l:'🫖 Infusiones'},{v:'semillas',l:'🌻 Semillas'},{v:'aceite-oliva',l:'🫒 Aceite de oliva'},{v:'legumbres',l:'🫘 Legumbres'}],'ali-bueno',true);
+  buildCheck('check-color',[{v:'rojo-brillante',l:'🔴 Rojo brillante'},{v:'rojo-oscuro',l:'🟤 Rojo oscuro'},{v:'marron',l:'🟫 Marrón'},{v:'rosa',l:'🩷 Rosa'}],'color-periodo');
+  buildCheck('check-periodo-sint',[{v:'colicos',l:'💢 Cólicos'},{v:'dolor-espalda',l:'🦴 Espalda baja'},{v:'nauseas-p',l:'🤢 Náuseas'},{v:'diarrea',l:'💨 Diarrea'},{v:'coagulos',l:'🩸 Coágulos'},{v:'senos-sensibles',l:'💔 Senos sensibles'},{v:'piernas-pesadas',l:'🦵 Piernas pesadas'},{v:'hinchazón-p',l:'🎈 Hinchazón'}],'periodo-sint');
   const row=document.getElementById('intensity-row');
   ['Baja 🌿','Media 🔥','Alta ⚡'].forEach(label=>{
     const b=document.createElement('button'); b.className='intensity-btn'; b.textContent=label;
@@ -1747,7 +1284,6 @@ function buildCheckItems(){
   });
 }
 
-// ═══ VASOS ═══
 let vasosCount=0;
 function buildVasos(){
   const c=document.getElementById('vasos-container'); c.innerHTML='';
@@ -1761,43 +1297,27 @@ function buildVasos(){
   document.getElementById('vasos-label').textContent=`${vasosCount} / 8 vasos`;
 }
 
-// ═══ EJERCICIO ═══
 let ejercicioHoy=null;
 function toggleEjercicio(val){
   ejercicioHoy=val;
-  ['si','no'].forEach(k=>{
-    document.getElementById(`ejercicio-${k}`).classList.toggle('checked',val===(k==='si'));
-    document.getElementById(`ej-${k}-box`).textContent=val===(k==='si')?'✓':'';
-  });
+  ['si','no'].forEach(k=>{ document.getElementById(`ejercicio-${k}`).classList.toggle('checked',val===(k==='si')); document.getElementById(`ej-${k}-box`).textContent=val===(k==='si')?'✓':''; });
   document.getElementById('ejercicio-detail').style.display=val===true?'block':'none';
 }
 
-// ═══ PERIODO ═══
 let periodoHoy=null, flowHoy=null;
 function togglePeriodo(val){
   periodoHoy=val;
-  ['si','no'].forEach(k=>{
-    document.getElementById(`periodo-${k}`).classList.toggle('checked',val===(k==='si'));
-    document.getElementById(`p-${k}-box`).textContent=val===(k==='si')?'✓':'';
-  });
+  ['si','no'].forEach(k=>{ document.getElementById(`periodo-${k}`).classList.toggle('checked',val===(k==='si')); document.getElementById(`p-${k}-box`).textContent=val===(k==='si')?'✓':''; });
   document.getElementById('periodo-detail').style.display=val===true?'block':'none';
 }
 function setFlow(f){flowHoy=f; document.querySelectorAll('.flow-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase().includes(f.split('-')[0])))}
-
-// ═══ GETTERS ═══
 function getChecked(group){return [...document.querySelectorAll(`.check-item[data-group="${group}"].checked`)].map(e=>e.dataset.val)}
 
-// ═══ SAVE REGISTRO ═══
 function saveRegistro(){
-  // Check plan restriction: 7 days for free plan
   if(CURRENT_PLAN === 'gratuito') {
     const allDates = Object.keys(DATA.registros).sort();
     const isNewDate = !DATA.registros[selectedRegistroDate];
-    if(isNewDate && allDates.length >= 7) {
-      document.getElementById('upgrade-msg').textContent = 'El plan gratuito solo permite 7 días de historial. Actualiza a Pro para registros ilimitados.';
-      document.getElementById('upgrade-modal').classList.add('open');
-      return;
-    }
+    if(isNewDate && allDates.length >= 7) { mostrarUpgrade('historial'); return; }
   }
   DATA.registros[selectedRegistroDate]={
     sintomas:[...getChecked('repro'),...getChecked('piel'),...getChecked('neuro'),...getChecked('cardio'),...getChecked('digest'),...getChecked('mental')],
@@ -1805,35 +1325,22 @@ function saveRegistro(){
     sueno:getChecked('sueno'), dolor:parseInt(document.getElementById('dolor-slider').value), ts:Date.now()
   };
   saveData(); updateStats(); renderCalendar(); updateNoraInsight();
-  saveRegistroSupabase(selectedRegistroDate, {
-    sintomas: DATA.registros[selectedRegistroDate].sintomas,
-    ejercicio: DATA.registros[selectedRegistroDate].ejercicio,
-    sueno: DATA.registros[selectedRegistroDate].sueno,
-    dolor: DATA.registros[selectedRegistroDate].dolor
-  });
+  saveRegistroSupabase(selectedRegistroDate, { sintomas:DATA.registros[selectedRegistroDate].sintomas, ejercicio:DATA.registros[selectedRegistroDate].ejercicio, sueno:DATA.registros[selectedRegistroDate].sueno, dolor:DATA.registros[selectedRegistroDate].dolor });
   showToast('✅ Registro guardado');
 }
 
-// ═══ SAVE ALIMENTOS ═══
 function saveAlimentos(){
   const dateKey=document.getElementById('ali-date-input').value||fmtDate(todayDate);
   DATA.alimentos[dateKey]={malo:getChecked('ali-malo'),bueno:getChecked('ali-bueno'),vasos:vasosCount};
-  const today2=fmtDate(todayDate);
-  if(!DATA.suplementos[today2]) DATA.suplementos[today2]={};
   saveData(); renderCalendar(); showToast('✅ Alimentación guardada');
 }
 
-// ═══ SAVE PERIODO ═══
 function savePeriodo(){
-  if(periodoHoy){
-    DATA.periodo[selectedPeriodoDate]={flujo:flowHoy,color:getChecked('color-periodo'),sint:getChecked('periodo-sint'),dolor:parseInt(document.getElementById('p-dolor-slider').value)};
-  } else {
-    delete DATA.periodo[selectedPeriodoDate];
-  }
-  saveData(); renderCalendar(); updateCicloStats(); showToast('🩸 Periodo guardado');
+  if(periodoHoy){ DATA.periodo[selectedPeriodoDate]={flujo:flowHoy,color:getChecked('color-periodo'),sint:getChecked('periodo-sint'),dolor:parseInt(document.getElementById('p-dolor-slider').value)}; }
+  else { delete DATA.periodo[selectedPeriodoDate]; }
+  saveData(); renderCalendar(); showToast('🩸 Periodo guardado');
 }
 
-// ═══ STATS ═══
 function updateStats(){
   const all=Object.keys(DATA.registros).sort();
   document.getElementById('stat-registros').textContent=all.length;
@@ -1842,66 +1349,51 @@ function updateStats(){
   while(DATA.registros[fmtDate(d)]){racha++; d.setDate(d.getDate()-1)}
   document.getElementById('stat-racha').textContent=racha;
 }
-function updateCicloStats(){
-  const dias=Object.keys(DATA.periodo).sort();
-  document.getElementById('ciclo-duracion').textContent=dias.length>0?`${dias.length}d`:'—';
-  if(DATA.lastPeriod&&DATA.cycleLen){
-    const last=new Date(DATA.lastPeriod); last.setDate(last.getDate()+DATA.cycleLen);
-    document.getElementById('ciclo-siguiente').textContent=`${last.getDate()}/${last.getMonth()+1}`;
-  } else document.getElementById('ciclo-siguiente').textContent='—';
-}
 
-// ═══ NORA ═══
 function updateNoraInsight(){
-  // For free plan, show locked message
   if(CURRENT_PLAN === 'gratuito'){
     document.getElementById('nora-weekly').innerHTML = '🔒 <span style="color:var(--text-muted)">Los insights de Nora IA están disponibles en el <span style="color:var(--brand);font-weight:600;cursor:pointer" onclick="handleNoraBadge()">plan Pro</span>. Actualiza para descubrir los patrones de tu cuerpo.</span>';
     return;
   }
   const all=Object.keys(DATA.registros).sort(); const name=DATA.userName||'tú';
   let msg='';
-  if(all.length===0) msg=`Bienvenida ${name} 🌸 Empieza a registrar tus datos para que <span class="nora-highlight">Nora</span> pueda detectar los patrones de tu cuerpo.`;
-  else if(all.length<5) msg=`Llevas <span class="nora-highlight">${all.length} días</span> registrando. ¡Sigue así! Con 7 días Nora tendrá tu primer insight personalizado. 💪`;
+  if(all.length===0) msg=`Bienvenida ${name} 🌸 Empieza a registrar para que <span class="nora-highlight">Nora</span> pueda darte insights personalizados.`;
+  else if(all.length<5) msg=`Llevas <span class="nora-highlight">${all.length} días</span> registrando. ¡Sigue así! Con 7 días Nora tendrá tu primer insight. 💪`;
   else{
     const ejCount=all.filter(d=>DATA.registros[d]?.ejercicio).length;
     const azucar=all.filter(d=>DATA.alimentos[d]?.malo?.includes('azucar')).length;
-    if(ejCount/all.length>=.6) msg=`🏋️ <span class="nora-highlight">Patrón detectado:</span> Los días que hiciste ejercicio (${ejCount} de ${all.length}), tu energía fue mayor. El movimiento está regulando tu insulina. ¡Sigue!`;
-    else if(azucar>all.length/2) msg=`🍬 <span class="nora-highlight">Nora observa:</span> Consumiste azúcar en ${azucar} de ${all.length} días. Reducirla puede mejorar tu resistencia a la insulina notablemente.`;
-    else msg=`📊 Llevas <span class="nora-highlight">${all.length} días</span> de seguimiento. Sigue registrando para que Nora pueda darte insights más precisos sobre tus patrones hormonales.`;
+    if(ejCount/all.length>=.6) msg=`🏋️ <span class="nora-highlight">Patrón detectado:</span> Los días que hiciste ejercicio (${ejCount} de ${all.length}), tu energía fue mayor. ¡Sigue!`;
+    else if(azucar>all.length/2) msg=`🍬 <span class="nora-highlight">Nora observa:</span> Consumiste azúcar en ${azucar} de ${all.length} días. Reducirla puede mejorar tu resistencia a la insulina.`;
+    else msg=`📊 Llevas <span class="nora-highlight">${all.length} días</span> de seguimiento. Sigue registrando para insights más precisos.`;
   }
   document.getElementById('nora-weekly').innerHTML=msg;
 }
-
+</script>
+<script>
 // ═══ SUPLEMENTOS ═══
 const SUPLEM_DEF=[
-  {id:'inositol',name:'Mio-inositol',emoji:'🌿',info:'El suplemento más estudiado para SOMP. Mejora resistencia a insulina, restaura ovulación y reduce andrógenos. Dosis: 2–4g/día. Necesita 8–12 semanas.'},
-  {id:'d-chiro',name:'D-Chiro-Inositol',emoji:'🔬',info:'Trabaja junto al mio-inositol para reducir andrógenos. Proporción recomendada con mio-inositol: 40:1.'},
-  {id:'vit-d',name:'Vitamina D',emoji:'☀️',info:'El 85% de mujeres con SOMP tienen deficiencia. Regula el ciclo, mejora sensibilidad a insulina y tiene efecto antiinflamatorio.'},
-  {id:'omega3',name:'Omega 3',emoji:'🐟',info:'Reduce inflamación sistémica, mejora perfil lipídico y síntomas de depresión/ansiedad en SOMP. Mínimo 1–2g EPA+DHA/día.'},
-  {id:'magnesio',name:'Magnesio',emoji:'⚡',info:'Reduce cortisol, mejora sueño y sensibilidad a insulina. Preferir glicinato o citrato de magnesio.'},
-  {id:'zinc',name:'Zinc',emoji:'🛡️',info:'Reduce acné hormonal, vello facial y caída de cabello causados por exceso de andrógenos.'},
-  {id:'berberina',name:'Berberina',emoji:'🌱',info:'Funciona similar a la metformina — reduce glucosa e insulina de forma natural. Eficacia comparable a medicamentos en estudios.'},
-  {id:'curcuma',name:'Cúrcuma',emoji:'🟡',info:'Antiinflamatorio potente. Reduce dolor pélvico, síntomas digestivos e impacto positivo en resistencia a insulina.'},
-  {id:'probioticos',name:'Probióticos',emoji:'🦠',info:'El SOMP afecta el microbioma intestinal. Probióticos ayudan a restaurarlo mejorando metabolismo hormonal.'},
-  {id:'creatina',name:'Creatina',emoji:'💪',info:'Aunque asociada al deporte, la creatina tiene beneficios hormonales para mujeres con SOMP: mejora la energía celular, reduce la fatiga muscular y estudios recientes muestran beneficios cognitivos (reduce brain fog). Dosis: 3–5g/día. Segura para uso a largo plazo.'},
-  {id:'metformina',name:'Metformina (Rx)',emoji:'💊',info:'Medicamento prescrito más común para resistencia a insulina. Requiere receta médica.'},
+  {id:'inositol',name:'Mio-inositol',emoji:'🌿',info:'El suplemento más estudiado para SOMP. Mejora resistencia a insulina, restaura ovulación y reduce andrógenos. Dosis: 2–4g/día.'},
+  {id:'d-chiro',name:'D-Chiro-Inositol',emoji:'🔬',info:'Trabaja junto al mio-inositol para reducir andrógenos. Proporción recomendada: 40:1.'},
+  {id:'vit-d',name:'Vitamina D',emoji:'☀️',info:'El 85% de mujeres con SOMP tienen deficiencia. Regula el ciclo y mejora sensibilidad a insulina.'},
+  {id:'omega3',name:'Omega 3',emoji:'🐟',info:'Reduce inflamación sistémica, mejora perfil lipídico y síntomas de depresión/ansiedad. Mínimo 1–2g EPA+DHA/día.'},
+  {id:'magnesio',name:'Magnesio',emoji:'⚡',info:'Reduce cortisol, mejora sueño y sensibilidad a insulina. Preferir glicinato o citrato.'},
+  {id:'zinc',name:'Zinc',emoji:'🛡️',info:'Reduce acné hormonal, vello facial y caída de cabello causados por andrógenos.'},
+  {id:'berberina',name:'Berberina',emoji:'🌱',info:'Funciona similar a la metformina — reduce glucosa e insulina de forma natural.'},
+  {id:'curcuma',name:'Cúrcuma',emoji:'🟡',info:'Antiinflamatorio potente. Reduce dolor pélvico y síntomas digestivos.'},
+  {id:'probioticos',name:'Probióticos',emoji:'🦠',info:'El SOMP afecta el microbioma intestinal. Los probióticos ayudan a restaurarlo.'},
+  {id:'creatina',name:'Creatina',emoji:'💪',info:'Mejora energía celular, reduce fatiga y brain fog. Dosis: 3–5g/día.'},
+  {id:'metformina',name:'Metformina (Rx)',emoji:'💊',info:'Medicamento prescrito para resistencia a insulina. Requiere receta médica.'},
 ];
 function buildSuplem(){
   const c=document.getElementById('suplem-list'); c.innerHTML='';
   const today=fmtDate(todayDate);
   if(!DATA.suplementos[today]) DATA.suplementos[today]={};
   if(!DATA.customSuplem) DATA.customSuplem=[];
-
-  // Add custom supplement button
   const addDiv=document.createElement('div');
   addDiv.style.cssText='display:flex;gap:.5rem;margin-bottom:.7rem';
-  addDiv.innerHTML=`
-    <input id="suplem-custom-input" placeholder="Agregar suplemento personalizado..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/>
-    <button onclick="addCustomSuplem()" style="background:var(--purple);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
+  addDiv.innerHTML=`<input id="suplem-custom-input" placeholder="Agregar suplemento personalizado..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/><button onclick="addCustomSuplem()" style="background:var(--purple);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
   c.appendChild(addDiv);
-
-  // All supplements: default + custom
-  const allSuplem = [...SUPLEM_DEF, ...DATA.customSuplem.map(name=>({id:'custom-'+name,name,emoji:'💊',info:'Suplemento personalizado. Consulta con tu médico la dosis adecuada.'}))]
+  const allSuplem=[...SUPLEM_DEF,...DATA.customSuplem.map(name=>({id:'custom-'+name,name,emoji:'💊',info:'Suplemento personalizado. Consulta con tu médico la dosis adecuada.'}))];
   allSuplem.forEach(s=>{
     const done=DATA.suplementos[today][s.id]||false;
     const div=document.createElement('div'); div.className='suplem-card';
@@ -1913,14 +1405,10 @@ function buildSuplem(){
 function addCustomSuplem(){
   const inp=document.getElementById('suplem-custom-input');
   const val=inp?.value.trim();
-  if(!val){return;}
+  if(!val) return;
   if(!DATA.customSuplem) DATA.customSuplem=[];
   if(DATA.customSuplem.includes(val)){showToast('⚠️ Ya está en tu lista');return;}
-  DATA.customSuplem.push(val);
-  inp.value='';
-  saveData();
-  buildSuplem();
-  showToast('✅ Suplemento agregado');
+  DATA.customSuplem.push(val); inp.value=''; saveData(); buildSuplem(); showToast('✅ Suplemento agregado');
 }
 function toggleSupplement(id){
   const today=fmtDate(todayDate);
@@ -1960,7 +1448,14 @@ function renderRetoDots(id){
   const c=document.getElementById('dots-'+id); if(!c) return; c.innerHTML='';
   DATA.retos[id].forEach((done,idx)=>{
     const d=document.createElement('div'); d.className='reto-dot'+(done?' done':'');
-    d.onclick=()=>{DATA.retos[id][idx]=!DATA.retos[id][idx]; saveData(); renderRetoDots(id); const dc=DATA.retos[id].filter(Boolean).length; const card=c.closest('.reto-card'); card.querySelector('.reto-days').textContent=`${dc}/21`; card.querySelector('.reto-fill').style.width=Math.round(dc/21*100)+'%'; if(dc===21) showToast('🏆 ¡Reto completado!')};
+    d.onclick=()=>{
+      DATA.retos[id][idx]=!DATA.retos[id][idx]; saveData(); renderRetoDots(id);
+      const dc=DATA.retos[id].filter(Boolean).length;
+      const card=c.closest('.reto-card');
+      card.querySelector('.reto-days').textContent=`${dc}/21`;
+      card.querySelector('.reto-fill').style.width=Math.round(dc/21*100)+'%';
+      if(dc===21) showToast('🏆 ¡Reto completado!');
+    };
     c.appendChild(d);
   });
 }
@@ -1977,174 +1472,106 @@ const PLANS={
     {day:'Domingo',meals:[{t:'Desayuno',f:'Omelette con champiñones y tomate'},{t:'Almuerzo',f:'Pollo al horno con batata y ensalada'},{t:'Merienda',f:'Almendras'},{t:'Cena',f:'Crema de calabaza con semillas'}]},
   ],
   sin_azucar:[
-    {day:'Lunes',meals:[{t:'Desayuno',f:'Huevos revueltos con espinaca y aguacate'},{t:'Almuerzo',f:'Pechuga de pollo con brócoli al vapor y aceite de oliva'},{t:'Merienda',f:'Puñado de nueces y almendras'},{t:'Cena',f:'Salmón con espárragos y limón'}]},
-    {day:'Martes',meals:[{t:'Desayuno',f:'Tortilla de 3 huevos con pimientos y cebolla'},{t:'Almuerzo',f:'Ensalada grande con atún, aceitunas y vegetales'},{t:'Merienda',f:'Apio con mantequilla de almendras natural'},{t:'Cena',f:'Pollo al horno con vegetales mediterráneos'}]},
-    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego sin azúcar con canela y nueces'},{t:'Almuerzo',f:'Carne magra con ensalada de col y zanahoria'},{t:'Merienda',f:'Pepino con hummus casero'},{t:'Cena',f:'Bacalao al horno con brócoli y ajo'}]},
-    {day:'Jueves',meals:[{t:'Desayuno',f:'Batido: espinaca, proteína, leche de almendras sin azúcar'},{t:'Almuerzo',f:'Pavo a la plancha con ensalada verde abundante'},{t:'Merienda',f:'Fresas frescas (sin azúcar añadida)'},{t:'Cena',f:'Sardinas con ensalada de rúcula y tomate cherry'}]},
-    {day:'Viernes',meals:[{t:'Desayuno',f:'Huevos pochados con espinaca y tomate'},{t:'Almuerzo',f:'Pollo a la plancha con coliflor asada'},{t:'Merienda',f:'Queso cottage con pepino'},{t:'Cena',f:'Camarones salteados con zucchini y pimientos'}]},
-    {day:'Sábado',meals:[{t:'Desayuno',f:'Tortilla de espinaca y champiñones'},{t:'Almuerzo',f:'Ensalada de pollo con aguacate, nueces y vinagreta'},{t:'Merienda',f:'Arándanos frescos'},{t:'Cena',f:'Lomo de cerdo magro con vegetales asados'}]},
-    {day:'Domingo',meals:[{t:'Desayuno',f:'Smoothie bowl: berries, semillas de chía, coco rallado sin azúcar'},{t:'Almuerzo',f:'Pollo al limón con ensalada mediterránea'},{t:'Merienda',f:'Mix de nueces y semillas'},{t:'Cena',f:'Salmón con espinacas salteadas con ajo'}]},
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Huevos revueltos con espinaca y aguacate'},{t:'Almuerzo',f:'Pechuga de pollo con brócoli al vapor'},{t:'Merienda',f:'Puñado de nueces y almendras'},{t:'Cena',f:'Salmón con espárragos y limón'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Tortilla de 3 huevos con pimientos'},{t:'Almuerzo',f:'Ensalada grande con atún y aceitunas'},{t:'Merienda',f:'Apio con mantequilla de almendras'},{t:'Cena',f:'Pollo al horno con vegetales mediterráneos'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego sin azúcar con canela y nueces'},{t:'Almuerzo',f:'Carne magra con ensalada de col'},{t:'Merienda',f:'Pepino con hummus casero'},{t:'Cena',f:'Bacalao al horno con brócoli y ajo'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Batido: espinaca, proteína, leche de almendras sin azúcar'},{t:'Almuerzo',f:'Pavo a la plancha con ensalada verde'},{t:'Merienda',f:'Fresas frescas'},{t:'Cena',f:'Sardinas con ensalada de rúcula'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Huevos pochados con espinaca y tomate'},{t:'Almuerzo',f:'Pollo a la plancha con coliflor asada'},{t:'Merienda',f:'Queso cottage con pepino'},{t:'Cena',f:'Camarones salteados con zucchini'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Tortilla de espinaca y champiñones'},{t:'Almuerzo',f:'Ensalada de pollo con aguacate y nueces'},{t:'Merienda',f:'Arándanos frescos'},{t:'Cena',f:'Lomo de cerdo magro con vegetales asados'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de berries con semillas de chía'},{t:'Almuerzo',f:'Pollo al limón con ensalada mediterránea'},{t:'Merienda',f:'Mix de nueces y semillas'},{t:'Cena',f:'Salmón con espinacas salteadas con ajo'}]},
   ],
   bajo_carbohidratos:[
-    {day:'Lunes',meals:[{t:'Desayuno',f:'Aguacate con huevos y tomate cherry'},{t:'Almuerzo',f:'Ensalada César con pollo a la plancha (sin crutones)'},{t:'Merienda',f:'Queso mozzarella con tomate'},{t:'Cena',f:'Carne magra con coliflor salteada'}]},
-    {day:'Martes',meals:[{t:'Desayuno',f:'Batido proteico con espinaca y leche de almendras'},{t:'Almuerzo',f:'Bowl de atún con aguacate, pepino y alga nori'},{t:'Merienda',f:'Nueces macadamia'},{t:'Cena',f:'Pollo a la plancha con brócoli y mantequilla clarificada'}]},
-    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego entero con semillas de girasol'},{t:'Almuerzo',f:'Salmón con espárragos y aceite de oliva'},{t:'Merienda',f:'Apio con queso crema natural'},{t:'Cena',f:'Tortilla francesa con jamón serrano y espinacas'}]},
-    {day:'Jueves',meals:[{t:'Desayuno',f:'Huevos revueltos con bacon y aguacate'},{t:'Almuerzo',f:'Ensalada de pollo con nueces, queso y rúcula'},{t:'Merienda',f:'Palitos de zanahoria con guacamole'},{t:'Cena',f:'Rape al horno con limón y hierbas'}]},
-    {day:'Viernes',meals:[{t:'Desayuno',f:'Omelette de queso brie y champiñones'},{t:'Almuerzo',f:'Ceviche de camarones con aguacate'},{t:'Merienda',f:'Pepinos con tzatziki casero'},{t:'Cena',f:'Chuletas de cerdo con coliflor gratinada'}]},
-    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de almendra (sin harina de trigo) con berries'},{t:'Almuerzo',f:'Pollo Thai con vegetales salteados (sin arroz)'},{t:'Merienda',f:'Mix de nueces y semillas'},{t:'Cena',f:'Bistec con ensalada verde y aceite de oliva'}]},
-    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de yogur griego con frutos secos y canela'},{t:'Almuerzo',f:'Cordero asado con vegetales mediterráneos'},{t:'Merienda',f:'Queso cheddar con pepino'},{t:'Cena',f:'Sopa de pollo con verduras (sin fideos)'}]},
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Aguacate con huevos y tomate cherry'},{t:'Almuerzo',f:'Ensalada César con pollo (sin crutones)'},{t:'Merienda',f:'Queso mozzarella con tomate'},{t:'Cena',f:'Carne magra con coliflor salteada'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Batido proteico con espinaca y leche de almendras'},{t:'Almuerzo',f:'Bowl de atún con aguacate y pepino'},{t:'Merienda',f:'Nueces macadamia'},{t:'Cena',f:'Pollo a la plancha con brócoli'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego entero con semillas'},{t:'Almuerzo',f:'Salmón con espárragos y aceite de oliva'},{t:'Merienda',f:'Apio con queso crema natural'},{t:'Cena',f:'Tortilla francesa con jamón y espinacas'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Huevos revueltos con aguacate'},{t:'Almuerzo',f:'Ensalada de pollo con nueces y rúcula'},{t:'Merienda',f:'Palitos de zanahoria con guacamole'},{t:'Cena',f:'Pescado al horno con limón y hierbas'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Omelette de queso y champiñones'},{t:'Almuerzo',f:'Ceviche de camarones con aguacate'},{t:'Merienda',f:'Pepinos con tzatziki casero'},{t:'Cena',f:'Chuletas de cerdo con coliflor gratinada'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de almendra con berries'},{t:'Almuerzo',f:'Pollo con vegetales salteados'},{t:'Merienda',f:'Mix de nueces y semillas'},{t:'Cena',f:'Bistec con ensalada verde'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de yogur griego con frutos secos'},{t:'Almuerzo',f:'Cordero asado con vegetales'},{t:'Merienda',f:'Queso cheddar con pepino'},{t:'Cena',f:'Sopa de pollo con verduras sin fideos'}]},
   ],
   mediterraneo:[
-    {day:'Lunes',meals:[{t:'Desayuno',f:'Pan integral con aceite de oliva, tomate y orégano'},{t:'Almuerzo',f:'Ensalada griega con feta, aceitunas y vegetales'},{t:'Merienda',f:'Higos frescos con nueces'},{t:'Cena',f:'Pescado blanco con garbanzos y hierbas'}]},
-    {day:'Martes',meals:[{t:'Desayuno',f:'Yogur griego con miel de abeja y nueces'},{t:'Almuerzo',f:'Pasta integral con salsa de tomate casera y atún'},{t:'Merienda',f:'Dátiles y almendras'},{t:'Cena',f:'Pollo al limón con tabbouleh'}]},
-    {day:'Miércoles',meals:[{t:'Desayuno',f:'Tostada con hummus, pepino y zanahoria'},{t:'Almuerzo',f:'Lentejas rojas con cúrcuma y vegetales'},{t:'Merienda',f:'Uvas y queso manchego'},{t:'Cena',f:'Berenjena rellena de carne magra y tomate'}]},
-    {day:'Jueves',meals:[{t:'Desayuno',f:'Batido de frutas con semillas de chía'},{t:'Almuerzo',f:'Arroz con verduras y sardinas en aceite de oliva'},{t:'Merienda',f:'Aceitunas con queso feta'},{t:'Cena',f:'Pulpo a la gallega con patata'}]},
-    {day:'Viernes',meals:[{t:'Desayuno',f:'Shakshuka (huevos en salsa de tomate con especias)'},{t:'Almuerzo',f:'Cuscús con verduras asadas y pollo'},{t:'Merienda',f:'Fruta de temporada'},{t:'Cena',f:'Salmón con ensalada de rúcula y limón'}]},
-    {day:'Sábado',meals:[{t:'Desayuno',f:'Crepes de avena con frutas del bosque'},{t:'Almuerzo',f:'Paella de mariscos con arroz integral'},{t:'Merienda',f:'Hummus con pan pita integral'},{t:'Cena',f:'Brochetas de pollo con vegetales a la parrilla'}]},
-    {day:'Domingo',meals:[{t:'Desayuno',f:'Pan con tomate, jamón serrano y aceite de oliva'},{t:'Almuerzo',f:'Cocido mediterráneo con legumbres y verduras'},{t:'Merienda',f:'Naranja y almendras'},{t:'Cena',f:'Ensalada niçoise con atún fresco'}]},
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Pan integral con aceite de oliva y tomate'},{t:'Almuerzo',f:'Ensalada griega con feta y aceitunas'},{t:'Merienda',f:'Higos frescos con nueces'},{t:'Cena',f:'Pescado blanco con garbanzos y hierbas'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Yogur griego con miel y nueces'},{t:'Almuerzo',f:'Pasta integral con salsa de tomate y atún'},{t:'Merienda',f:'Dátiles y almendras'},{t:'Cena',f:'Pollo al limón con tabbouleh'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Tostada con hummus y zanahoria'},{t:'Almuerzo',f:'Lentejas rojas con cúrcuma y vegetales'},{t:'Merienda',f:'Uvas y queso manchego'},{t:'Cena',f:'Berenjena rellena con carne y tomate'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Batido de frutas con chía'},{t:'Almuerzo',f:'Arroz con verduras y sardinas'},{t:'Merienda',f:'Aceitunas con queso feta'},{t:'Cena',f:'Pulpo a la gallega con patata'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Shakshuka (huevos en salsa de tomate)'},{t:'Almuerzo',f:'Cuscús con verduras asadas y pollo'},{t:'Merienda',f:'Fruta de temporada'},{t:'Cena',f:'Salmón con rúcula y limón'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Crepes de avena con frutas del bosque'},{t:'Almuerzo',f:'Paella de mariscos con arroz integral'},{t:'Merienda',f:'Hummus con pan pita integral'},{t:'Cena',f:'Brochetas de pollo con vegetales'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Pan con tomate, jamón y aceite de oliva'},{t:'Almuerzo',f:'Cocido mediterráneo con legumbres'},{t:'Merienda',f:'Naranja y almendras'},{t:'Cena',f:'Ensalada niçoise con atún fresco'}]},
   ],
   vegano:[
-    {day:'Lunes',meals:[{t:'Desayuno',f:'Tazón de avena con leche de avena, chía y frutas'},{t:'Almuerzo',f:'Bowl de arroz integral, tofu, edamame y aguacate'},{t:'Merienda',f:'Manzana con crema de cacahuate natural'},{t:'Cena',f:'Curry de garbanzos con espinacas y arroz basmati'}]},
-    {day:'Martes',meals:[{t:'Desayuno',f:'Tostadas de aguacate con tomate y semillas de cáñamo'},{t:'Almuerzo',f:'Ensalada de quinoa con garbanzos, pepino y limón'},{t:'Merienda',f:'Batido de plátano, espinaca y leche de almendras'},{t:'Cena',f:'Tacos de frijoles negros con pico de gallo y lechuga'}]},
-    {day:'Miércoles',meals:[{t:'Desayuno',f:'Pancakes de avena y plátano sin huevo'},{t:'Almuerzo',f:'Sopa de lentejas rojas con cúrcuma y jengibre'},{t:'Merienda',f:'Hummus con vegetales crudos'},{t:'Cena',f:'Salteado de tofu con brócoli, pimientos y salsa de soja'}]},
-    {day:'Jueves',meals:[{t:'Desayuno',f:'Yogur de soja con granola sin azúcar y berries'},{t:'Almuerzo',f:'Wrap integral con hummus, rúcula y vegetales asados'},{t:'Merienda',f:'Palomitas de maíz naturales'},{t:'Cena',f:'Pasta integral con pesto de albahaca y tomates cherry'}]},
-    {day:'Viernes',meals:[{t:'Desayuno',f:'Smoothie de mango, espinaca, proteína vegetal'},{t:'Almuerzo',f:'Buddha bowl con quinoa, remolacha y tahini'},{t:'Merienda',f:'Mix de frutos secos y semillas'},{t:'Cena',f:'Berenjenas rellenas de arroz, verduras y especias'}]},
-    {day:'Sábado',meals:[{t:'Desayuno',f:'Tostadas francesas veganas con leche de coco y canela'},{t:'Almuerzo',f:'Hamburguesa de lentejas con ensalada y batata'},{t:'Merienda',f:'Fruta fresca de temporada'},{t:'Cena',f:'Pizza de coliflor con vegetales y queso vegano'}]},
-    {day:'Domingo',meals:[{t:'Desayuno',f:'Tazón açaí con granola, coco rallado y frutas'},{t:'Almuerzo',f:'Lasaña de berenjena y tofu con salsa de tomate'},{t:'Merienda',f:'Dátiles con mantequilla de almendras'},{t:'Cena',f:'Caldo de verduras con fideos y tofu'}]},
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Avena con leche de avena, chía y frutas'},{t:'Almuerzo',f:'Bowl de arroz integral, tofu, edamame y aguacate'},{t:'Merienda',f:'Manzana con crema de cacahuate'},{t:'Cena',f:'Curry de garbanzos con espinacas'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Tostadas de aguacate con semillas de cáñamo'},{t:'Almuerzo',f:'Ensalada de quinoa con garbanzos y limón'},{t:'Merienda',f:'Batido de plátano y espinaca'},{t:'Cena',f:'Tacos de frijoles negros con pico de gallo'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Pancakes de avena y plátano'},{t:'Almuerzo',f:'Sopa de lentejas rojas con cúrcuma'},{t:'Merienda',f:'Hummus con vegetales crudos'},{t:'Cena',f:'Tofu salteado con brócoli y pimientos'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Yogur de soja con granola y berries'},{t:'Almuerzo',f:'Wrap integral con hummus y vegetales asados'},{t:'Merienda',f:'Palomitas de maíz naturales'},{t:'Cena',f:'Pasta integral con pesto de albahaca'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Smoothie de mango y espinaca'},{t:'Almuerzo',f:'Buddha bowl con quinoa y tahini'},{t:'Merienda',f:'Mix de frutos secos'},{t:'Cena',f:'Berenjenas rellenas con arroz y especias'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Tostadas francesas veganas con canela'},{t:'Almuerzo',f:'Hamburguesa de lentejas con batata'},{t:'Merienda',f:'Fruta fresca de temporada'},{t:'Cena',f:'Pizza de coliflor con vegetales'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Tazón açaí con granola y frutas'},{t:'Almuerzo',f:'Lasaña de berenjena y tofu'},{t:'Merienda',f:'Dátiles con mantequilla de almendras'},{t:'Cena',f:'Caldo de verduras con fideos y tofu'}]},
   ],
   fertilidad:[
-    {day:'Lunes',meals:[{t:'Desayuno',f:'Huevos con espinaca y semillas de calabaza (zinc)'},{t:'Almuerzo',f:'Salmón con quinoa y brócoli (omega 3 + folato)'},{t:'Merienda',f:'Nueces y semillas de girasol'},{t:'Cena',f:'Pollo con lentejas y vegetales de hoja verde'}]},
-    {day:'Martes',meals:[{t:'Desayuno',f:'Avena con semillas de chía, berries y miel'},{t:'Almuerzo',f:'Ensalada de espinaca con huevo duro, aguacate y salmón ahumado'},{t:'Merienda',f:'Batido de granada y berries (antioxidantes)'},{t:'Cena',f:'Sardinas con batata al horno y ensalada verde'}]},
-    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego con nueces, semillas de lino y frutas del bosque'},{t:'Almuerzo',f:'Lentejas con zanahoria, cúrcuma y jengibre'},{t:'Merienda',f:'Higos frescos con almendras'},{t:'Cena',f:'Bacalao al vapor con espárragos y aceite de oliva'}]},
-    {day:'Jueves',meals:[{t:'Desayuno',f:'Tostada integral con aguacate, huevo y semillas de cáñamo'},{t:'Almuerzo',f:'Bowl de arroz integral con edamame y tofu (fitoestrógenos)'},{t:'Merienda',f:'Smoothie: espinaca, plátano, leche de almendras'},{t:'Cena',f:'Pollo al horno con alcachofas y limón'}]},
-    {day:'Viernes',meals:[{t:'Desayuno',f:'Omelette de espinaca con tomate y queso feta'},{t:'Almuerzo',f:'Caballa al horno con ensalada de remolacha (hierro + omega 3)'},{t:'Merienda',f:'Dátiles con mantequilla de almendras'},{t:'Cena',f:'Caldo de huesos con vegetales (colágeno + minerales)'}]},
-    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de avena con frutos rojos y semillas de chía'},{t:'Almuerzo',f:'Pavo con quinoa y espinacas (vitamina B y zinc)'},{t:'Merienda',f:'Granada con nueces'},{t:'Cena',f:'Salmón con espárragos y limón'}]},
-    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de semillas: chía, girasol, calabaza con yogur y berries'},{t:'Almuerzo',f:'Cordero magro con verduras asadas (hierro hemo)'},{t:'Merienda',f:'Té verde con almendras'},{t:'Cena',f:'Sopa de miso con tofu y algas (minerales y fitoestrógenos)'}]},
+    {day:'Lunes',meals:[{t:'Desayuno',f:'Huevos con espinaca y semillas de calabaza (zinc)'},{t:'Almuerzo',f:'Salmón con quinoa y brócoli (omega 3 + folato)'},{t:'Merienda',f:'Nueces y semillas de girasol'},{t:'Cena',f:'Pollo con lentejas y hojas verdes'}]},
+    {day:'Martes',meals:[{t:'Desayuno',f:'Avena con chía, berries y miel'},{t:'Almuerzo',f:'Ensalada de espinaca con huevo y salmón ahumado'},{t:'Merienda',f:'Batido de granada y berries'},{t:'Cena',f:'Sardinas con batata y ensalada verde'}]},
+    {day:'Miércoles',meals:[{t:'Desayuno',f:'Yogur griego con nueces y linaza'},{t:'Almuerzo',f:'Lentejas con zanahoria y cúrcuma'},{t:'Merienda',f:'Higos frescos con almendras'},{t:'Cena',f:'Bacalao al vapor con espárragos'}]},
+    {day:'Jueves',meals:[{t:'Desayuno',f:'Tostada integral con aguacate y semillas de cáñamo'},{t:'Almuerzo',f:'Bowl de arroz con edamame y tofu'},{t:'Merienda',f:'Smoothie de espinaca y plátano'},{t:'Cena',f:'Pollo al horno con alcachofas'}]},
+    {day:'Viernes',meals:[{t:'Desayuno',f:'Omelette de espinaca con queso feta'},{t:'Almuerzo',f:'Caballa al horno con remolacha (hierro + omega 3)'},{t:'Merienda',f:'Dátiles con mantequilla de almendras'},{t:'Cena',f:'Caldo de huesos con vegetales'}]},
+    {day:'Sábado',meals:[{t:'Desayuno',f:'Pancakes de avena con frutos rojos y chía'},{t:'Almuerzo',f:'Pavo con quinoa y espinacas'},{t:'Merienda',f:'Granada con nueces'},{t:'Cena',f:'Salmón con espárragos y limón'}]},
+    {day:'Domingo',meals:[{t:'Desayuno',f:'Bowl de semillas con yogur y berries'},{t:'Almuerzo',f:'Cordero magro con verduras asadas (hierro hemo)'},{t:'Merienda',f:'Té verde con almendras'},{t:'Cena',f:'Sopa de miso con tofu y algas'}]},
   ]
 };
-// Keep leve as alias
 PLANS.leve = PLANS.antiinflamatorio;
 
 let currentNutritionPlan = 'antiinflamatorio';
-
 const PLAN_DESCRIPTIONS = {
-  antiinflamatorio: { name:'🌿 Antiinflamatorio', desc:'Reduce inflamación sistémica. Ideal para SOMP activo.' },
-  sin_azucar: { name:'🚫 Sin azúcar', desc:'Elimina azúcares procesadas. Mejora resistencia a insulina.' },
-  bajo_carbohidratos: { name:'⚡ Bajo en carbos', desc:'Reduce carbohidratos. Regula glucosa e insulina rápidamente.' },
-  mediterraneo: { name:'🫒 Mediterráneo', desc:'Equilibrado y sostenible. Antiinflamatorio a largo plazo.' },
-  vegano: { name:'🌱 Vegano', desc:'Plant-based. Rico en fitoestrógenos que regulan hormonas.' },
-  fertilidad: { name:'🥚 Fertilidad', desc:'Nutrientes clave para la salud reproductiva y hormonal.' }
+  antiinflamatorio:{name:'🌿 Antiinflamatorio',desc:'Reduce inflamación sistémica. Ideal para SOMP activo.'},
+  sin_azucar:{name:'🚫 Sin azúcar',desc:'Elimina azúcares procesadas. Mejora resistencia a insulina.'},
+  bajo_carbohidratos:{name:'⚡ Bajo en carbos',desc:'Reduce carbohidratos. Regula glucosa e insulina rápidamente.'},
+  mediterraneo:{name:'🫒 Mediterráneo',desc:'Equilibrado y sostenible. Antiinflamatorio a largo plazo.'},
+  vegano:{name:'🌱 Vegano',desc:'Plant-based. Rico en fitoestrógenos que regulan hormonas.'},
+  fertilidad:{name:'🥚 Fertilidad',desc:'Nutrientes clave para la salud reproductiva y hormonal.'}
 };
-
 function buildWeeklyPlan(){
   const c=document.getElementById('weekly-plan-container'); if(!c) return;
-  
-  // Build plan selector
-  const selectorHtml = `
-    <div style="margin-bottom:1rem">
-      <div style="font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.5rem">Elige tu plan esta semana</div>
-      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">
-        ${Object.entries(PLAN_DESCRIPTIONS).map(([k,v])=>`
-          <button onclick="selectNutritionPlan('${k}')" id="plan-btn-${k}"
-            style="padding:.4rem .8rem;border-radius:50px;font-size:.72rem;font-weight:600;cursor:pointer;border:1.5px solid;transition:all .2s;font-family:'DM Sans',sans-serif;${k===currentNutritionPlan?'background:var(--brand);color:white;border-color:var(--brand)':'background:var(--surface2);color:var(--text-muted);border-color:transparent'}">
-            ${v.name}
-          </button>`).join('')}
-      </div>
-    </div>`;
-  
-  const planInfo = PLAN_DESCRIPTIONS[currentNutritionPlan];
+  const selectorHtml=`<div style="margin-bottom:1rem"><div style="font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.5rem">Elige tu plan esta semana</div><div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">${Object.entries(PLAN_DESCRIPTIONS).map(([k,v])=>`<button onclick="selectNutritionPlan('${k}')" id="plan-btn-${k}" style="padding:.4rem .8rem;border-radius:50px;font-size:.72rem;font-weight:600;cursor:pointer;border:1.5px solid;transition:all .2s;font-family:'DM Sans',sans-serif;${k===currentNutritionPlan?'background:var(--brand);color:white;border-color:var(--brand)':'background:var(--surface2);color:var(--text-muted);border-color:transparent'}">${v.name}</button>`).join('')}</div></div>`;
+  const planInfo=PLAN_DESCRIPTIONS[currentNutritionPlan];
   document.getElementById('nora-food-insight').innerHTML=`<strong>${planInfo.name}</strong> — ${planInfo.desc} 🌸`;
-  
-  c.innerHTML = selectorHtml;
-  const plan = PLANS[currentNutritionPlan] || PLANS.antiinflamatorio;
+  c.innerHTML=selectorHtml;
+  const plan=PLANS[currentNutritionPlan]||PLANS.antiinflamatorio;
   plan.forEach(p=>{
     const div=document.createElement('div'); div.className='week-day-card';
     div.innerHTML=`<div class="week-day-title">📅 ${p.day}</div>${p.meals.map(m=>`<div class="meal-row"><div class="meal-type">${m.t}</div><div class="meal-food">${m.f}</div></div>`).join('')}`;
     c.appendChild(div);
   });
 }
-
-function selectNutritionPlan(planKey){
-  currentNutritionPlan = planKey;
-  buildWeeklyPlan();
-}
+function selectNutritionPlan(planKey){ currentNutritionPlan=planKey; buildWeeklyPlan(); }
 
 // ═══ SHOPPING LIST ═══
-// Shopping items now dynamic based on cart
-if(!DATA.shopCart) DATA.shopCart = {};
-
-const SHOP_FOODS_ALL = [
-  '🥬 Espinaca / kale','🥑 Aguacate','🫐 Berries (blueberries/fresas)',
-  '🥚 Huevos (1 docena)','🍗 Pechuga de pollo (1kg)','🐟 Salmón o atún fresco',
-  '🫘 Lentejas o garbanzos','🌾 Avena integral','🍠 Batata / camote',
-  '🥦 Brócoli','🥕 Zanahoria','🫒 Aceite de oliva extra virgen',
-  '🍋 Limones','🌻 Semillas de chía / linaza','🥜 Almendras o nueces',
-  '🧄 Ajo','🧅 Cebolla','🍅 Tomates cherry','🥒 Pepinos','🫑 Pimientos',
-  '🍌 Plátanos','🍎 Manzanas','🫚 Aceite de coco','🥛 Leche de almendras',
-  '🧀 Queso feta','🫙 Hummus','🌿 Cúrcuma / jengibre','🥩 Carne magra',
-  '🍤 Camarones','🥜 Mantequilla de almendras','🫐 Arándanos secos',
-];
-const SHOP_FOODS = SHOP_FOODS_ALL;
+if(!DATA.shopCart) DATA.shopCart={};
+const SHOP_FOODS_ALL=['🥬 Espinaca / kale','🥑 Aguacate','🫐 Berries (blueberries/fresas)','🥚 Huevos (1 docena)','🍗 Pechuga de pollo (1kg)','🐟 Salmón o atún fresco','🫘 Lentejas o garbanzos','🌾 Avena integral','🍠 Batata / camote','🥦 Brócoli','🥕 Zanahoria','🫒 Aceite de oliva extra virgen','🍋 Limones','🌻 Semillas de chía / linaza','🥜 Almendras o nueces','🧄 Ajo','🧅 Cebolla','🍅 Tomates cherry','🥒 Pepinos','🫑 Pimientos','🍌 Plátanos','🍎 Manzanas','🫚 Aceite de coco','🥛 Leche de almendras','🧀 Queso feta','🫙 Hummus','🌿 Cúrcuma / jengibre','🥩 Carne magra','🥜 Mantequilla de almendras'];
 const SHOP_SUPLEM=['🌿 Mio-inositol (4g/día)','☀️ Vitamina D3 (2000 UI)','🐟 Omega 3 (1g EPA+DHA)','⚡ Magnesio glicinato (300mg)','🛡️ Zinc (15-25mg)','🌱 Berberina (500mg) — consultar médico'];
-
-const BUDGETS={
-  DO:{name:'República Dominicana',currency:'RD$',foods:2800,suplem:3500,total:6300},
-  MX:{name:'México',currency:'MX$',foods:900,suplem:1200,total:2100},
-  CO:{name:'Colombia',currency:'COP$',foods:120000,suplem:180000,total:300000},
-  AR:{name:'Argentina',currency:'AR$',foods:15000,suplem:22000,total:37000},
-  ES:{name:'España',currency:'€',foods:65,suplem:55,total:120},
-  PE:{name:'Perú',currency:'S/',foods:180,suplem:220,total:400},
-  CL:{name:'Chile',currency:'CLP$',foods:32000,suplem:45000,total:77000},
-  default:{name:'tu país',currency:'$',foods:80,suplem:70,total:150},
-};
-
-let customShopItem = '';
+const BUDGETS={DO:{name:'República Dominicana',currency:'RD$',foods:2800,suplem:3500},MX:{name:'México',currency:'MX$',foods:900,suplem:1200},CO:{name:'Colombia',currency:'COP$',foods:120000,suplem:180000},AR:{name:'Argentina',currency:'AR$',foods:15000,suplem:22000},ES:{name:'España',currency:'€',foods:65,suplem:55},PE:{name:'Perú',currency:'S/',foods:180,suplem:220},CL:{name:'Chile',currency:'CLP$',foods:32000,suplem:45000},default:{name:'tu país',currency:'$',foods:80,suplem:70}};
 
 function buildShoppingList(){
   const sf=document.getElementById('shop-alimentos'); sf.innerHTML='';
   const ss=document.getElementById('shop-suplementos'); ss.innerHTML='';
   if(!DATA.shopCart) DATA.shopCart={};
   if(!DATA.shopCustom) DATA.shopCustom=[];
-
-  // Add custom item UI
   const addDiv=document.createElement('div');
   addDiv.style.cssText='display:flex;gap:.5rem;margin-bottom:.7rem';
-  addDiv.innerHTML=`
-    <input id="shop-custom-input" placeholder="Agregar alimento..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/>
-    <button onclick="addCustomShopItem()" style="background:var(--brand);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap">+ Agregar</button>`;
+  addDiv.innerHTML=`<input id="shop-custom-input" placeholder="Agregar alimento..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/><button onclick="addCustomShopItem()" style="background:var(--brand);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
   sf.appendChild(addDiv);
-
-  // All items (default + custom)
-  const allFoods = [...SHOP_FOODS_ALL, ...DATA.shopCustom];
+  const allFoods=[...SHOP_FOODS_ALL,...(DATA.shopCustom||[])];
   allFoods.forEach((item,i)=>{
-    const key='food-'+i;
-    const inCart=DATA.shopCart[key]||false;
-    const bought=DATA.shopBought[key]||false;
+    const key='food-'+i; const inCart=DATA.shopCart[key]||false; const bought=DATA.shopBought[key]||false;
     const div=document.createElement('div');
     div.style.cssText=`display:flex;align-items:center;gap:8px;padding:.45rem .6rem;border-radius:var(--r-sm);background:${inCart?(bought?'var(--success-pale)':'var(--brand-pale)'):'var(--bg2)'};margin-bottom:.3rem;font-size:.78rem;border:1.5px solid ${inCart?(bought?'var(--success)':'var(--brand)'):'transparent'};transition:all .15s`;
-    div.innerHTML=`
-      <div onclick="toggleCart('${key}')" style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${inCart?'var(--brand)':'rgba(180,130,200,.4)'};background:${inCart?'var(--brand)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;cursor:pointer">${inCart?'✓':''}</div>
-      <span style="${bought?'text-decoration:line-through;opacity:.6':''};flex:1;cursor:pointer" onclick="toggleCart('${key}')">${item}</span>
-      ${inCart?`<div onclick="toggleBought('${key}')" style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${bought?'var(--success)':'rgba(76,175,133,.4)'};background:${bought?'var(--success)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;cursor:pointer">${bought?'✓':''}</div>`:''}`;
+    div.innerHTML=`<div onclick="toggleCart('${key}')" style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${inCart?'var(--brand)':'rgba(180,130,200,.4)'};background:${inCart?'var(--brand)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;cursor:pointer">${inCart?'✓':''}</div><span style="${bought?'text-decoration:line-through;opacity:.6':''};flex:1;cursor:pointer" onclick="toggleCart('${key}')">${item}</span>${inCart?`<div onclick="toggleBought('${key}')" style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${bought?'var(--success)':'rgba(76,175,133,.4)'};background:${bought?'var(--success)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;cursor:pointer">${bought?'✓':''}</div>`:''}`;
     sf.appendChild(div);
   });
-
-  // Cart legend
-  const legend = document.createElement('div');
-  legend.innerHTML='<div style="font-size:.65rem;color:var(--text-muted);margin-top:.5rem">✓ = en mi lista &nbsp; ✓✓ = ya compré</div>';
-  sf.appendChild(legend);
-
-  // Add custom supplement input to shopping list
   const addSuplDiv=document.createElement('div');
   addSuplDiv.style.cssText='display:flex;gap:.5rem;margin-bottom:.7rem';
-  addSuplDiv.innerHTML=`
-    <input id="shop-suplem-input" placeholder="Agregar suplemento..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/>
-    <button onclick="addShopSuplem()" style="background:var(--purple);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
+  addSuplDiv.innerHTML=`<input id="shop-suplem-input" placeholder="Agregar suplemento..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/><button onclick="addShopSuplem()" style="background:var(--purple);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
   ss.appendChild(addSuplDiv);
-
   if(!DATA.shopCustomSuplem) DATA.shopCustomSuplem=[];
   const allSuplem=[...SHOP_SUPLEM,...DATA.shopCustomSuplem];
-
   allSuplem.forEach((item,i)=>{
     const key='suplem-'+i; const bought=DATA.shopBought[key]||false;
     const div=document.createElement('div'); div.className='shop-item'+(bought?' bought':'');
@@ -2152,284 +1579,107 @@ function buildShoppingList(){
     div.onclick=()=>{DATA.shopBought[key]=!DATA.shopBought[key]; saveData(); buildShoppingList()};
     ss.appendChild(div);
   });
-
-  // Budget based on cart selection
-  const cartCount = Object.values(DATA.shopCart).filter(Boolean).length;
+  const cartCount=Object.values(DATA.shopCart).filter(Boolean).length;
   const budget=BUDGETS[DATA.country]||BUDGETS.default;
-  const estimatedFoods = cartCount > 0 ? Math.round((budget.foods / SHOP_FOODS_ALL.length) * cartCount) : 0;
+  const estimatedFoods=cartCount>0?Math.round((budget.foods/SHOP_FOODS_ALL.length)*cartCount):0;
   document.getElementById('budget-country').textContent=budget.name;
-  const br=document.getElementById('budget-rows');
-  br.innerHTML=`
-    <div class="budget-row"><span>🛒 Artículos seleccionados</span><span class="budget-amt">${cartCount} items</span></div>
-    <div class="budget-row"><span>🥦 Estimado alimentos seleccionados</span><span class="budget-amt">${cartCount>0?budget.currency+estimatedFoods.toLocaleString():'Selecciona items'}</span></div>
-    <div class="budget-row"><span>💊 Suplementos (mes)</span><span class="budget-amt">${budget.currency}${budget.suplem.toLocaleString()}</span></div>
-    <div class="budget-row"><span>💰 Total estimado</span><span class="budget-amt">${cartCount>0?budget.currency+(estimatedFoods+Math.round(budget.suplem/4)).toLocaleString():'—'}</span></div>
-    <div style="font-size:.68rem;color:var(--text-muted);margin-top:.4rem">Selecciona los artículos que necesitas comprar para ver el presupuesto.</div>`;
+  document.getElementById('budget-rows').innerHTML=`<div class="budget-row"><span>🛒 Artículos seleccionados</span><span class="budget-amt">${cartCount} items</span></div><div class="budget-row"><span>🥦 Estimado alimentos</span><span class="budget-amt">${cartCount>0?budget.currency+estimatedFoods.toLocaleString():'Selecciona items'}</span></div><div class="budget-row"><span>💊 Suplementos (mes)</span><span class="budget-amt">${budget.currency}${budget.suplem.toLocaleString()}</span></div><div style="font-size:.68rem;color:var(--text-muted);margin-top:.4rem">Selecciona los artículos que necesitas para ver el presupuesto.</div>`;
 }
-
-function addShopSuplem(){
-  const inp=document.getElementById('shop-suplem-input');
-  const val=inp?.value.trim();
-  if(!val) return;
-  if(!DATA.shopCustomSuplem) DATA.shopCustomSuplem=[];
-  DATA.shopCustomSuplem.push('💊 '+val);
-  inp.value='';
-  saveData(); buildShoppingList();
-  showToast('✅ Suplemento agregado a la lista');
-}
-function toggleCart(key){
-  if(!DATA.shopCart) DATA.shopCart={};
-  DATA.shopCart[key]=!DATA.shopCart[key];
-  if(!DATA.shopCart[key]) delete DATA.shopBought[key];
-  saveData(); buildShoppingList();
-}
-function toggleBought(key){
-  DATA.shopBought[key]=!DATA.shopBought[key];
-  saveData(); buildShoppingList();
-}
-function addCustomShopItem(){
-  const inp = document.getElementById('shop-custom-input');
-  const val = inp?.value.trim();
-  if(!val) return;
-  if(!DATA.shopCustom) DATA.shopCustom=[];
-  DATA.shopCustom.push('✏️ '+val);
-  inp.value='';
-  saveData(); buildShoppingList();
-}
+function toggleCart(key){if(!DATA.shopCart) DATA.shopCart={}; DATA.shopCart[key]=!DATA.shopCart[key]; if(!DATA.shopCart[key]) delete DATA.shopBought[key]; saveData(); buildShoppingList();}
+function toggleBought(key){DATA.shopBought[key]=!DATA.shopBought[key]; saveData(); buildShoppingList();}
+function addCustomShopItem(){const inp=document.getElementById('shop-custom-input');const val=inp?.value.trim();if(!val) return;if(!DATA.shopCustom) DATA.shopCustom=[];DATA.shopCustom.push('✏️ '+val);inp.value='';saveData();buildShoppingList();}
+function addShopSuplem(){const inp=document.getElementById('shop-suplem-input');const val=inp?.value.trim();if(!val) return;if(!DATA.shopCustomSuplem) DATA.shopCustomSuplem=[];DATA.shopCustomSuplem.push('💊 '+val);inp.value='';saveData();buildShoppingList();showToast('✅ Suplemento agregado');}
 
 // ═══ MEDICAL ═══
-const MEDICAL_DEF=[
-  {type:'papanicolau',name:'Papanicolaou',freq:'anual',icon:'🔬'},
-  {type:'ecografia',name:'Ecografía ovárica',freq:'anual',icon:'📷'},
-  {type:'glucosa',name:'Glucosa en ayunas',freq:'semestral',icon:'🩸'},
-  {type:'hormonas',name:'Panel hormonal',freq:'anual',icon:'⚗️'},
-  {type:'tiroides',name:'Tiroides (TSH)',freq:'anual',icon:'🦋'},
-  {type:'lipidos',name:'Perfil lipídico',freq:'anual',icon:'❤️'},
-  {type:'vitaminas',name:'Vitaminas D y B12',freq:'semestral',icon:'💊'},
-];
+const MEDICAL_DEF=[{type:'papanicolau',name:'Papanicolaou',freq:'anual',icon:'🔬'},{type:'ecografia',name:'Ecografía ovárica',freq:'anual',icon:'📷'},{type:'glucosa',name:'Glucosa en ayunas',freq:'semestral',icon:'🩸'},{type:'hormonas',name:'Panel hormonal',freq:'anual',icon:'⚗️'},{type:'tiroides',name:'Tiroides (TSH)',freq:'anual',icon:'🦋'},{type:'lipidos',name:'Perfil lipídico',freq:'anual',icon:'❤️'},{type:'vitaminas',name:'Vitaminas D y B12',freq:'semestral',icon:'💊'}];
 function buildMedicalList(){
   const c=document.getElementById('medical-list'); c.innerHTML='';
-  // Default recommendations if no custom ones
   if(DATA.chequeos.length===0){
-    const recHeader=document.createElement('div');
-    recHeader.innerHTML=`<div style="font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--medical);margin-bottom:.5rem">✅ Chequeos recomendados para SOMP</div>`;
-    c.appendChild(recHeader);
-    MEDICAL_DEF.forEach(m=>{
-      const div=document.createElement('div'); div.className='medical-item';
-      div.innerHTML=`<div class="medical-dot" style="background:var(--medical)"></div><div><div class="medical-name">${m.icon} ${m.name}</div><div class="medical-date">Frecuencia: ${m.freq}</div></div><span class="medical-status pending">Pendiente</span>`;
-      c.appendChild(div);
-    });
+    const h=document.createElement('div');
+    h.innerHTML=`<div style="font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--medical);margin-bottom:.5rem">✅ Chequeos recomendados para SOMP</div>`;
+    c.appendChild(h);
+    MEDICAL_DEF.forEach(m=>{const div=document.createElement('div');div.className='medical-item';div.innerHTML=`<div class="medical-dot" style="background:var(--medical)"></div><div><div class="medical-name">${m.icon} ${m.name}</div><div class="medical-date">Frecuencia: ${m.freq}</div></div><span class="medical-status pending">Pendiente</span>`;c.appendChild(div);});
   }
-  DATA.chequeos.forEach((ch,i)=>{
+  DATA.chequeos.forEach((ch)=>{
     const div=document.createElement('div'); div.className='medical-item';
-    const statusClass={done:'ok',pending:'pending',soon:'soon'}[ch.status]||'pending';
-    const statusTxt={done:'Realizado',pending:'Pendiente',soon:'Próximo a vencer'}[ch.status]||'Pendiente';
-    div.innerHTML=`<div class="medical-dot" style="background:${ch.status==='done'?'var(--success)':ch.status==='soon'?'var(--food)':'var(--brand)'}"></div><div style="flex:1"><div class="medical-name">🩺 ${ch.name}</div><div class="medical-date">${ch.date||'Sin fecha'}${ch.notes?' · '+ch.notes:''}</div></div><span class="medical-status ${statusClass}">${statusTxt}</span>`;
+    const sc={done:'ok',pending:'pending',soon:'soon'}[ch.status]||'pending';
+    const st={done:'Realizado',pending:'Pendiente',soon:'Próximo a vencer'}[ch.status]||'Pendiente';
+    div.innerHTML=`<div class="medical-dot" style="background:${ch.status==='done'?'var(--success)':ch.status==='soon'?'var(--food)':'var(--brand)'}"></div><div style="flex:1"><div class="medical-name">🩺 ${ch.name}</div><div class="medical-date">${ch.date||'Sin fecha'}${ch.notes?' · '+ch.notes:''}</div></div><span class="medical-status ${sc}">${st}</span>`;
     c.appendChild(div);
   });
 }
-
 function generarReporte(){
-  if(CURRENT_PLAN==='gratuito'){
-    mostrarUpgrade('reportes');
-    return;
-  }
+  if(CURRENT_PLAN==='gratuito'){mostrarUpgrade('reportes');return;}
   const name=DATA.userName||'Paciente';
   const today=new Date().toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
   const registros=Object.entries(DATA.registros).sort(([a],[b])=>a.localeCompare(b));
-  const totalDias=registros.length;
-  const diasEjercicio=registros.filter(([,r])=>r?.ejercicio).length;
+  const totalDias=registros.length; const diasEjercicio=registros.filter(([,r])=>r?.ejercicio).length;
   const topSintomas={};
   registros.forEach(([,r])=>{r?.sintomas?.forEach(s=>{topSintomas[s]=(topSintomas[s]||0)+1;});});
   const top3=Object.entries(topSintomas).sort(([,a],[,b])=>b-a).slice(0,3);
-  const periodoDias=Object.keys(DATA.periodo).length;
-
-  const reporteHTML=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
-  <title>Reporte Ovárica — ${name}</title>
-  <style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#2D1A35;line-height:1.6}
-  h1{color:#C9517A;border-bottom:2px solid #C9517A;padding-bottom:.5rem}
-  h2{color:#9B6DB5;margin-top:1.5rem}
-  .stat{display:inline-block;background:#FDF6F9;border:1px solid #E8A0B4;border-radius:8px;padding:8px 16px;margin:4px;font-size:.9rem}
-  .badge{background:#FCE8EF;color:#C9517A;border-radius:4px;padding:2px 8px;font-size:.8rem;margin:2px}
-  table{width:100%;border-collapse:collapse;margin-top:.5rem}
-  th{background:#F0E5F8;padding:8px;text-align:left;font-size:.8rem}
-  td{padding:6px 8px;border-bottom:1px solid #F0E5F8;font-size:.78rem}
-  .footer{margin-top:2rem;font-size:.75rem;color:#9B7DAB;border-top:1px solid #E8A0B4;padding-top:1rem}</style></head>
-  <body>
-  <h1>🌸 Reporte de Salud Hormonal — Ovárica</h1>
-  <p><strong>Paciente:</strong> ${name}<br/>
-  <strong>Email:</strong> ${DATA.email||'—'}<br/>
-  <strong>Fecha del reporte:</strong> ${today}<br/>
-  <strong>País:</strong> ${DATA.country||'—'} &nbsp;|&nbsp; <strong>Edad:</strong> ${DATA.age||'—'} años</p>
-
-  <h2>📋 Diagnóstico y objetivos</h2>
-  <p><strong>Situación:</strong> ${DATA.diagnostico||'No indicado'}<br/>
-  <strong>Objetivo principal:</strong> ${DATA.objetivo||'No indicado'}<br/>
-  <strong>Alimentación:</strong> ${DATA.diet||'No indicado'}</p>
-
-  <h2>📊 Resumen de seguimiento (${totalDias} días)</h2>
-  <div>
-    <span class="stat">📅 Días registrados: <strong>${totalDias}</strong></span>
-    <span class="stat">🏋️ Días con ejercicio: <strong>${diasEjercicio}</strong> (${totalDias>0?Math.round(diasEjercicio/totalDias*100):0}%)</span>
-    <span class="stat">🩸 Días de periodo: <strong>${periodoDias}</strong></span>
-    <span class="stat">💊 Ciclo estimado: <strong>${DATA.cycleLen||28} días</strong></span>
-  </div>
-
-  <h2>🔴 Síntomas más frecuentes</h2>
-  ${top3.length>0?`<table><tr><th>Síntoma</th><th>Frecuencia</th><th>% de días</th></tr>${top3.map(([s,n])=>`<tr><td>${s.replace(/-/g,' ')}</td><td>${n} días</td><td>${Math.round(n/totalDias*100)}%</td></tr>`).join('')}</table>`:'<p>Sin síntomas registrados</p>'}
-
-  <h2>🩺 Chequeos médicos</h2>
-  ${DATA.chequeos.length>0?`<table><tr><th>Chequeo</th><th>Fecha</th><th>Estado</th><th>Notas</th></tr>${DATA.chequeos.map(c=>`<tr><td>${c.name}</td><td>${c.date||'—'}</td><td>${c.status||'—'}</td><td>${c.notes||'—'}</td></tr>`).join('')}</table>`:'<p>Sin chequeos registrados</p>'}
-
-  <h2>🩸 Historial del ciclo</h2>
-  <p><strong>Último periodo:</strong> ${DATA.lastPeriod||'No registrado'}<br/>
-  <strong>Duración del ciclo:</strong> ${DATA.cycleLen||28} días<br/>
-  <strong>Días de sangrado:</strong> ${DATA.periodLen||5} días<br/>
-  <strong>Tipo de ciclo:</strong> ${DATA.cycleType||'No indicado'}<br/>
-  <strong>Flujo habitual:</strong> ${DATA.flow||'No indicado'}<br/>
-  <strong>Nivel de dolor:</strong> ${DATA.pain||'No indicado'}</p>
-
-  <div class="footer">
-  <p>📱 Reporte generado por <strong>Ovárica</strong> — ovarica.site<br/>
-  ⚠️ <em>Este reporte es un resumen del autoregistro de la paciente y no sustituye el diagnóstico médico. Los datos son reportados por la propia paciente.</em></p>
-  </div></body></html>`;
-
-  const blob=new Blob([reporteHTML],{type:'text/html'});
+  const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><title>Reporte Ovárica — ${name}</title><style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#2D1A35;line-height:1.6}h1{color:#C9517A;border-bottom:2px solid #C9517A;padding-bottom:.5rem}h2{color:#9B6DB5;margin-top:1.5rem}.stat{display:inline-block;background:#FDF6F9;border:1px solid #E8A0B4;border-radius:8px;padding:8px 16px;margin:4px}table{width:100%;border-collapse:collapse;margin-top:.5rem}th{background:#F0E5F8;padding:8px;text-align:left;font-size:.8rem}td{padding:6px 8px;border-bottom:1px solid #F0E5F8;font-size:.78rem}.footer{margin-top:2rem;font-size:.75rem;color:#9B7DAB;border-top:1px solid #E8A0B4;padding-top:1rem}</style></head><body><h1>🌸 Reporte de Salud Hormonal — Ovárica</h1><p><strong>Paciente:</strong> ${name}<br/><strong>Fecha:</strong> ${today}</p><h2>📊 Resumen (${totalDias} días)</h2><div><span class="stat">📅 Días registrados: <strong>${totalDias}</strong></span><span class="stat">🏋️ Días con ejercicio: <strong>${diasEjercicio}</strong></span><span class="stat">🩸 Días de periodo: <strong>${Object.keys(DATA.periodo).length}</strong></span></div><h2>🔴 Síntomas más frecuentes</h2>${top3.length>0?`<table><tr><th>Síntoma</th><th>Frecuencia</th></tr>${top3.map(([s,n])=>`<tr><td>${s.replace(/-/g,' ')}</td><td>${n} días</td></tr>`).join('')}</table>`:'<p>Sin síntomas registrados</p>'}<h2>🩺 Chequeos médicos</h2>${DATA.chequeos.length>0?`<table><tr><th>Chequeo</th><th>Fecha</th><th>Estado</th></tr>${DATA.chequeos.map(c=>`<tr><td>${c.name}</td><td>${c.date||'—'}</td><td>${c.status||'—'}</td></tr>`).join('')}</table>`:'<p>Sin chequeos registrados</p>'}<div class="footer"><p>📱 Reporte generado por <strong>Ovárica</strong> — ovarica.site<br/>⚠️ <em>Este reporte es un resumen del autoregistro y no sustituye el diagnóstico médico.</em></p></div></body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  a.download=`Reporte_Avarica_${name.replace(/\s+/g,'_')}_${today.replace(/\s/g,'_')}.html`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('📄 Reporte descargado');
+  const a=document.createElement('a'); a.href=url; a.download=`Reporte_Ovarica_${name.replace(/\s+/g,'_')}.html`; a.click();
+  URL.revokeObjectURL(url); showToast('📄 Reporte descargado');
 }
-
 function openAddMedical(){document.getElementById('medical-modal').classList.add('open')}
 function closeMedicalModal(e){if(e.target===document.getElementById('medical-modal')) document.getElementById('medical-modal').classList.remove('open')}
 function saveMedical(){
   const type=document.getElementById('med-type').value;
   const custom=document.getElementById('med-name-custom').value.trim();
-  const names={papanicolau:'Papanicolaou',ecografia:'Ecografía ovárica',glucosa:'Glucosa en ayunas',insulina:'Insulina basal',lipidos:'Perfil lipídico',tiroides:'Tiroides (TSH, T3, T4)',hormonas:'Panel hormonal completo',vitaminas:'Vitaminas (D, B12)',presion:'Presión arterial',ginecologo:'Consulta ginecológica',endocrinologo:'Consulta endocrinólogo',otro:'Otro'};
+  const names={papanicolau:'Papanicolaou',ecografia:'Ecografía ovárica',glucosa:'Glucosa en ayunas',insulina:'Insulina basal',lipidos:'Perfil lipídico',tiroides:'Tiroides (TSH)',hormonas:'Panel hormonal',vitaminas:'Vitaminas (D, B12)',presion:'Presión arterial',ginecologo:'Consulta ginecológica',endocrinologo:'Consulta endocrinólogo',otro:'Otro'};
   const name=custom||(names[type]||'Chequeo médico');
   DATA.chequeos.push({type,name,date:document.getElementById('med-date').value,status:document.getElementById('med-status').value,notes:document.getElementById('med-notes').value});
   saveData(); buildMedicalList(); renderCalendar(); document.getElementById('medical-modal').classList.remove('open'); showToast('🩺 Chequeo guardado');
 }
 
-// ═══ MODALS ═══
 function openNoraModal(){document.getElementById('nora-modal').classList.add('open')}
 function handleNoraBadge(){
-  if(CURRENT_PLAN === 'gratuito'){
-    document.getElementById('upgrade-msg').textContent = 'Nora IA solo está disponible en el plan Pro. Actualiza para recibir insights personalizados de tu salud hormonal.';
-    document.getElementById('upgrade-modal').classList.add('open');
-    return;
-  }
+  if(CURRENT_PLAN==='gratuito'){document.getElementById('upgrade-msg').textContent='Nora IA solo está disponible en el plan Pro. Actualiza para recibir insights personalizados.';document.getElementById('upgrade-modal').classList.add('open');return;}
   openNoraModal();
 }
 function closeNoraModal(e){if(e.target===document.getElementById('nora-modal')) document.getElementById('nora-modal').classList.remove('open')}
-
-// ═══ TOAST ═══
 function openFeedbackModal(){document.getElementById('feedback-modal').classList.add('open')}
 async function enviarFeedback(){
-  const tipo=document.getElementById('fb-tipo').value;
-  const texto=document.getElementById('fb-texto').value.trim();
-  const satisfaccion=document.getElementById('fb-satisfaccion').value;
+  const tipo=document.getElementById('fb-tipo').value; const texto=document.getElementById('fb-texto').value.trim(); const sat=document.getElementById('fb-satisfaccion').value;
   if(!texto){showToast('⚠️ Escribe tu feedback primero');return;}
-  // Save to Supabase or just email
   const asunto=encodeURIComponent('Feedback Ovárica: '+tipo);
-  const cuerpo=encodeURIComponent(`Tipo: ${tipo}\nCalificación: ${satisfaccion}/5\n\n${texto}\n\nUsuaria: ${DATA.email||'anónima'}`);
+  const cuerpo=encodeURIComponent(`Tipo: ${tipo}\nCalificación: ${sat}/5\n\n${texto}\n\nUsuaria: ${DATA.email||'anónima'}`);
   window.open(`mailto:soporte@ovarica.site?subject=${asunto}&body=${cuerpo}`);
-  document.getElementById('feedback-modal').classList.remove('open');
-  showToast('🌸 ¡Gracias por tu feedback!');
+  document.getElementById('feedback-modal').classList.remove('open'); showToast('🌸 ¡Gracias por tu feedback!');
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 
 // ═══ FASES DEL CICLO ═══
 const FASES=[
-  {id:'menstrual',name:'Fase Menstrual',emoji:'🩸',days:'Días 1–5',color:'#C9517A',pale:'#FCE8EF',
-   desc:'Tu cuerpo se renueva. Es normal sentir fatiga y dolor. Descansa, aliméntate con hierro y sé amable contigo.',
-   consejos:['Prioriza el descanso','Come alimentos ricos en hierro (lentejas, espinaca)','Evita ejercicio intenso','Infusiones de jengibre para el dolor','Usa calor en el abdomen'],
-   energia:'Baja',libido:'Baja',ejercicio:'Yoga, caminata suave'},
-  {id:'folicular',name:'Fase Folicular',emoji:'🌱',days:'Días 6–13',color:'#9B6DB5',pale:'#EFE5F8',
-   desc:'Tu energía aumenta, el estrógeno sube. Es el mejor momento para comenzar proyectos y ejercitarte con fuerza.',
-   consejos:['Aprovecha la energía para entrenar','Introduce nuevos hábitos ahora','Come proteínas y grasas buenas','Buen momento para socializar','Semillas de linaza y calabaza'],
-   energia:'Alta',libido:'Moderada',ejercicio:'Fuerza, HIIT, spinning'},
-  {id:'ovulacion',name:'Ovulación',emoji:'🥚',days:'Días 14–16',color:'#E8921A',pale:'#FEF3E2',
-   desc:'Pico máximo de estrógeno y testosterona. Te sientes en tu mejor momento — energía, confianza y libido al máximo.',
-   consejos:['Máxima energía para ejercicio intenso','Consume fibra y verduras crucíferas','Buen momento para reuniones y presentaciones','Semillas de girasol y sésamo','Hidratación extra'],
-   energia:'Máxima',libido:'Alta',ejercicio:'Cardio intenso, HIIT, pesas'},
-  {id:'lutea',name:'Fase Lútea',emoji:'🌙',days:'Días 17–28',color:'#5B8FD0',pale:'#E5EEFB',
-   desc:'La progesterona sube. Puedes sentir PMS, antojos y cambios de humor. Es normal. Tu cuerpo necesita más cuidado.',
-   consejos:['Reduce el azúcar para controlar antojos','Magnesio para reducir síntomas de PMS','Yoga y pilates sobre cardio intenso','Duerme más','Semillas de linaza y nueces'],
-   energia:'Moderada-Baja',libido:'Baja',ejercicio:'Yoga, pilates, caminata'},
+  {id:'menstrual',name:'Fase Menstrual',emoji:'🩸',days:'Días 1–5',color:'#C9517A',pale:'#FCE8EF',desc:'Tu cuerpo se renueva. Descansa, aliméntate con hierro y sé amable contigo.',consejos:['Prioriza el descanso','Come alimentos ricos en hierro (lentejas, espinaca)','Evita ejercicio intenso','Infusiones de jengibre para el dolor','Usa calor en el abdomen'],energia:'Baja',libido:'Baja',ejercicio:'Yoga, caminata suave'},
+  {id:'folicular',name:'Fase Folicular',emoji:'🌱',days:'Días 6–13',color:'#9B6DB5',pale:'#EFE5F8',desc:'Tu energía aumenta. Es el mejor momento para comenzar proyectos y ejercitarte con fuerza.',consejos:['Aprovecha la energía para entrenar','Introduce nuevos hábitos ahora','Come proteínas y grasas buenas','Buen momento para socializar','Semillas de linaza y calabaza'],energia:'Alta',libido:'Moderada',ejercicio:'Fuerza, HIIT, spinning'},
+  {id:'ovulacion',name:'Ovulación',emoji:'🥚',days:'Días 14–16',color:'#E8921A',pale:'#FEF3E2',desc:'Pico máximo de estrógeno. Te sientes en tu mejor momento — energía, confianza y libido al máximo.',consejos:['Máxima energía para ejercicio intenso','Consume fibra y verduras crucíferas','Buen momento para reuniones importantes','Semillas de girasol y sésamo','Hidratación extra'],energia:'Máxima',libido:'Alta',ejercicio:'Cardio intenso, HIIT, pesas'},
+  {id:'lutea',name:'Fase Lútea',emoji:'🌙',days:'Días 17–28',color:'#5B8FD0',pale:'#E5EEFB',desc:'La progesterona sube. Puedes sentir PMS y antojos. Tu cuerpo necesita más cuidado.',consejos:['Reduce el azúcar para controlar antojos','Magnesio para reducir PMS','Yoga y pilates sobre cardio intenso','Duerme más','Semillas de linaza y nueces'],energia:'Moderada-Baja',libido:'Baja',ejercicio:'Yoga, pilates, caminata'},
 ];
-
 function calcFaseActual(){
-  if(!DATA.lastPeriod) return {fase:FASES[1], diaDelCiclo:8, diasParaSiguiente:20};
+  if(!DATA.lastPeriod) return {fase:FASES[1],diaDelCiclo:8,diasParaSiguiente:20};
   const last=new Date(DATA.lastPeriod+'T12:00:00');
   const hoy=new Date(); hoy.setHours(12,0,0,0);
-  const diffMs=hoy-last;
-  const diffDias=Math.floor(diffMs/(1000*60*60*24));
+  const diffDias=Math.floor((hoy-last)/(1000*60*60*24));
   const ciclo=DATA.cycleLen||28;
-  const diaDelCiclo=((diffDias % ciclo)+ciclo)%ciclo+1;
+  const diaDelCiclo=((diffDias%ciclo)+ciclo)%ciclo+1;
   const diasParaSiguiente=ciclo-diaDelCiclo+1;
   let fase;
   if(diaDelCiclo<=5) fase=FASES[0];
   else if(diaDelCiclo<=13) fase=FASES[1];
   else if(diaDelCiclo<=16) fase=FASES[2];
   else fase=FASES[3];
-  return {fase, diaDelCiclo, diasParaSiguiente, ciclo};
+  return {fase,diaDelCiclo,diasParaSiguiente,ciclo};
 }
-
 function buildFasesCiclo(){
-  const {fase, diaDelCiclo, diasParaSiguiente, ciclo}=calcFaseActual();
-  // Update label
+  const {fase,diaDelCiclo,diasParaSiguiente,ciclo}=calcFaseActual();
   document.getElementById('ciclo-hoy-label').textContent=`Hoy · Día ${diaDelCiclo} de tu ciclo`;
-  // Phase card
   const fc=document.getElementById('fase-actual-card');
-  fc.innerHTML=`
-    <div style="background:linear-gradient(135deg,${fase.color}22,${fase.pale});padding:1.4rem;border-radius:var(--r)">
-      <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem">
-        <div style="width:52px;height:52px;border-radius:50%;background:${fase.color};display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 12px ${fase.color}50;flex-shrink:0">${fase.emoji}</div>
-        <div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:${fase.color}">${fase.name}</div>
-          <div style="font-size:.72rem;color:var(--text-muted);margin-top:2px">${fase.days} · Día ${diaDelCiclo} de tu ciclo</div>
-        </div>
-        <div style="margin-left:auto;text-align:center;background:white;border-radius:var(--r-sm);padding:.5rem .8rem;box-shadow:0 2px 8px rgba(0,0,0,.08)">
-          <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:${fase.color}">${diasParaSiguiente}</div>
-          <div style="font-size:.58rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">días para<br/>siguiente</div>
-        </div>
-      </div>
-      <p style="font-size:.83rem;color:var(--text);line-height:1.65;margin-bottom:.9rem">${fase.desc}</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.8rem">
-        <div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center">
-          <div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Energía</div>
-          <div style="font-size:.75rem;font-weight:600;color:${fase.color}">${fase.energia}</div>
-        </div>
-        <div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center">
-          <div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Libido</div>
-          <div style="font-size:.75rem;font-weight:600;color:${fase.color}">${fase.libido}</div>
-        </div>
-        <div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center">
-          <div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Ejercicio</div>
-          <div style="font-size:.65rem;font-weight:600;color:${fase.color}">${fase.ejercicio}</div>
-        </div>
-      </div>
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${fase.color};margin-bottom:.4rem">💡 Consejos para hoy</div>
-      ${fase.consejos.map(c=>`<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:.3rem;font-size:.78rem;color:var(--text)"><span style="color:${fase.color};flex-shrink:0">✓</span>${c}</div>`).join('')}
-    </div>`;
-  // Ciclo progress bar
+  fc.innerHTML=`<div style="background:linear-gradient(135deg,${fase.color}22,${fase.pale});padding:1.4rem;border-radius:var(--r)"><div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div style="width:52px;height:52px;border-radius:50%;background:${fase.color};display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 12px ${fase.color}50;flex-shrink:0">${fase.emoji}</div><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:${fase.color}">${fase.name}</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:2px">${fase.days} · Día ${diaDelCiclo} de tu ciclo</div></div><div style="margin-left:auto;text-align:center;background:white;border-radius:var(--r-sm);padding:.5rem .8rem;box-shadow:0 2px 8px rgba(0,0,0,.08)"><div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:${fase.color}">${diasParaSiguiente}</div><div style="font-size:.58rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">días para<br/>siguiente</div></div></div><p style="font-size:.83rem;color:var(--text);line-height:1.65;margin-bottom:.9rem">${fase.desc}</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.8rem"><div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center"><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Energía</div><div style="font-size:.75rem;font-weight:600;color:${fase.color}">${fase.energia}</div></div><div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center"><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Libido</div><div style="font-size:.75rem;font-weight:600;color:${fase.color}">${fase.libido}</div></div><div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center"><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Ejercicio</div><div style="font-size:.65rem;font-weight:600;color:${fase.color}">${fase.ejercicio}</div></div></div><div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${fase.color};margin-bottom:.4rem">💡 Consejos para hoy</div>${fase.consejos.map(c=>`<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:.3rem;font-size:.78rem;color:var(--text)"><span style="color:${fase.color};flex-shrink:0">✓</span>${c}</div>`).join('')}</div>`;
   const pct=Math.round((diaDelCiclo/ciclo)*100);
-  const progHtml=`<div style="background:white;border-radius:var(--r);padding:1rem;margin-top:.6rem;box-shadow:var(--shadow)">
-    <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);margin-bottom:.4rem"><span>Día 1</span><span>Día ${diaDelCiclo} ← hoy</span><span>Día ${ciclo}</span></div>
-    <div style="background:var(--surface2);border-radius:4px;height:8px;overflow:hidden">
-      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,${FASES[0].color},${FASES[1].color},${FASES[2].color},${FASES[3].color});border-radius:4px"></div>
-    </div>
-    <div style="display:flex;justify-content:space-around;margin-top:.5rem">
-      ${FASES.map(f=>`<div style="text-align:center"><div style="font-size:.9rem">${f.emoji}</div><div style="font-size:.55rem;color:var(--text-muted)">${f.id==='ovulacion'?'Ovul.':f.name.split(' ')[1]||f.name}</div></div>`).join('')}
-    </div>
-  </div>`;
-  fc.innerHTML+=progHtml;
-  // Fases grid
+  fc.innerHTML+=`<div style="background:white;border-radius:var(--r);padding:1rem;margin-top:.6rem;box-shadow:var(--shadow)"><div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);margin-bottom:.4rem"><span>Día 1</span><span>Día ${diaDelCiclo} ← hoy</span><span>Día ${ciclo}</span></div><div style="background:var(--surface2);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,${FASES[0].color},${FASES[1].color},${FASES[2].color},${FASES[3].color});border-radius:4px"></div></div><div style="display:flex;justify-content:space-around;margin-top:.5rem">${FASES.map(f=>`<div style="text-align:center"><div style="font-size:.9rem">${f.emoji}</div><div style="font-size:.55rem;color:var(--text-muted)">${f.id==='ovulacion'?'Ovul.':f.name.split(' ')[1]||f.name}</div></div>`).join('')}</div></div>`;
   const fg=document.getElementById('fases-grid'); fg.innerHTML='';
   FASES.forEach(f=>{
     const isActive=f.id===fase.id;
@@ -2438,22 +1688,8 @@ function buildFasesCiclo(){
     div.innerHTML=`<div style="font-size:1.3rem;margin-bottom:.3rem">${f.emoji}</div><div style="font-size:.8rem;font-weight:700;color:${isActive?f.color:'var(--text)'}">${f.name}</div><div style="font-size:.65rem;color:var(--text-muted);margin-top:2px">${f.days}</div>${isActive?`<div style="font-size:.65rem;font-weight:600;color:${f.color};margin-top:4px">← Estás aquí</div>`:''}`;
     fg.appendChild(div);
   });
-  // Predicciones
   const nextPeriodDate=new Date(todayDate); nextPeriodDate.setDate(nextPeriodDate.getDate()+diasParaSiguiente);
-  const ovulDay=new Date(DATA.lastPeriod+'T12:00:00'); ovulDay.setDate(ovulDay.getDate()+(ciclo-14));
-  document.getElementById('predicciones-text').innerHTML=`
-    <div style="display:flex;flex-direction:column;gap:.5rem">
-      <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(91,143,208,.15);font-size:.82rem">
-        <span>🩸 Próximo periodo</span><strong style="color:var(--exercise)">${nextPeriodDate.getDate()}/${nextPeriodDate.getMonth()+1}/${nextPeriodDate.getFullYear()}</strong>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(91,143,208,.15);font-size:.82rem">
-        <span>🥚 Ovulación estimada</span><strong style="color:var(--exercise)">Día ${ciclo-14} del ciclo</strong>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.82rem">
-        <span>📏 Duración del ciclo</span><strong style="color:var(--exercise)">${ciclo} días</strong>
-      </div>
-      <div style="font-size:.72rem;color:var(--text-muted);margin-top:.3rem;line-height:1.6">*Estimaciones basadas en tus datos ingresados. Registra tus periodos para mayor precisión.</div>
-    </div>`;
+  document.getElementById('predicciones-text').innerHTML=`<div style="display:flex;flex-direction:column;gap:.5rem"><div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(91,143,208,.15);font-size:.82rem"><span>🩸 Próximo periodo</span><strong style="color:var(--exercise)">${nextPeriodDate.getDate()}/${nextPeriodDate.getMonth()+1}/${nextPeriodDate.getFullYear()}</strong></div><div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(91,143,208,.15);font-size:.82rem"><span>🥚 Ovulación estimada</span><strong style="color:var(--exercise)">Día ${ciclo-14} del ciclo</strong></div><div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.82rem"><span>📏 Duración del ciclo</span><strong style="color:var(--exercise)">${ciclo} días</strong></div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.3rem">*Estimaciones basadas en tus datos. Registra tus periodos para mayor precisión.</div></div>`;
 }
 
 // ═══ PERFIL ═══
@@ -2461,65 +1697,24 @@ function buildPerfil(){
   document.getElementById('perfil-nombre').textContent=DATA.userName||'—';
   const diagMap={confirmado:'SOMP confirmado',sospecha:'Sospecha de SOMP',explorando:'Explorando síntomas',seguimiento:'En seguimiento médico'};
   document.getElementById('perfil-diag').textContent=diagMap[DATA.diagnostico]||'Sin diagnóstico indicado';
-  document.getElementById('perfil-sub').textContent=`Hola, ${DATA.userName||''}  · Gestiona tu cuenta`;
+  document.getElementById('perfil-sub').textContent=`Hola, ${DATA.userName||''} · Gestiona tu cuenta`;
   const objMap={regular:'Regular mi ciclo',sintomas:'Controlar síntomas',fertilidad:'Mejorar fertilidad',peso:'Bajar de peso',bienestar:'Bienestar general'};
   const countryMap={DO:'🇩🇴 Rep. Dominicana',MX:'🇲🇽 México',CO:'🇨🇴 Colombia',AR:'🇦🇷 Argentina',ES:'🇪🇸 España',PE:'🇵🇪 Perú',CL:'🇨🇱 Chile',US:'🇺🇸 Estados Unidos',other:'Otro país'};
-  const datos=[
-    {l:'👤 Nombre',v:DATA.userName||'—'},
-    {l:'🎂 Edad',v:DATA.age?`${DATA.age} años`:'—'},
-    {l:'🌍 País',v:countryMap[DATA.country]||DATA.country||'—'},
-    {l:'⚖️ Peso',v:DATA.weight?`${DATA.weight} kg`:'—'},
-    {l:'📏 Talla',v:DATA.height?`${DATA.height} cm`:'—'},
-    {l:'🎯 Objetivo',v:objMap[DATA.objetivo]||'—'},
-    {l:'🥗 Alimentación',v:DATA.diet||'—'},
-    {l:'⚠️ Condición extra',v:DATA.extra||'—'},
-  ];
-  document.getElementById('perfil-datos-list').innerHTML=datos.map(d=>`
-    <div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--bg2);font-size:.82rem">
-      <span style="color:var(--text-muted)">${d.l}</span><span style="font-weight:500">${d.v}</span>
-    </div>`).join('');
-  const cicloData=[
-    {l:'🩸 Último periodo',v:DATA.lastPeriod||'No registrado'},
-    {l:'📅 Duración del ciclo',v:DATA.cycleLen?`${DATA.cycleLen} días`:'—'},
-    {l:'📆 Días de sangrado',v:DATA.periodLen?`${DATA.periodLen} días`:'—'},
-    {l:'🔄 Tipo de ciclo',v:DATA.cycleType||'—'},
-    {l:'💧 Flujo habitual',v:DATA.flow||'—'},
-    {l:'💢 Dolor menstrual',v:DATA.pain||'—'},
-  ];
-  document.getElementById('perfil-ciclo-list').innerHTML=cicloData.map(d=>`
-    <div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--bg2);font-size:.82rem">
-      <span style="color:var(--text-muted)">${d.l}</span><span style="font-weight:500">${d.v}</span>
-    </div>`).join('');
+  const datos=[{l:'👤 Nombre',v:DATA.userName||'—'},{l:'🎂 Edad',v:DATA.age?`${DATA.age} años`:'—'},{l:'🌍 País',v:countryMap[DATA.country]||DATA.country||'—'},{l:'⚖️ Peso',v:DATA.weight?`${DATA.weight} kg`:'—'},{l:'📏 Talla',v:DATA.height?`${DATA.height} cm`:'—'},{l:'🎯 Objetivo',v:objMap[DATA.objetivo]||'—'},{l:'🥗 Alimentación',v:DATA.diet||'—'},{l:'⚠️ Condición extra',v:DATA.extra||'—'}];
+  document.getElementById('perfil-datos-list').innerHTML=datos.map(d=>`<div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--bg2);font-size:.82rem"><span style="color:var(--text-muted)">${d.l}</span><span style="font-weight:500">${d.v}</span></div>`).join('');
+  const cicloData=[{l:'🩸 Último periodo',v:DATA.lastPeriod||'No registrado'},{l:'📅 Duración del ciclo',v:DATA.cycleLen?`${DATA.cycleLen} días`:'—'},{l:'📆 Días de sangrado',v:DATA.periodLen?`${DATA.periodLen} días`:'—'},{l:'🔄 Tipo de ciclo',v:DATA.cycleType||'—'},{l:'💧 Flujo habitual',v:DATA.flow||'—'},{l:'💢 Dolor menstrual',v:DATA.pain||'—'}];
+  document.getElementById('perfil-ciclo-list').innerHTML=cicloData.map(d=>`<div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--bg2);font-size:.82rem"><span style="color:var(--text-muted)">${d.l}</span><span style="font-weight:500">${d.v}</span></div>`).join('');
+  // FIX 7: llamar buildSuscripcionBtns y buildConfigToggles
+  buildSuscripcionBtns();
   buildConfigToggles();
+  // FIX: aplicar badge de plan correctamente
+  aplicarPlan();
 }
+function openEditPerfil(){showToast('✏️ Edición de perfil disponible próximamente')}
+function confirmLogout(){ cerrarSesionSupabase(); }
+function showRegisterFromLogin(){ showPanel('register'); }
 
-function openEditPerfil(){showScreen('inicio'); showToast('✏️ Edición de perfil disponible próximamente')}
-
-function confirmLogout(){ cerrarSesionSupabase(); return;
-  // old:
-  if(confirm('¿Cerrar sesión? Tus datos quedarán guardados en este dispositivo.')){
-    document.getElementById('app').style.display='none';
-    document.getElementById('onboarding').style.display='none';
-    const ls=document.getElementById('login-screen');
-    ls.style.display='flex';
-  }
-}
-
-function showRegisterFromLogin(){
-  showPanel('register');
-}
-function showPanel(panel){
-  ['welcome','login','register','install'].forEach(p=>{
-    const el=document.getElementById('panel-'+p);
-    if(el) el.style.display = p===panel?'block':'none';
-  });
-}
-function goToOnboarding(){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('onboarding').style.display='flex';
-}
-
-// Config toggles
+// ═══ FIX: buildConfigToggles - corregido div2 vs div ═══
 const CONFIG_ITEMS=[
   {id:'notif-diarias',label:'🔔 Notificaciones diarias'},
   {id:'rec-suplem',label:'💊 Recordatorio de suplementos'},
@@ -2529,113 +1724,61 @@ if(!DATA.config) DATA.config={};
 
 function buildConfigToggles(){
   const c=document.getElementById('config-toggles'); if(!c) return;
-  // Config only for Pro plan
-  if(CURRENT_PLAN === 'gratuito'){
-    c.innerHTML='<div style="font-size:.8rem;color:var(--text-muted);padding:.5rem 0;text-align:center">⚙️ La configuración está disponible en el <span style="color:var(--brand);font-weight:600;cursor:pointer" onclick="mostrarUpgrade("reportes")">plan Pro</span></div>';
+  if(CURRENT_PLAN==='gratuito'){
+    c.innerHTML='<div style="font-size:.8rem;color:var(--text-muted);padding:.5rem 0;text-align:center">⚙️ La configuración está disponible en el <span style="color:var(--brand);font-weight:600;cursor:pointer" onclick="mostrarUpgrade(\'reportes\')">plan Pro</span></div>';
     return;
   }
-  const cfg=document.getElementById('config-toggles'); if(!cfg) return;
-  cfg.innerHTML='';
+  c.innerHTML='';
   CONFIG_ITEMS.forEach((item,i)=>{
     const isLast=i===CONFIG_ITEMS.length-1;
-    if(!DATA.config[item.id] === undefined) DATA.config[item.id]=true;
     const on=DATA.config[item.id]!==false;
+    // FIX 2+3: variable div2 declarada y usada correctamente
     const div2=document.createElement('div');
     div2.style.cssText=`display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;${!isLast?'border-bottom:1px solid var(--bg2)':''};font-size:.83rem`;
-    div.innerHTML=`<span>${item.label}</span>
-      <div id="toggle-${item.id}" onclick="toggleConfig('${item.id}')" style="width:42px;height:24px;border-radius:12px;background:${on?'var(--brand)':'var(--surface2)'};cursor:pointer;display:flex;align-items:center;padding:3px ${on?'3px 3px 21px':'21px 3px 3px'};transition:all .2s;border:1px solid ${on?'var(--brand)':'rgba(180,130,200,.3)'}">
+    div2.innerHTML=`<span>${item.label}</span>
+      <div id="toggle-${item.id}" onclick="toggleConfig('${item.id}')" style="width:42px;height:24px;border-radius:12px;background:${on?'var(--brand)':'var(--surface2)'};cursor:pointer;display:flex;align-items:center;padding:${on?'3px 3px 3px 21px':'3px 21px 3px 3px'};transition:all .2s;border:1px solid ${on?'var(--brand)':'rgba(180,130,200,.3)'}">
         <div style="width:18px;height:18px;border-radius:50%;background:white;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>
       </div>`;
-    c.appendChild(div);
+    c.appendChild(div2); // FIX 3: appendChild(div2) no appendChild(div)
   });
 }
 
 function toggleConfig(id){
-  DATA.config[id] = DATA.config[id]===false ? true : false;
-  saveData();
-  buildConfigToggles();
-  // Handle notification permission
-  if(id==='notif-diarias' && DATA.config[id]){
-    requestNotificationPermission();
-  }
-  if(id==='rec-suplem' && DATA.config[id]){
-    showToast('💊 Recibirás recordatorio diario de suplementos');
-    scheduleNotification('💊 Ovárica', '¿Ya tomaste tus suplementos hoy?', 9*60);
-  }
+  DATA.config[id]=DATA.config[id]===false?true:false;
+  saveData(); buildConfigToggles();
+  if(id==='notif-diarias'&&DATA.config[id]) requestNotificationPermission();
+  if(id==='rec-suplem'&&DATA.config[id]){ showToast('💊 Recibirás recordatorio de suplementos'); scheduleNotification('💊 Ovárica','¿Ya tomaste tus suplementos hoy?',9*60); }
 }
-
 function requestNotificationPermission(){
-  if(!('Notification' in window)){
-    showToast('⚠️ Tu navegador no soporta notificaciones');
-    DATA.config['notif-diarias']=false;
-    saveData(); buildConfigToggles();
-    return;
-  }
+  if(!('Notification' in window)){ showToast('⚠️ Tu navegador no soporta notificaciones'); DATA.config['notif-diarias']=false; saveData(); buildConfigToggles(); return; }
   Notification.requestPermission().then(perm=>{
-    if(perm==='granted'){
-      showToast('🔔 Notificaciones activadas');
-      scheduleNotification('🌸 Ovárica', '¡Recuerda registrar tus síntomas de hoy!', 20*60);
-    } else {
-      showToast('⚠️ Activa los permisos en tu navegador');
-      DATA.config['notif-diarias']=false;
-      saveData(); buildConfigToggles();
-    }
+    if(perm==='granted'){ showToast('🔔 Notificaciones activadas'); scheduleNotification('🌸 Ovárica','¡Recuerda registrar tus síntomas de hoy!',20*60); }
+    else { showToast('⚠️ Activa los permisos en tu navegador'); DATA.config['notif-diarias']=false; saveData(); buildConfigToggles(); }
   });
 }
-
-function scheduleNotification(title, body, minutesFromNow){
+function scheduleNotification(title,body,minutesFromNow){
   if(Notification.permission!=='granted') return;
-  setTimeout(()=>{
-    new Notification(title, {
-      body,
-      icon:'/icon-192.png',
-      badge:'/icon-192.png'
-    });
-  }, minutesFromNow * 60 * 1000);
+  setTimeout(()=>{ new Notification(title,{body,icon:'/icon-192.png'}); },minutesFromNow*60*1000);
 }
-
 function checkAndSendNotifications(){
   if(!DATA.config?.['notif-diarias']) return;
   if(Notification.permission!=='granted') return;
   const today=fmtDate(todayDate);
-  // Remind to register if no registro today
-  if(!DATA.registros[today]){
-    scheduleNotification('🌸 Ovárica', '¿Cómo te sientes hoy? Registra tus síntomas.', 1);
-  }
-  // Remind about supplements
-  if(DATA.config?.['rec-suplem']){
-    const sup=DATA.suplementos[today];
-    const taken=sup?Object.values(sup).filter(Boolean).length:0;
-    if(taken===0){
-      scheduleNotification('💊 Ovárica', 'No olvides tus suplementos de hoy 🌿', 2);
-    }
-  }
-  // Check upcoming medical appointments
-  if(DATA.config?.['reporte-nora'] && DATA.chequeos.length>0){
-    const upcoming=DATA.chequeos.filter(c=>{
-      if(!c.date) return false;
-      const diff=(new Date(c.date)-new Date())/(1000*60*60*24);
-      return diff>0 && diff<=7;
-    });
-    if(upcoming.length>0){
-      scheduleNotification('🩺 Ovárica', `Tienes ${upcoming.length} chequeo(s) médico(s) próximos esta semana`, 3);
-    }
-  }
+  if(!DATA.registros[today]) scheduleNotification('🌸 Ovárica','¿Cómo te sientes hoy? Registra tus síntomas.',1);
+  if(DATA.config?.['rec-suplem']){ const sup=DATA.suplementos[today]; if(!sup||Object.values(sup).filter(Boolean).length===0) scheduleNotification('💊 Ovárica','No olvides tus suplementos de hoy 🌿',2); }
 }
 
 // ═══ BOOT ═══
 loadData();
-
 function bootApp(){
-  const landingReg = localStorage.getItem('avarica_landing_reg');
+  const landingReg=localStorage.getItem('avarica_landing_reg');
   if(landingReg){
     try{
-      const reg = JSON.parse(landingReg);
-      if(reg.userName) document.getElementById('ob-name').value = reg.userName;
-      if(reg.email)    document.getElementById('ob-email').value = reg.email;
-      if(reg.password) document.getElementById('ob-password').value = reg.password;
+      const reg=JSON.parse(landingReg);
+      if(reg.userName) document.getElementById('ob-name').value=reg.userName;
+      if(reg.email) document.getElementById('ob-email').value=reg.email;
+      if(reg.password) document.getElementById('ob-password').value=reg.password;
       localStorage.removeItem('avarica_landing_reg');
-      // Show onboarding so user completes full profile
       document.getElementById('onboarding').style.display='flex';
       document.getElementById('app').style.display='none';
       document.getElementById('login-screen').style.display='none';
@@ -2647,23 +1790,36 @@ function bootApp(){
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     initApp();
+    // Re-verificar plan desde BD al arrancar
+    setTimeout(async()=>{
+      try{
+        const session=localStorage.getItem('avarica_session');
+        if(!session) return;
+        const s=JSON.parse(session);
+        const {data}=await sb.from('usuarios').select('plan,nombre').eq('email',s.email).single();
+        if(data){
+          const planAnterior=CURRENT_PLAN;
+          CURRENT_PLAN=data.plan||'gratuito';
+          DATA.userName=data.nombre;
+          if(CURRENT_PLAN!==planAnterior){ aplicarPlan(); showToast('🔄 Plan sincronizado: '+CURRENT_PLAN.replace(/_/g,' ')); }
+          else { aplicarPlan(); }
+        }
+      }catch(e){}
+    },600);
   } else {
-    // Show welcome screen instead of onboarding directly
     document.getElementById('onboarding').style.display='none';
-    const ls = document.getElementById('login-screen');
+    const ls=document.getElementById('login-screen');
     ls.style.display='flex';
     showPanel('welcome');
   }
 }
-
 document.getElementById('ob-start-btn').addEventListener('click', registrarUsuario);
 document.getElementById('login-btn').addEventListener('click', ()=>{
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value;
-  if(!email){showToast('⚠️ Ingresa tu correo'); return}
-  loginSupabase(email, pass);
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  if(!email){showToast('⚠️ Ingresa tu correo');return;}
+  loginSupabase(email,pass);
 });
-
 bootApp();
 </script>
 </body>
