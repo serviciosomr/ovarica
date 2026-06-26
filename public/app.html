@@ -234,12 +234,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 <body>
 
 <!-- WELCOME SCREEN -->
-<div id="login-screen" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);z-index:500;align-items:center;justify-content:center;flex-direction:column;padding:1.5rem;overflow-y:auto">
-  <div style="width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center">
+<div id="login-screen" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);z-index:500;align-items:flex-start;justify-content:center;flex-direction:column;padding:1.5rem;overflow-y:auto">
+  <div style="width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;margin:0 auto;padding:1.5rem 0 2rem">
 
     <!-- Logo -->
-    <div style="text-align:center;margin-bottom:1.5rem;padding-top:1rem">
-      <div style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;margin-bottom:.3rem">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;margin-bottom:.3rem;line-height:1.2">
         <span style="color:var(--brand)">OVÁ</span><span style="color:var(--purple)">RICA</span>
       </div>
       <div style="font-size:.7rem;color:var(--text-muted);letter-spacing:.09em;text-transform:uppercase">Tu salud hormonal, en tus manos</div>
@@ -247,42 +247,46 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
     <!-- Welcome panel (default) -->
     <div id="panel-welcome" style="width:100%">
-      <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12);margin-bottom:1rem;text-align:center">
-        <div style="font-size:2.5rem;margin-bottom:.8rem">🌸</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Bienvenida a Ovárica</div>
-        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6">Tu app de salud hormonal para SOMP. Registra síntomas, sigue tu ciclo y recibe insights personalizados de Nora IA.</div>
-        <button class="ob-btn" style="width:100%;margin-bottom:.7rem" onclick="showPanel('login')">Iniciar sesión</button>
+      <div style="background:white;border-radius:var(--r);padding:2rem 1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12);text-align:center">
+        <div style="font-size:2.8rem;margin-bottom:.8rem">🌸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:.5rem">Bienvenida a Ovárica</div>
+        <div style="font-size:.83rem;color:var(--text-muted);margin-bottom:2rem;line-height:1.65">Tu app de salud hormonal para SOMP. Registra síntomas, sigue tu ciclo y recibe insights personalizados de Nora IA.</div>
+        <button class="ob-btn" style="width:100%;margin-bottom:.75rem" onclick="showPanel('login')">Iniciar sesión</button>
         <button style="width:100%;padding:.9rem;background:var(--brand-pale);border:1.5px solid var(--brand-soft);border-radius:var(--r-sm);color:var(--brand);font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer" onclick="showPanel('register')">Crear cuenta gratis 🌸</button>
+        <button onclick="showPanel('install')" style="background:none;border:none;color:var(--text-muted);font-size:.75rem;cursor:pointer;margin-top:1.2rem;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;margin-left:auto;margin-right:auto">
+          📲 ¿Cómo instalar la app en mi teléfono?
+        </button>
       </div>
+    </div>
 
-      <!-- Install PWA instructions -->
-      <div style="background:white;border-radius:var(--r);padding:1.4rem;box-shadow:0 4px 16px rgba(180,120,180,.1);border:1px solid rgba(180,130,200,.12)">
-        <div style="font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem">
-          📱 Instala la app en tu teléfono
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
-          <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.8rem;text-align:center">
-            <div style="font-size:1.4rem;margin-bottom:.4rem">🍎</div>
-            <div style="font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:.35rem">iPhone</div>
-            <div style="font-size:.65rem;color:var(--text-muted);line-height:1.65">
+    <!-- Install panel -->
+    <div id="panel-install" style="display:none;width:100%">
+      <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12)">
+        <button onclick="showPanel('welcome')" style="background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;margin-bottom:1rem;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif">← Volver</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:1rem">📱 Instala Ovárica en tu teléfono</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem">
+          <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.9rem;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:.4rem">🍎</div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:.4rem">iPhone</div>
+            <div style="font-size:.67rem;color:var(--text-muted);line-height:1.7;text-align:left">
               1. Abre en <strong>Safari</strong><br/>
-              2. Toca ícono compartir 📤<br/>
-              3. "Añadir a pantalla de inicio"<br/>
+              2. Toca el ícono compartir 📤<br/>
+              3. Baja y toca "Añadir a pantalla de inicio"<br/>
               4. Toca "Añadir" ✅
             </div>
           </div>
-          <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.8rem;text-align:center">
-            <div style="font-size:1.4rem;margin-bottom:.4rem">🤖</div>
-            <div style="font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:.35rem">Android</div>
-            <div style="font-size:.65rem;color:var(--text-muted);line-height:1.65">
+          <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.9rem;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:.4rem">🤖</div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Android</div>
+            <div style="font-size:.67rem;color:var(--text-muted);line-height:1.7;text-align:left">
               1. Abre en <strong>Chrome</strong><br/>
-              2. Toca 3 puntitos ⋮<br/>
-              3. "Añadir a pantalla de inicio"<br/>
+              2. Toca los 3 puntitos ⋮<br/>
+              3. Toca "Añadir a pantalla de inicio"<br/>
               4. Toca "Añadir" ✅
             </div>
           </div>
         </div>
-        <div style="font-size:.68rem;color:var(--text-muted);text-align:center;margin-top:.7rem">
+        <div style="background:var(--brand-pale);border-radius:var(--r-sm);padding:.7rem 1rem;font-size:.72rem;color:var(--brand);text-align:center">
           ✨ Sin descargar nada de Play Store o App Store
         </div>
       </div>
@@ -742,6 +746,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   <div class="screen" id="screen-medico">
     <div class="section-title">🩺 Chequeos médicos</div>
     <div class="section-sub">Lleva el control de tus citas y estudios</div>
+    <button onclick="generarReporte()" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;border-radius:var(--r-sm);padding:.85rem;font-size:.85rem;font-weight:600;cursor:pointer;width:100%;margin-bottom:.5rem;font-family:'DM Sans',sans-serif;box-shadow:0 4px 15px rgba(201,81,122,.3)">
+      📄 Generar reporte para mi médico
+    </button>
     <div class="nora-card">
       <div class="nora-header"><div class="nora-avatar">🌸</div><div><div class="nora-name">NORA · Preventivo</div><div class="nora-label">Recomendaciones para SOMP</div></div></div>
       <div class="nora-text">Las mujeres con SOMP deben hacer seguimiento anual de <span class="nora-highlight">glucosa, insulina, perfil lipídico, tiroides y Papanicolaou</span>. Registra tus chequeos aquí para que Nora te avise cuando sea momento de repetirlos.</div>
@@ -1396,6 +1403,8 @@ function initApp(){
   updateNoraInsight();
   updateHomePhaseBanner();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  // Check notifications after brief delay
+  setTimeout(checkAndSendNotifications, 3000);
 }
 
 function updateHomePhaseBanner(){
@@ -1839,13 +1848,37 @@ function buildSuplem(){
   const c=document.getElementById('suplem-list'); c.innerHTML='';
   const today=fmtDate(todayDate);
   if(!DATA.suplementos[today]) DATA.suplementos[today]={};
-  SUPLEM_DEF.forEach(s=>{
+  if(!DATA.customSuplem) DATA.customSuplem=[];
+
+  // Add custom supplement button
+  const addDiv=document.createElement('div');
+  addDiv.style.cssText='display:flex;gap:.5rem;margin-bottom:.7rem';
+  addDiv.innerHTML=`
+    <input id="suplem-custom-input" placeholder="Agregar suplemento personalizado..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/>
+    <button onclick="addCustomSuplem()" style="background:var(--purple);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
+  c.appendChild(addDiv);
+
+  // All supplements: default + custom
+  const allSuplem = [...SUPLEM_DEF, ...DATA.customSuplem.map(name=>({id:'custom-'+name,name,emoji:'💊',info:'Suplemento personalizado. Consulta con tu médico la dosis adecuada.'}))]
+  allSuplem.forEach(s=>{
     const done=DATA.suplementos[today][s.id]||false;
     const div=document.createElement('div'); div.className='suplem-card';
     div.innerHTML=`<div class="suplem-header"><div class="suplem-left"><div class="suplem-check ${done?'done':''}" id="scheck-${s.id}">${done?'✓':''}</div><div class="suplem-name">${s.emoji} ${s.name}</div></div><button class="info-btn" onclick="toggleSuplemInfo('${s.id}',event)">ℹ️</button></div><div class="suplem-info" id="sinfo-${s.id}">${s.info}</div>`;
     div.querySelector('.suplem-header').onclick=(e)=>{if(e.target.classList.contains('info-btn')) return; toggleSupplement(s.id)};
     c.appendChild(div);
   });
+}
+function addCustomSuplem(){
+  const inp=document.getElementById('suplem-custom-input');
+  const val=inp?.value.trim();
+  if(!val){return;}
+  if(!DATA.customSuplem) DATA.customSuplem=[];
+  if(DATA.customSuplem.includes(val)){showToast('⚠️ Ya está en tu lista');return;}
+  DATA.customSuplem.push(val);
+  inp.value='';
+  saveData();
+  buildSuplem();
+  showToast('✅ Suplemento agregado');
 }
 function toggleSupplement(id){
   const today=fmtDate(todayDate);
@@ -2133,6 +2166,81 @@ function buildMedicalList(){
   });
 }
 
+function generarReporte(){
+  if(CURRENT_PLAN==='gratuito'){
+    mostrarUpgrade('reportes');
+    return;
+  }
+  const name=DATA.userName||'Paciente';
+  const today=new Date().toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
+  const registros=Object.entries(DATA.registros).sort(([a],[b])=>a.localeCompare(b));
+  const totalDias=registros.length;
+  const diasEjercicio=registros.filter(([,r])=>r?.ejercicio).length;
+  const topSintomas={};
+  registros.forEach(([,r])=>{r?.sintomas?.forEach(s=>{topSintomas[s]=(topSintomas[s]||0)+1;});});
+  const top3=Object.entries(topSintomas).sort(([,a],[,b])=>b-a).slice(0,3);
+  const periodoDias=Object.keys(DATA.periodo).length;
+
+  const reporteHTML=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+  <title>Reporte Ovárica — ${name}</title>
+  <style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#2D1A35;line-height:1.6}
+  h1{color:#C9517A;border-bottom:2px solid #C9517A;padding-bottom:.5rem}
+  h2{color:#9B6DB5;margin-top:1.5rem}
+  .stat{display:inline-block;background:#FDF6F9;border:1px solid #E8A0B4;border-radius:8px;padding:8px 16px;margin:4px;font-size:.9rem}
+  .badge{background:#FCE8EF;color:#C9517A;border-radius:4px;padding:2px 8px;font-size:.8rem;margin:2px}
+  table{width:100%;border-collapse:collapse;margin-top:.5rem}
+  th{background:#F0E5F8;padding:8px;text-align:left;font-size:.8rem}
+  td{padding:6px 8px;border-bottom:1px solid #F0E5F8;font-size:.78rem}
+  .footer{margin-top:2rem;font-size:.75rem;color:#9B7DAB;border-top:1px solid #E8A0B4;padding-top:1rem}</style></head>
+  <body>
+  <h1>🌸 Reporte de Salud Hormonal — Ovárica</h1>
+  <p><strong>Paciente:</strong> ${name}<br/>
+  <strong>Email:</strong> ${DATA.email||'—'}<br/>
+  <strong>Fecha del reporte:</strong> ${today}<br/>
+  <strong>País:</strong> ${DATA.country||'—'} &nbsp;|&nbsp; <strong>Edad:</strong> ${DATA.age||'—'} años</p>
+
+  <h2>📋 Diagnóstico y objetivos</h2>
+  <p><strong>Situación:</strong> ${DATA.diagnostico||'No indicado'}<br/>
+  <strong>Objetivo principal:</strong> ${DATA.objetivo||'No indicado'}<br/>
+  <strong>Alimentación:</strong> ${DATA.diet||'No indicado'}</p>
+
+  <h2>📊 Resumen de seguimiento (${totalDias} días)</h2>
+  <div>
+    <span class="stat">📅 Días registrados: <strong>${totalDias}</strong></span>
+    <span class="stat">🏋️ Días con ejercicio: <strong>${diasEjercicio}</strong> (${totalDias>0?Math.round(diasEjercicio/totalDias*100):0}%)</span>
+    <span class="stat">🩸 Días de periodo: <strong>${periodoDias}</strong></span>
+    <span class="stat">💊 Ciclo estimado: <strong>${DATA.cycleLen||28} días</strong></span>
+  </div>
+
+  <h2>🔴 Síntomas más frecuentes</h2>
+  ${top3.length>0?`<table><tr><th>Síntoma</th><th>Frecuencia</th><th>% de días</th></tr>${top3.map(([s,n])=>`<tr><td>${s.replace(/-/g,' ')}</td><td>${n} días</td><td>${Math.round(n/totalDias*100)}%</td></tr>`).join('')}</table>`:'<p>Sin síntomas registrados</p>'}
+
+  <h2>🩺 Chequeos médicos</h2>
+  ${DATA.chequeos.length>0?`<table><tr><th>Chequeo</th><th>Fecha</th><th>Estado</th><th>Notas</th></tr>${DATA.chequeos.map(c=>`<tr><td>${c.name}</td><td>${c.date||'—'}</td><td>${c.status||'—'}</td><td>${c.notes||'—'}</td></tr>`).join('')}</table>`:'<p>Sin chequeos registrados</p>'}
+
+  <h2>🩸 Historial del ciclo</h2>
+  <p><strong>Último periodo:</strong> ${DATA.lastPeriod||'No registrado'}<br/>
+  <strong>Duración del ciclo:</strong> ${DATA.cycleLen||28} días<br/>
+  <strong>Días de sangrado:</strong> ${DATA.periodLen||5} días<br/>
+  <strong>Tipo de ciclo:</strong> ${DATA.cycleType||'No indicado'}<br/>
+  <strong>Flujo habitual:</strong> ${DATA.flow||'No indicado'}<br/>
+  <strong>Nivel de dolor:</strong> ${DATA.pain||'No indicado'}</p>
+
+  <div class="footer">
+  <p>📱 Reporte generado por <strong>Ovárica</strong> — ovarica.site<br/>
+  ⚠️ <em>Este reporte es un resumen del autoregistro de la paciente y no sustituye el diagnóstico médico. Los datos son reportados por la propia paciente.</em></p>
+  </div></body></html>`;
+
+  const blob=new Blob([reporteHTML],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`Reporte_Avarica_${name.replace(/\s+/g,'_')}_${today.replace(/\s/g,'_')}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📄 Reporte descargado');
+}
+
 function openAddMedical(){document.getElementById('medical-modal').classList.add('open')}
 function closeMedicalModal(e){if(e.target===document.getElementById('medical-modal')) document.getElementById('medical-modal').classList.remove('open')}
 function saveMedical(){
@@ -2338,8 +2446,9 @@ function showRegisterFromLogin(){
   showPanel('register');
 }
 function showPanel(panel){
-  ['welcome','login','register'].forEach(p=>{
-    document.getElementById('panel-'+p).style.display = p===panel?'block':'none';
+  ['welcome','login','register','install'].forEach(p=>{
+    const el=document.getElementById('panel-'+p);
+    if(el) el.style.display = p===panel?'block':'none';
   });
 }
 function goToOnboarding(){
@@ -2379,9 +2488,76 @@ function buildConfigToggles(){
 }
 
 function toggleConfig(id){
-  DATA.config[id]=DATA.config[id]===false?true:false;
+  DATA.config[id] = DATA.config[id]===false ? true : false;
   saveData();
   buildConfigToggles();
+  // Handle notification permission
+  if(id==='notif-diarias' && DATA.config[id]){
+    requestNotificationPermission();
+  }
+  if(id==='rec-suplem' && DATA.config[id]){
+    showToast('💊 Recibirás recordatorio diario de suplementos');
+    scheduleNotification('💊 Ovárica', '¿Ya tomaste tus suplementos hoy?', 9*60);
+  }
+}
+
+function requestNotificationPermission(){
+  if(!('Notification' in window)){
+    showToast('⚠️ Tu navegador no soporta notificaciones');
+    DATA.config['notif-diarias']=false;
+    saveData(); buildConfigToggles();
+    return;
+  }
+  Notification.requestPermission().then(perm=>{
+    if(perm==='granted'){
+      showToast('🔔 Notificaciones activadas');
+      scheduleNotification('🌸 Ovárica', '¡Recuerda registrar tus síntomas de hoy!', 20*60);
+    } else {
+      showToast('⚠️ Activa los permisos en tu navegador');
+      DATA.config['notif-diarias']=false;
+      saveData(); buildConfigToggles();
+    }
+  });
+}
+
+function scheduleNotification(title, body, minutesFromNow){
+  if(Notification.permission!=='granted') return;
+  setTimeout(()=>{
+    new Notification(title, {
+      body,
+      icon:'/icon-192.png',
+      badge:'/icon-192.png'
+    });
+  }, minutesFromNow * 60 * 1000);
+}
+
+function checkAndSendNotifications(){
+  if(!DATA.config?.['notif-diarias']) return;
+  if(Notification.permission!=='granted') return;
+  const today=fmtDate(todayDate);
+  // Remind to register if no registro today
+  if(!DATA.registros[today]){
+    scheduleNotification('🌸 Ovárica', '¿Cómo te sientes hoy? Registra tus síntomas.', 1);
+  }
+  // Remind about supplements
+  if(DATA.config?.['rec-suplem']){
+    const sup=DATA.suplementos[today];
+    const taken=sup?Object.values(sup).filter(Boolean).length:0;
+    if(taken===0){
+      scheduleNotification('💊 Ovárica', 'No olvides tus suplementos de hoy 🌿', 2);
+    }
+  }
+  // Check upcoming medical appointments
+  if(DATA.config?.['reporte-nora'] && DATA.chequeos.length>0){
+    const upcoming=DATA.chequeos.filter(c=>{
+      if(!c.date) return false;
+      const diff=(new Date(c.date)-new Date())/(1000*60*60*24);
+      return diff>0 && diff<=7;
+    });
+    if(upcoming.length>0){
+      scheduleNotification('🩺 Ovárica', `Tienes ${upcoming.length} chequeo(s) médico(s) próximos esta semana`, 3);
+    }
+  }
 }
 
 // ═══ BOOT ═══
