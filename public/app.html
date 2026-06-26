@@ -233,25 +233,96 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);z-index:500;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
-  <div style="width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center">
-    <div style="text-align:center;margin-bottom:2rem">
-      <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:.3rem"><span style="color:var(--brand)">OVÁ</span><span style="color:var(--purple)">RICA</span></div>
+<!-- WELCOME SCREEN -->
+<div id="login-screen" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);z-index:500;align-items:center;justify-content:center;flex-direction:column;padding:1.5rem;overflow-y:auto">
+  <div style="width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center">
+
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:1.5rem;padding-top:1rem">
+      <div style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;margin-bottom:.3rem">
+        <span style="color:var(--brand)">OVÁ</span><span style="color:var(--purple)">RICA</span>
+      </div>
       <div style="font-size:.7rem;color:var(--text-muted);letter-spacing:.09em;text-transform:uppercase">Tu salud hormonal, en tus manos</div>
     </div>
-    <div style="width:100%;background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12)">
-      <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:.25rem;color:var(--text)">Bienvenida de vuelta 🌸</div>
-      <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:1.3rem">Inicia sesión para continuar tu seguimiento</div>
-      <input class="ob-input" id="login-email" type="email" placeholder="Correo electrónico" style="margin-bottom:.65rem;width:100%"/>
-      <input class="ob-input" id="login-pass" type="password" placeholder="Contraseña" style="margin-bottom:1rem;width:100%"/>
-      <button class="ob-btn" type="button" id="login-btn" style="width:100%">Iniciar sesión</button>
-      <div style="text-align:center;margin-top:.9rem;font-size:.78rem;color:var(--text-muted)">
-        ¿No tienes cuenta? <span style="color:var(--brand);cursor:pointer;font-weight:600" onclick="showRegisterFromLogin()">Regístrate</span>
+
+    <!-- Welcome panel (default) -->
+    <div id="panel-welcome" style="width:100%">
+      <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12);margin-bottom:1rem;text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:.8rem">🌸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Bienvenida a Ovárica</div>
+        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6">Tu app de salud hormonal para SOMP. Registra síntomas, sigue tu ciclo y recibe insights personalizados de Nora IA.</div>
+        <button class="ob-btn" style="width:100%;margin-bottom:.7rem" onclick="showPanel('login')">Iniciar sesión</button>
+        <button style="width:100%;padding:.9rem;background:var(--brand-pale);border:1.5px solid var(--brand-soft);border-radius:var(--r-sm);color:var(--brand);font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer" onclick="showPanel('register')">Crear cuenta gratis 🌸</button>
       </div>
-      <div style="text-align:center;margin-top:.4rem;font-size:.75rem">
-        <span style="color:var(--brand);cursor:pointer" onclick="showToast('📧 Revisa tu correo para restablecer tu contraseña')">¿Olvidaste tu contraseña?</span>
+
+      <!-- Install PWA instructions -->
+      <div style="background:white;border-radius:var(--r);padding:1.4rem;box-shadow:0 4px 16px rgba(180,120,180,.1);border:1px solid rgba(180,130,200,.12)">
+        <div style="font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem">
+          📱 Instala la app en tu teléfono
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+          <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.8rem;text-align:center">
+            <div style="font-size:1.4rem;margin-bottom:.4rem">🍎</div>
+            <div style="font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:.35rem">iPhone</div>
+            <div style="font-size:.65rem;color:var(--text-muted);line-height:1.65">
+              1. Abre en <strong>Safari</strong><br/>
+              2. Toca ícono compartir 📤<br/>
+              3. "Añadir a pantalla de inicio"<br/>
+              4. Toca "Añadir" ✅
+            </div>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--r-sm);padding:.8rem;text-align:center">
+            <div style="font-size:1.4rem;margin-bottom:.4rem">🤖</div>
+            <div style="font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:.35rem">Android</div>
+            <div style="font-size:.65rem;color:var(--text-muted);line-height:1.65">
+              1. Abre en <strong>Chrome</strong><br/>
+              2. Toca 3 puntitos ⋮<br/>
+              3. "Añadir a pantalla de inicio"<br/>
+              4. Toca "Añadir" ✅
+            </div>
+          </div>
+        </div>
+        <div style="font-size:.68rem;color:var(--text-muted);text-align:center;margin-top:.7rem">
+          ✨ Sin descargar nada de Play Store o App Store
+        </div>
       </div>
+    </div>
+
+    <!-- Login panel -->
+    <div id="panel-login" style="display:none;width:100%">
+      <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12)">
+        <button onclick="showPanel('welcome')" style="background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;margin-bottom:1rem;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif">← Volver</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:.25rem;color:var(--text)">Bienvenida de vuelta 🌸</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:1.3rem">Inicia sesión para continuar tu seguimiento</div>
+        <input class="ob-input" id="login-email" type="email" placeholder="Correo electrónico" style="margin-bottom:.65rem;width:100%"/>
+        <input class="ob-input" id="login-pass" type="password" placeholder="Contraseña" style="margin-bottom:1rem;width:100%"/>
+        <button class="ob-btn" type="button" id="login-btn" style="width:100%">Iniciar sesión</button>
+        <div style="text-align:center;margin-top:.9rem;font-size:.78rem;color:var(--text-muted)">
+          ¿No tienes cuenta? <span style="color:var(--brand);cursor:pointer;font-weight:600" onclick="showPanel('register')">Regístrate gratis</span>
+        </div>
+        <div style="text-align:center;margin-top:.4rem;font-size:.75rem">
+          <span style="color:var(--brand);cursor:pointer" onclick="showToast('📧 Escribe a soporte@ovarica.site para restablecer tu contraseña')">¿Olvidaste tu contraseña?</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register redirect panel -->
+    <div id="panel-register" style="display:none;width:100%">
+      <div style="background:white;border-radius:var(--r);padding:1.8rem;box-shadow:0 8px 30px rgba(180,120,180,.12);border:1px solid rgba(180,130,200,.12);text-align:center">
+        <button onclick="showPanel('welcome')" style="background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;margin-bottom:1rem;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif">← Volver</button>
+        <div style="font-size:2rem;margin-bottom:.6rem">🌸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Crear tu cuenta</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6">Completa tu perfil para personalizar tu experiencia. Solo toma 3 minutos.</div>
+        <button class="ob-btn" style="width:100%" onclick="goToOnboarding()">Continuar con el registro 🌸</button>
+        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.8rem">
+          Al registrarte aceptas nuestros <span style="color:var(--brand)">Términos de uso</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:.68rem;color:var(--text-muted);text-align:center;margin-top:1rem;line-height:1.7">
+      Ovárica no reemplaza el diagnóstico médico.<br/>
+      <a href="mailto:soporte@ovarica.site" style="color:var(--brand);text-decoration:none">soporte@ovarica.site</a>
     </div>
   </div>
 </div>
@@ -1241,8 +1312,11 @@ function cerrarSesionSupabase() {
   if (confirm('¿Cerrar sesión?')) {
     localStorage.removeItem('avarica_session');
     CURRENT_USER = null;
+    CURRENT_PLAN = 'gratuito';
     document.getElementById('app').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
+    const ls = document.getElementById('login-screen');
+    ls.style.display = 'flex';
+    showPanel('welcome');
   }
 }
 </script>
@@ -2261,6 +2335,14 @@ function confirmLogout(){ cerrarSesionSupabase(); return;
 }
 
 function showRegisterFromLogin(){
+  showPanel('register');
+}
+function showPanel(panel){
+  ['welcome','login','register'].forEach(p=>{
+    document.getElementById('panel-'+p).style.display = p===panel?'block':'none';
+  });
+}
+function goToOnboarding(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('onboarding').style.display='flex';
 }
@@ -2326,8 +2408,13 @@ function bootApp(){
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     initApp();
+  } else {
+    // Show welcome screen instead of onboarding directly
+    document.getElementById('onboarding').style.display='none';
+    const ls = document.getElementById('login-screen');
+    ls.style.display='flex';
+    showPanel('welcome');
   }
-  // else: onboarding is already visible by default
 }
 
 document.getElementById('ob-start-btn').addEventListener('click', registrarUsuario);
