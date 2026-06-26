@@ -1013,6 +1013,47 @@ let CURRENT_PLAN = 'gratuito';
 let PLAN_ACTIVO  = false;
 
 // ═══ VERIFICAR SESION ═══
+// ═══ SYSTEME.IO INTEGRATION ═══
+// INSTRUCCIÓN: Reemplaza con tu API Key de Systeme.io
+// Encuéntrala en: Systeme.io → Configuración → API Keys
+const SYSTEME_API_KEY = 'kzjj1v120766zuhvykm7afur008rm0j42mugxqdwx6a4d4l9yt7b626ucjyj95by';
+
+async function registrarEnSystemeIO(nombre, email, plan) {
+  try {
+    // Split name
+    const parts = nombre.trim().split(' ');
+    const firstName = parts[0];
+    const lastName = parts.slice(1).join(' ') || '';
+
+    // Tag based on plan
+    const tagName = plan === 'gratuito' ? 'Ovarica - Gratuito' :
+                    plan === 'pro_mensual' ? 'Ovarica - Pro Mensual' : 'Ovarica - Pro Anual';
+
+    const response = await fetch('https://api.systeme.io/api/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': SYSTEME_API_KEY
+      },
+      body: JSON.stringify({
+        email,
+        firstName,
+        lastName,
+        fields: [],
+        tags: [tagName]
+      })
+    });
+
+    if (response.ok) {
+      console.log('✅ Contacto registrado en Systeme.io');
+    } else {
+      console.log('Systeme.io response:', response.status);
+    }
+  } catch(e) {
+    console.log('Systeme.io error (non-critical):', e.message);
+  }
+}
+
 async function verificarSesion() {
   const session = localStorage.getItem('avarica_session');
   if (!session) return false;
@@ -1172,13 +1213,15 @@ async function registrarUsuario() {
     DATA.userName = name;
     DATA.email    = email;
     DATA.userId   = data.id;
-    // Also save locally
     DATA.lastPeriod = document.getElementById('ob-last-period').value;
     DATA.cycleLen   = parseInt(document.getElementById('ob-cycle-len').value)||28;
     DATA.country    = document.getElementById('ob-country').value;
     DATA.age        = document.getElementById('ob-age').value;
     saveData();
     localStorage.setItem('avarica_session', JSON.stringify({email, id: data.id}));
+
+    // Register in Systeme.io for welcome email
+    registrarEnSystemeIO(name, email, 'gratuito');
 
     document.getElementById('onboarding').style.display = 'none';
     document.getElementById('app').style.display = 'block';
@@ -2091,7 +2134,18 @@ function buildShoppingList(){
   legend.innerHTML='<div style="font-size:.65rem;color:var(--text-muted);margin-top:.5rem">✓ = en mi lista &nbsp; ✓✓ = ya compré</div>';
   sf.appendChild(legend);
 
-  SHOP_SUPLEM.forEach((item,i)=>{
+  // Add custom supplement input to shopping list
+  const addSuplDiv=document.createElement('div');
+  addSuplDiv.style.cssText='display:flex;gap:.5rem;margin-bottom:.7rem';
+  addSuplDiv.innerHTML=`
+    <input id="shop-suplem-input" placeholder="Agregar suplemento..." class="modal-input" style="margin:0;flex:1;font-size:.78rem;padding:.5rem .8rem"/>
+    <button onclick="addShopSuplem()" style="background:var(--purple);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">+ Agregar</button>`;
+  ss.appendChild(addSuplDiv);
+
+  if(!DATA.shopCustomSuplem) DATA.shopCustomSuplem=[];
+  const allSuplem=[...SHOP_SUPLEM,...DATA.shopCustomSuplem];
+
+  allSuplem.forEach((item,i)=>{
     const key='suplem-'+i; const bought=DATA.shopBought[key]||false;
     const div=document.createElement('div'); div.className='shop-item'+(bought?' bought':'');
     div.innerHTML=`<div class="shop-check">${bought?'✓':''}</div>${item}`;
@@ -2113,6 +2167,16 @@ function buildShoppingList(){
     <div style="font-size:.68rem;color:var(--text-muted);margin-top:.4rem">Selecciona los artículos que necesitas comprar para ver el presupuesto.</div>`;
 }
 
+function addShopSuplem(){
+  const inp=document.getElementById('shop-suplem-input');
+  const val=inp?.value.trim();
+  if(!val) return;
+  if(!DATA.shopCustomSuplem) DATA.shopCustomSuplem=[];
+  DATA.shopCustomSuplem.push('💊 '+val);
+  inp.value='';
+  saveData(); buildShoppingList();
+  showToast('✅ Suplemento agregado a la lista');
+}
 function toggleCart(key){
   if(!DATA.shopCart) DATA.shopCart={};
   DATA.shopCart[key]=!DATA.shopCart[key];
