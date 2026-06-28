@@ -2068,45 +2068,56 @@ function bootApp(){
     }catch(e){}
   }
   if(DATA.userName){
-    // Restaurar sesión
+    // Restaurar sesión desde localStorage
     try {
       const sess = localStorage.getItem('avarica_session');
       if(sess) {
         const s = JSON.parse(sess);
         if(s.email) DATA.email = s.email;
         if(s.id)    DATA.userId = s.id;
-        if(s.plan)  CURRENT_PLAN = s.plan; // BUG1 FIX: restaurar plan desde sesión
+        if(s.plan)  CURRENT_PLAN = s.plan;
       }
     } catch(e) {}
     document.getElementById('onboarding').style.display='none';
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     initApp();
-    aplicarPlan(); // aplicar plan inmediatamente con valor restaurado
-    // Verificar plan fresco desde Supabase (captura cambios post-pago)
-    setTimeout(async()=>{
-      try{
-        const session=localStorage.getItem('avarica_session');
+    aplicarPlan();
+    // ── SYNC AGRESIVO: verificar plan en Supabase SIEMPRE al arrancar ──
+    // No importa lo que diga localStorage — Supabase es la fuente de verdad
+    (async function syncPlanOnBoot(){
+      try {
+        const session = localStorage.getItem('avarica_session');
         if(!session) return;
-        const s=JSON.parse(session);
-        const {data}=await sb.from('usuarios').select('plan,nombre,email').eq('email',s.email).single();
-        if(data){
-          const planAnterior=CURRENT_PLAN;
-          CURRENT_PLAN = data.plan || 'gratuito';
-          DATA.userName = data.nombre;
-          DATA.email    = data.email;
-          // Guardar plan en sesión para próximo boot
-          const sess2 = JSON.parse(localStorage.getItem('avarica_session')||'{}');
-          sess2.plan = CURRENT_PLAN;
-          localStorage.setItem('avarica_session', JSON.stringify(sess2));
-          // Aplicar cambios en UI siempre
-          aplicarPlan();
-          if(CURRENT_PLAN !== planAnterior){
-            showToast('✅ Plan actualizado: ' + CURRENT_PLAN.replace(/_/g,' '));
+        const s = JSON.parse(session);
+        if(!s.email) return;
+        const {data, error} = await sb.from('usuarios')
+          .select('plan,nombre,email,activo')
+          .eq('email', s.email)
+          .single();
+        if(error || !data) return;
+        const planAnterior = CURRENT_PLAN;
+        // Supabase siempre gana
+        CURRENT_PLAN = data.plan || 'gratuito';
+        DATA.userName = data.nombre;
+        DATA.email    = data.email;
+        // Actualizar sesión guardada
+        const sessObj = JSON.parse(localStorage.getItem('avarica_session') || '{}');
+        sessObj.plan = CURRENT_PLAN;
+        localStorage.setItem('avarica_session', JSON.stringify(sessObj));
+        // Siempre re-aplicar (puede haber cambiado)
+        aplicarPlan();
+        if(planAnterior !== CURRENT_PLAN) {
+          // El plan cambió desde el último acceso
+          const nombres = {gratuito:'Gratuito', pro_mensual:'Pro Mensual', pro_anual:'Pro Anual'};
+          showToast('🎉 Plan actualizado: ' + (nombres[CURRENT_PLAN] || CURRENT_PLAN));
+          // Reconstruir perfil si está visible
+          if(document.getElementById('screen-perfil')?.classList.contains('active')) {
+            buildPerfil();
           }
         }
-      }catch(e){ console.log('Boot plan check error:', e); }
-    }, 400);
+      } catch(e) { console.log('Boot sync error:', e); }
+    })();
   } else {
     document.getElementById('onboarding').style.display='none';
     const ls=document.getElementById('login-screen');
