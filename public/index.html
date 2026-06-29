@@ -1,215 +1,274 @@
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#C9517A"/>
+<title>Ovárica — Tu app de salud hormonal para SOMP, antes conocido como Síndrome de Ovario Poliquístico (SOP)</title>
+<meta name="description" content="La única app 100% enfocada en salud hormonal y SOMP, antes conocido como Síndrome de Ovario Poliquístico (SOP) para mujeres hispanohablantes. Sigue tu ciclo, recibe insights de Nora IA, plan nutricional y más."/>
+<link rel="icon" href="data:image/png;base64,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"/>
+<link rel="shortcut icon" href="data:image/png;base64,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"/>
+<link rel="apple-touch-icon" href="data:image/png;base64,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"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* === OVÁRICA LANDING - SYSTEME.IO === */
-.ov-wrap { font-family: 'DM Sans', sans-serif; color: #2D1A35; overflow-x: hidden; }
-.ov-wrap *, .ov-wrap *::before, .ov-wrap *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#C9517A;--brand-soft:#E8A0B4;--brand-pale:#FCE8EF;--brand-dark:#A03060;
+  --purple:#9B6DB5;--purple-pale:#EFE5F8;--purple-dark:#7A4F9A;
+  --text:#2D1A35;--text-muted:#9B7DAB;--text-light:#C4A8D4;
+  --bg:#FDF6F9;--surface:#FFFFFF;--surface2:#F5EDF4;
+  --success:#4CAF85;--food:#E8921A;--medical:#2BA8A0;
+  --r:18px;--r-sm:10px;--r-lg:24px;
+  --shadow:0 4px 24px rgba(155,109,181,.12);
+  --shadow-lg:0 8px 40px rgba(155,109,181,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 
-/* Hero */
-.ov-hero { min-height: 95vh; display: flex; align-items: center; padding: 5rem 1.5rem 3rem; background: linear-gradient(160deg, #FDF6F9 0%, #F0E5F8 55%, #FCE8EF 100%); }
-.ov-hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; align-items: center; width: 100%; }
-.ov-badge { display: inline-flex; align-items: center; gap: 6px; background: #FCE8EF; border: 1px solid #E8A0B4; border-radius: 50px; padding: .4rem 1rem; font-size: .75rem; font-weight: 600; color: #C9517A; margin-bottom: 1.2rem; }
-.ov-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 700; line-height: 1.15; color: #2D1A35; margin-bottom: 1.2rem; }
-.ov-hero h1 span { color: #C9517A; }
-.ov-hero p { font-size: 1rem; color: #9B7DAB; line-height: 1.7; margin-bottom: 1.8rem; max-width: 480px; }
-.ov-cta-group { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
-.ov-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #9B6DB5, #C9517A); color: white !important; border: none; border-radius: 50px; padding: .95rem 2.2rem; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; cursor: pointer; text-decoration: none !important; box-shadow: 0 6px 24px rgba(201,81,122,.4); transition: transform .2s; }
-.ov-btn-primary:hover { transform: translateY(-2px); }
-.ov-btn-secondary { display: inline-flex; align-items: center; gap: 6px; background: white; color: #C9517A !important; border: 1.5px solid #E8A0B4; border-radius: 50px; padding: .93rem 1.8rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none !important; }
-.ov-trust { display: flex; align-items: center; gap: .6rem; margin-top: 1.4rem; font-size: .8rem; color: #9B7DAB; }
-.ov-stars { color: #E8921A; }
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(253,246,249,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(180,130,200,.12);padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo img{height:36px;width:auto}
+.nav-cta{background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;border-radius:50px;padding:.55rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
 
-/* Phone */
-.ov-phone-wrap { display: flex; justify-content: center; position: relative; }
-.ov-phone { width: 300px; background: #1a0a20; border-radius: 42px; padding: 11px; box-shadow: 0 30px 80px rgba(45,26,53,.4), 0 0 0 1.5px rgba(180,130,200,.2); }
-.ov-phone-notch { width:80px; height:22px; background:#1a0a20; border-radius:0 0 14px 14px; margin:0 auto 6px; }
-.ov-phone-screen { background: #FDF6F9; border-radius: 33px; overflow: hidden; height: 580px; position: relative; }
-.ov-screen-hdr { background: white; padding: 10px 14px 8px; border-bottom: 1px solid rgba(180,130,200,.15); display: flex; align-items: center; justify-content: space-between; }
-.ov-logo-text { font-family: 'Playfair Display', serif; font-size: .85rem; font-weight: 700; }
-.ov-logo-text .o { color: #C9517A; } .ov-logo-text .r { color: #9B6DB5; }
-.ov-screen-body { padding: 10px; height: calc(580px - 48px - 50px); overflow: hidden; }
-.ov-phase { background: linear-gradient(135deg, #EFE5F8, #FCE8EF); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-.ov-pname { font-family: 'Playfair Display', serif; font-size: .72rem; font-weight: 700; color: #9B6DB5; }
-.ov-pdesc { font-size: .6rem; color: #9B7DAB; }
-.ov-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; margin-bottom: 8px; }
-.ov-stat { background: white; border-radius: 8px; padding: 6px; text-align: center; border: 1px solid rgba(180,130,200,.12); }
-.ov-stat-n { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #C9517A; }
-.ov-stat-l { font-size: .5rem; color: #9B7DAB; text-transform: uppercase; }
-.ov-nora { background: linear-gradient(135deg, #FFF0F5, #F3E8FF); border: 1px solid #E8A0B4; border-radius: 10px; padding: 9px 10px; margin-bottom: 8px; }
-.ov-nora-hdr { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-.ov-nora-av { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #9B6DB5, #C9517A); display: flex; align-items: center; justify-content: center; font-size: .6rem; color: white; font-weight: 700; }
-.ov-nora-n { font-size: .65rem; font-weight: 700; color: #C9517A; }
-.ov-nora-body { font-size: .6rem; color: #2D1A35; line-height: 1.5; }
-.ov-nhl { color: #C9517A; font-weight: 600; }
-.ov-cal { background: white; border-radius: 10px; padding: 8px; border: 1px solid rgba(180,130,200,.12); }
-.ov-cal-title { font-size: .6rem; font-weight: 600; color: #9B7DAB; text-transform: uppercase; margin-bottom: 5px; }
-.ov-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
-.ov-d { height: 18px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: .48rem; color: #2D1A35; }
-.ov-d.t { background: #FCE8EF; color: #C9517A; font-weight: 700; }
-.ov-d.p { background: rgba(201,81,122,.15); color: #C9517A; }
-.ov-d.h { color: #9B7DAB; }
-.ov-phone-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: rgba(255,255,255,.97); border-top: 1px solid rgba(180,130,200,.15); display: flex; }
-.ov-nav-i { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: .8rem; color: #9B7DAB; }
-.ov-nav-i.a { color: #C9517A; }
-.ov-nav-il { font-size: .42rem; text-transform: uppercase; letter-spacing: .04em; }
-.ov-float { position: absolute; top: -12px; right: -12px; background: linear-gradient(135deg, #C9517A, #9B6DB5); color: white; border-radius: 12px; padding: 6px 10px; font-size: .72rem; font-weight: 600; box-shadow: 0 4px 15px rgba(201,81,122,.3); white-space: nowrap; z-index: 2; }
+/* HERO */
+.hero{min-height:92vh;display:flex;align-items:center;padding:3rem 1.5rem 2rem;background:linear-gradient(160deg,#FDF6F9 0%,#F0E5F8 50%,#FCE8EF 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-30%;right:-15%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,81,122,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-20%;left:-10%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(155,109,181,.07) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--brand-pale);border:1px solid var(--brand-soft);border-radius:50px;padding:.4rem 1rem;font-size:.75rem;font-weight:600;color:var(--brand);margin-bottom:1.2rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.2;color:var(--text);margin-bottom:1rem}
+.hero h1 span{color:var(--brand)}
+.hero p{font-size:1.05rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.8rem;max-width:480px}
+.cta-group{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;border-radius:50px;padding:.85rem 2rem;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 6px 20px rgba(201,81,122,.35);transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,81,122,.45)}
+.btn-secondary{display:inline-flex;align-items:center;gap:6px;background:white;color:var(--brand);border:1.5px solid var(--brand-soft);border-radius:50px;padding:.83rem 1.6rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-secondary:hover{background:var(--brand-pale)}
+.hero-trust{display:flex;align-items:center;gap:.6rem;margin-top:1.4rem;font-size:.8rem;color:var(--text-muted)}
+.stars{color:#E8921A;letter-spacing:1px;font-size:.85rem}
 
-/* Sections */
-.ov-section { padding: 4.5rem 1.5rem; }
-.ov-section-bg1 { background: #FDF6F9; }
-.ov-section-bg2 { background: linear-gradient(160deg, #F0E5F8, #FCE8EF); }
-.ov-section-bg3 { background: #F5EDF4; }
-.ov-container { max-width: 1100px; margin: 0 auto; }
-.ov-section-badge { display: inline-flex; align-items: center; gap: 6px; background: #EFE5F8; border: 1px solid rgba(155,109,181,.25); border-radius: 50px; padding: .35rem .9rem; font-size: .73rem; font-weight: 600; color: #9B6DB5; margin-bottom: 1rem; }
-.ov-h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #2D1A35; margin-bottom: .6rem; line-height: 1.25; }
-.ov-h2 em { font-style: italic; color: #C9517A; }
-.ov-sub { font-size: 1rem; color: #9B7DAB; margin-bottom: 2.5rem; max-width: 560px; }
+/* PHONE MOCKUP */
+.phone-wrap{position:relative;display:flex;justify-content:center}
+.phone{width:260px;background:#1a0a20;border-radius:38px;padding:10px;box-shadow:0 20px 60px rgba(45,26,53,.35),0 0 0 1px rgba(180,130,200,.2);position:relative}
+.phone-notch{width:80px;height:22px;background:#1a0a20;border-radius:0 0 14px 14px;margin:0 auto 6px;position:relative;z-index:2}
+.phone-screen{background:var(--bg);border-radius:30px;overflow:hidden;height:520px;position:relative}
+.screen-header{background:white;padding:12px 14px 10px;border-bottom:1px solid rgba(180,130,200,.15);display:flex;align-items:center;justify-content:space-between}
+.screen-logo{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700}
+.screen-logo .o{color:var(--brand)}.screen-logo .r{color:var(--purple)}
+.screen-content{padding:10px;overflow:hidden;height:calc(520px - 52px)}
+.phase-card{background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale));border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.phase-icon{font-size:1.1rem}
+.phase-text .pname{font-family:'Playfair Display',serif;font-size:.72rem;font-weight:700;color:var(--purple)}
+.phase-text .pdesc{font-size:.6rem;color:var(--text-muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px}
+.stat{background:white;border-radius:8px;padding:6px;text-align:center;border:1px solid rgba(180,130,200,.12)}
+.stat-n{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--brand)}
+.stat-l{font-size:.5rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+.nora-card{background:linear-gradient(135deg,#FFF0F5,#F3E8FF);border:1px solid var(--brand-soft);border-radius:10px;padding:9px 10px;margin-bottom:8px}
+.nora-head{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.nora-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--brand));display:flex;align-items:center;justify-content:center;font-size:.65rem;color:white;font-weight:700}
+.nora-name{font-size:.65rem;font-weight:700;color:var(--brand)}
+.nora-body{font-size:.6rem;color:var(--text);line-height:1.5}
+.nora-hl{color:var(--brand);font-weight:600}
+.cal-mini{background:white;border-radius:10px;padding:8px;border:1px solid rgba(180,130,200,.12)}
+.cal-title{font-size:.6rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px}
+.cal-grid-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-d{height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.48rem;color:var(--text)}
+.cal-d.today{background:var(--brand-pale);color:var(--brand);font-weight:700}
+.cal-d.per{background:rgba(201,81,122,.15);color:var(--brand)}
+.phone-nav{position:absolute;bottom:0;left:0;right:0;height:50px;background:rgba(255,255,255,.97);border-top:1px solid rgba(180,130,200,.15);display:flex}
+.nav-i{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.85rem;color:var(--text-muted)}
+.nav-i.a{color:var(--brand)}.nav-il{font-size:.42rem;text-transform:uppercase;letter-spacing:.04em}
+.floating-badge{position:absolute;top:-12px;right:-12px;background:linear-gradient(135deg,var(--brand),var(--purple));color:white;border-radius:12px;padding:6px 10px;font-size:.72rem;font-weight:600;box-shadow:var(--shadow);white-space:nowrap}
 
-/* Feature cards */
-.ov-feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
-.ov-feat { background: white; border: 1px solid rgba(180,130,200,.15); border-radius: 18px; padding: 1.6rem; box-shadow: 0 4px 24px rgba(155,109,181,.1); transition: transform .2s; }
-.ov-feat:hover { transform: translateY(-3px); }
-.ov-feat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
-.ov-feat h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: #2D1A35; margin-bottom: .5rem; }
-.ov-feat p { font-size: .87rem; color: #9B7DAB; line-height: 1.65; }
-.ov-feat-tag { display: inline-flex; background: #FCE8EF; color: #C9517A; font-size: .68rem; font-weight: 600; padding: 2px 8px; border-radius: 50px; margin-top: .8rem; }
+/* SECTION */
+section{padding:3.5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-badge{display:inline-flex;align-items:center;gap:6px;background:var(--purple-pale);border:1px solid rgba(155,109,181,.25);border-radius:50px;padding:.35rem .9rem;font-size:.73rem;font-weight:600;color:var(--purple);margin-bottom:1rem}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;color:var(--text);margin-bottom:.6rem;line-height:1.25}
+h2 em{font-style:italic;color:var(--brand)}
+.section-sub{font-size:1rem;color:var(--text-muted);margin-bottom:3rem;max-width:560px}
 
-/* Screens */
-.ov-screens-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-.ov-screen-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 40px rgba(155,109,181,.15); }
-.ov-screen-top { padding: 1rem 1rem .8rem; background: linear-gradient(135deg, #EFE5F8, #FCE8EF); }
-.ov-screen-top-t { font-family: 'Playfair Display', serif; font-size: .85rem; font-weight: 700; color: #2D1A35; margin-bottom: .3rem; }
-.ov-screen-top-d { font-size: .72rem; color: #9B7DAB; line-height: 1.5; }
-.ov-screen-body { padding: 1rem; }
-.ov-sitem { display: flex; align-items: center; gap: 8px; padding: .4rem 0; border-bottom: 1px solid rgba(180,130,200,.1); font-size: .78rem; color: #2D1A35; }
-.ov-sitem:last-child { border: none; }
-.ov-sicon { font-size: .9rem; width: 22px; text-align: center; flex-shrink: 0; }
-.ov-scheck { color: #4CAF85; font-size: .75rem; margin-left: auto; }
+/* FEATURE CARDS */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.feat-card{background:var(--surface);border:1px solid rgba(180,130,200,.15);border-radius:var(--r);padding:1.6rem;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.feat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.feat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+.feat-card h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+.feat-card p{font-size:.87rem;color:var(--text-muted);line-height:1.65}
+.feat-tag{display:inline-flex;align-items:center;gap:4px;background:var(--brand-pale);color:var(--brand);font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:50px;margin-top:.8rem}
 
-/* Compare table */
-.ov-table-wrap { overflow-x: auto; margin-top: 2rem; }
-.ov-table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 40px rgba(155,109,181,.15); }
-.ov-table th { padding: .9rem; font-size: .78rem; font-weight: 600; text-align: center; border-bottom: 2px solid rgba(180,130,200,.15); }
-.ov-table th:first-child { text-align: left; color: #9B7DAB; font-weight: 500; }
-.ov-th-ova { background: linear-gradient(135deg, #EFE5F8, #FCE8EF); color: #C9517A !important; font-size: .85rem !important; }
-.ov-th-comp { color: #9B7DAB !important; }
-.ov-table td { padding: .75rem .9rem; font-size: .82rem; text-align: center; border-bottom: 1px solid rgba(180,130,200,.08); }
-.ov-table td:first-child { text-align: left; color: #2D1A35; font-weight: 500; }
-.ov-table tr:last-child td { border: none; }
-.ov-table tr:hover td { background: rgba(252,232,239,.25); }
-.ov-ck-ova { color: #C9517A; font-weight: 700; }
-.ov-ck-yes { color: #4CAF85; }
-.ov-ck-no { color: #C4A8D4; }
-.ov-hl { background: rgba(252,232,239,.2); }
+/* SCREENS SHOWCASE */
+.screens-section{background:linear-gradient(160deg,#F0E5F8 0%,#FCE8EF 100%);padding:3.5rem 1.5rem}
+.screens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:2rem}
+.screen-card{background:white;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid rgba(180,130,200,.15)}
+.screen-top{padding:1.1rem 1rem .8rem;background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale))}
+.screen-title{font-family:'Playfair Display',serif;font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.screen-desc{font-size:.72rem;color:var(--text-muted);line-height:1.5}
+.screen-body{padding:1rem}
+.screen-item{display:flex;align-items:center;gap:8px;padding:.4rem 0;border-bottom:1px solid rgba(180,130,200,.1);font-size:.78rem;color:var(--text)}
+.screen-item:last-child{border:none}
+.screen-item-icon{font-size:.9rem;width:22px;text-align:center;flex-shrink:0}
+.screen-check{color:var(--success);font-size:.75rem;margin-left:auto}
 
-/* Plans */
-.ov-plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-.ov-plan { background: white; border: 1.5px solid rgba(180,130,200,.2); border-radius: 24px; padding: 2rem; position: relative; transition: transform .2s; }
-.ov-plan:hover { transform: translateY(-4px); }
-.ov-plan.feat { border-color: #C9517A; box-shadow: 0 0 0 2px #FCE8EF, 0 8px 40px rgba(155,109,181,.18); }
-.ov-plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #9B6DB5, #C9517A); color: white; border-radius: 50px; padding: .3rem 1rem; font-size: .72rem; font-weight: 600; white-space: nowrap; }
-.ov-plan-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #2D1A35; margin-bottom: .3rem; }
-.ov-plan-price { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: #C9517A; line-height: 1; }
-.ov-plan-price span { font-size: .85rem; font-weight: 400; color: #9B7DAB; }
-.ov-plan-desc { font-size: .82rem; color: #9B7DAB; margin: .6rem 0 1.2rem; }
-.ov-plan-feats { list-style: none; padding: 0; margin-bottom: 1.5rem; }
-.ov-plan-feats li { display: flex; align-items: flex-start; gap: 8px; padding: .45rem 0; font-size: .84rem; color: #2D1A35; border-bottom: 1px solid rgba(180,130,200,.08); }
-.ov-plan-feats li:last-child { border: none; }
-.ov-plan-feats li::before { content: "✓"; color: #4CAF85; font-weight: 700; flex-shrink: 0; }
-.ov-plan-feats li.off { color: #9B7DAB; }
-.ov-plan-feats li.off::before { content: "—"; color: #D4B8E0; }
-.ov-plan-btn { display: block; width: 100%; padding: .9rem; text-align: center; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 600; cursor: pointer; text-decoration: none !important; transition: all .2s; }
-.ov-btn-free { background: #F5EDF4; color: #2D1A35 !important; border: 1.5px solid rgba(180,130,200,.25); }
-.ov-btn-free:hover { background: #FCE8EF; color: #C9517A !important; }
-.ov-btn-pro { background: linear-gradient(135deg, #9B6DB5, #C9517A); color: white !important; border: none; box-shadow: 0 4px 15px rgba(201,81,122,.3); }
-.ov-btn-gold { background: linear-gradient(135deg, #B8860B, #DAA520); color: white !important; border: none; box-shadow: 0 4px 15px rgba(184,134,11,.3); }
+/* COMPARATIVA */
+.compare-section{background:var(--surface2);padding:3.5rem 1.5rem}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg);margin-top:2rem}
+.compare-table th{padding:1rem .9rem;font-size:.78rem;font-weight:600;text-align:center;border-bottom:2px solid rgba(180,130,200,.15)}
+.compare-table th:first-child{text-align:left;color:var(--text-muted);font-weight:500}
+.th-ova{background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale));color:var(--brand)!important;font-size:.85rem!important}
+.th-comp{color:var(--text-muted)!important}
+.compare-table td{padding:.8rem .9rem;font-size:.82rem;text-align:center;border-bottom:1px solid rgba(180,130,200,.08)}
+.compare-table td:first-child{text-align:left;color:var(--text);font-weight:500}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:hover td{background:rgba(252,232,239,.3)}
+.check-yes{color:var(--success);font-size:1rem;font-weight:700}
+.check-no{color:#C4A8D4;font-size:1rem}
+.check-ova{color:var(--brand);font-size:1rem;font-weight:700}
+.highlight-col{background:rgba(252,232,239,.25)}
 
-/* Testimonios */
-.ov-testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
-.ov-testi { background: white; border-radius: 18px; padding: 1.4rem; box-shadow: 0 4px 24px rgba(155,109,181,.1); }
-.ov-testi-stars { color: #E8921A; margin-bottom: .6rem; }
-.ov-testi-text { font-size: .87rem; color: #2D1A35; line-height: 1.7; margin-bottom: 1rem; font-style: italic; }
-.ov-testi-author { display: flex; align-items: center; gap: .6rem; }
-.ov-testi-av { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #9B6DB5, #C9517A); display: flex; align-items: center; justify-content: center; color: white; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
-.ov-testi-name { font-size: .82rem; font-weight: 600; color: #2D1A35; }
-.ov-testi-loc { font-size: .72rem; color: #9B7DAB; }
+/* PLANS */
+.plans-section{padding:3.5rem 1.5rem;background:var(--bg)}
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
+.plan-card{background:white;border:1.5px solid rgba(180,130,200,.2);border-radius:var(--r-lg);padding:2rem;position:relative;transition:transform .2s}
+.plan-card:hover{transform:translateY(-4px)}
+.plan-card.featured{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-pale),var(--shadow-lg)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border-radius:50px;padding:.3rem 1rem;font-size:.72rem;font-weight:600;white-space:nowrap}
+.plan-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.plan-price{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--brand);line-height:1}
+.plan-price span{font-size:.85rem;font-weight:400;color:var(--text-muted)}
+.plan-desc{font-size:.82rem;color:var(--text-muted);margin:.6rem 0 1.2rem}
+.plan-features{list-style:none;padding:0;margin-bottom:1.5rem}
+.plan-features li{display:flex;align-items:flex-start;gap:8px;padding:.45rem 0;font-size:.84rem;color:var(--text);border-bottom:1px solid rgba(180,130,200,.08)}
+.plan-features li:last-child{border:none}
+.plan-features li::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0;margin-top:1px}
+.plan-features li.locked{color:var(--text-muted)}
+.plan-features li.locked::before{content:'—';color:#D4B8E0}
+.plan-btn{display:block;width:100%;padding:.9rem;text-align:center;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.plan-btn-free{background:var(--surface2);color:var(--text);border:1.5px solid rgba(180,130,200,.25)}
+.plan-btn-free:hover{background:var(--brand-pale);color:var(--brand)}
+.plan-btn-pro{background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;box-shadow:0 4px 15px rgba(201,81,122,.3)}
+.plan-btn-pro:hover{box-shadow:0 6px 22px rgba(201,81,122,.45);transform:translateY(-1px)}
+
+/* TESTIMONIOS */
+.testi-section{background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale));padding:3.5rem 1.5rem}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-top:2rem}
+.testi-card{background:white;border-radius:var(--r);padding:1.4rem;box-shadow:var(--shadow)}
+.testi-stars{color:var(--food);font-size:.9rem;margin-bottom:.6rem}
+.testi-text{font-size:.87rem;color:var(--text);line-height:1.7;margin-bottom:1rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:.6rem}
+.testi-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--brand));display:flex;align-items:center;justify-content:center;color:white;font-size:.8rem;font-weight:700;flex-shrink:0}
+.testi-name{font-size:.82rem;font-weight:600;color:var(--text)}
+.testi-loc{font-size:.72rem;color:var(--text-muted)}
 
 /* FAQ */
-.ov-faq-item { border-bottom: 1px solid rgba(180,130,200,.15); padding: 1.2rem 0; }
-.ov-faq-q { font-size: .97rem; font-weight: 600; color: #2D1A35; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-.ov-faq-q:hover { color: #C9517A; }
-.ov-faq-arrow { color: #C9517A; font-size: 1.2rem; transition: transform .2s; flex-shrink: 0; }
-.ov-faq-a { font-size: .87rem; color: #9B7DAB; line-height: 1.7; margin-top: .7rem; display: none; }
-.ov-faq-item.open .ov-faq-a { display: block; }
-.ov-faq-item.open .ov-faq-arrow { transform: rotate(180deg); }
+.faq-section{padding:3.5rem 1.5rem;background:var(--bg)}
+.faq-item{border-bottom:1px solid rgba(180,130,200,.15);padding:1.2rem 0}
+.faq-q{font-size:.97rem;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-q:hover{color:var(--brand)}
+.faq-arrow{color:var(--brand);font-size:1.2rem;transition:transform .2s;flex-shrink:0}
+.faq-a{font-size:.87rem;color:var(--text-muted);line-height:1.7;margin-top:.7rem;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
 
-/* CTA final */
-.ov-cta-final { padding: 4.5rem 1.5rem; background: linear-gradient(135deg, #EFE5F8, #FCE8EF); text-align: center; }
+/* FOOTER */
+footer{background:#2D1A35;color:rgba(255,255,255,.7);padding:3rem 1.5rem 2rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem}
+.footer-logo img{height:38px;filter:brightness(10);margin-bottom:.8rem}
+.footer-desc{font-size:.83rem;line-height:1.65;margin-bottom:1rem}
+.footer-links h4{color:white;font-size:.85rem;font-weight:600;margin-bottom:.8rem}
+.footer-links a{display:block;color:rgba(255,255,255,.6);font-size:.82rem;text-decoration:none;padding:.25rem 0;transition:color .2s}
+.footer-links a:hover{color:white}
+.footer-bottom{max-width:1100px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;font-size:.78rem;flex-wrap:wrap;gap:.5rem}
+.footer-legal{color:rgba(255,255,255,.4)}
 
-/* Footer mini */
-.ov-footer { background: #2D1A35; color: rgba(255,255,255,.7); padding: 2.5rem 1.5rem; text-align: center; }
-.ov-footer a { color: rgba(255,255,255,.6); text-decoration: none; }
-.ov-footer a:hover { color: white; }
-
-/* Responsive */
-@media(max-width: 768px) {
-  .ov-hero-inner { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
-  .ov-hero p, .ov-sub { margin-left: auto; margin-right: auto; }
-  .ov-cta-group, .ov-trust { justify-content: center; }
-  .ov-hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); }
-  .ov-phone { width: 240px; }
-  .ov-phone-screen { height: 480px; }
-  .ov-screen-body { height: calc(480px - 48px - 50px); }
-  .ov-table th:nth-child(4), .ov-table td:nth-child(4) { display: none; }
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-inner .hero-text{order:1}.phone-wrap{order:2}
+  .hero p{margin:0 auto 1.8rem}
+  .cta-group{justify-content:center}
+  .hero-trust{justify-content:center}
+  .phone{width:220px}.phone-screen{height:440px}
+  .screen-content{height:calc(440px - 52px)}
+  .footer-inner{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .compare-table th:nth-child(3),.compare-table td:nth-child(3),
+  .compare-table th:nth-child(4),.compare-table td:nth-child(4){display:none}
 }
 </style>
-<div class="ov-wrap">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><img src="data:image/png;base64,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" alt="Ovárica"/></div>
+  <a href="https://ovarica.site/app" class="nav-cta">Empezar gratis →</a>
+</nav>
 
 <!-- HERO -->
-<section class="ov-hero">
-<div class="ov-hero-inner">
-  <div>
-    <div class="ov-badge">🌸 La única app 100% para SOMP en español</div>
-    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:700;line-height:1.15;color:#2D1A35;margin-bottom:1.2rem">Tu salud hormonal,<br/><span style="color:#C9517A">por fin en tus manos</span></h1>
-    <p style="font-size:1.05rem;color:#9B7DAB;line-height:1.75;margin-bottom:2rem;max-width:500px">Ovárica es la app de salud hormonal diseñada específicamente para mujeres con SOMP. Sigue tu ciclo, recibe insights de Nora IA, plan nutricional anti-inflamatorio y genera reportes para tu médico.</p>
-    <div class="ov-cta-group">
-      <a href="https://ovarica.site/app" class="ov-btn-primary">🌸 Comenzar gratis</a>
-      <a href="#ov-planes" class="ov-btn-secondary">Ver planes Pro</a>
+<section class="hero">
+<div class="hero-inner">
+  <div class="hero-text">
+    <div class="hero-badge">🌸 La única app 100% para SOMP en español</div>
+    <h1>Tu salud hormonal,<br/><span>por fin en tus manos</span></h1>
+    <p>Ovárica es la app de salud hormonal diseñada específicamente para mujeres con SOMP, anteriormente conocido como  antes conocido como Síndrome de Ovario Poliquístico. Sigue tu ciclo, recibe insights de Nora IA, plan nutricional anti-inflamatorio y genera reportes para tu médico.</p>
+    <div class="cta-group">
+      <a href="https://ovarica.site/app" class="btn-primary">🌸 Comenzar gratis</a>
+      <a href="#planes" class="btn-secondary">Ver planes Pro</a>
     </div>
-    <div class="ov-trust"><span class="ov-stars">★★★★★</span><span>Diseñada para mujeres con SOMP en Latinoamérica y España</span></div>
+    <div class="hero-trust">
+      <span class="stars">★★★★★</span>
+      <span>Diseñada para mujeres con SOMP en Latinoamérica y España</span>
+    </div>
   </div>
-  <div class="ov-phone-wrap">
-    <div class="ov-float">✨ Nora IA activa</div>
-    <div class="ov-phone">
-      <div class="ov-phone-notch"></div>
-      <div class="ov-phone-screen">
-        <div class="ov-screen-hdr">
-          <div class="ov-logo-text"><span class="o">OVÁ</span><span class="r">RICA</span></div>
-          <div style="font-size:.6rem;color:#C9517A;font-weight:600">Nora IA</div>
+  <div class="phone-wrap">
+    <div class="floating-badge">✨ Nora IA activa</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="screen-header">
+          <div class="screen-logo"><span class="o">OVÁ</span><span class="r">RICA</span></div>
+          <div style="font-size:.6rem;color:var(--brand);font-weight:600">Nora IA</div>
         </div>
-        <div class="ov-screen-body">
-          <div class="ov-phase"><div style="font-size:1.1rem">🌱</div><div><div class="ov-pname">Fase Folicular · Día 8</div><div class="ov-pdesc">Aprovecha la energía para entrenar hoy</div></div></div>
-          <div class="ov-stats">
-            <div class="ov-stat"><div class="ov-stat-n">12</div><div class="ov-stat-l">Racha</div></div>
-            <div class="ov-stat"><div class="ov-stat-n" style="color:#4CAF85">47</div><div class="ov-stat-l">Registros</div></div>
-            <div class="ov-stat"><div class="ov-stat-n" style="color:#5B8FD0">19</div><div class="ov-stat-l">Ejercicios</div></div>
+        <div class="screen-content">
+          <div class="phase-card">
+            <div class="phase-icon">🌱</div>
+            <div class="phase-text">
+              <div class="pname">Fase Folicular</div>
+              <div class="pdesc">Días 6–13 · Día 8 · Aprovecha la energía para entrenar</div>
+            </div>
           </div>
-          <div class="ov-nora">
-            <div class="ov-nora-hdr"><div class="ov-nora-av">N</div><div class="ov-nora-n">Nora IA · Insight</div></div>
-            <div class="ov-nora-body">Los días que hiciste ejercicio tu energía fue mayor en un <span class="ov-nhl">40%</span>. Tu ciclo lleva <span class="ov-nhl">3 meses</span> regulándose. ✨</div>
+          <div class="stats">
+            <div class="stat"><div class="stat-n" style="color:var(--brand)">12</div><div class="stat-l">Racha</div></div>
+            <div class="stat"><div class="stat-n" style="color:var(--success)">47</div><div class="stat-l">Registros</div></div>
+            <div class="stat"><div class="stat-n" style="color:#5B8FD0">19</div><div class="stat-l">Ejercicios</div></div>
           </div>
-          <div class="ov-cal">
-            <div class="ov-cal-title">Junio 2026</div>
-            <div class="ov-cal-grid">
-              <div class="ov-d h">L</div><div class="ov-d h">M</div><div class="ov-d h">X</div><div class="ov-d h">J</div><div class="ov-d h">V</div><div class="ov-d h">S</div><div class="ov-d h">D</div>
-              <div class="ov-d">1</div><div class="ov-d">2</div><div class="ov-d">3</div><div class="ov-d">4</div><div class="ov-d">5</div><div class="ov-d">6</div><div class="ov-d">7</div>
-              <div class="ov-d p">8</div><div class="ov-d p">9</div><div class="ov-d p">10</div><div class="ov-d p">11</div><div class="ov-d">12</div><div class="ov-d">13</div><div class="ov-d">14</div>
-              <div class="ov-d">15</div><div class="ov-d">16</div><div class="ov-d">17</div><div class="ov-d">18</div><div class="ov-d">19</div><div class="ov-d">20</div><div class="ov-d">21</div>
-              <div class="ov-d">22</div><div class="ov-d">23</div><div class="ov-d">24</div><div class="ov-d t">25</div><div class="ov-d">26</div><div class="ov-d">27</div><div class="ov-d">28</div>
+          <div class="nora-card">
+            <div class="nora-head">
+              <div class="nora-av">N</div>
+              <div><div class="nora-name">NORA · IA</div></div>
+            </div>
+            <div class="nora-body">Los días que hiciste ejercicio tu energía fue mayor en un <span class="nora-hl">40%</span>. Tu ciclo se está regulando — llevas <span class="nora-hl">3 meses</span> de seguimiento. ✨</div>
+          </div>
+          <div class="cal-mini">
+            <div class="cal-title">Junio 2026</div>
+            <div class="cal-grid-mini">
+              <div class="cal-d" style="color:var(--text-muted)">L</div><div class="cal-d" style="color:var(--text-muted)">M</div><div class="cal-d" style="color:var(--text-muted)">X</div><div class="cal-d" style="color:var(--text-muted)">J</div><div class="cal-d" style="color:var(--text-muted)">V</div><div class="cal-d" style="color:var(--text-muted)">S</div><div class="cal-d" style="color:var(--text-muted)">D</div>
+              <div class="cal-d">1</div><div class="cal-d">2</div><div class="cal-d">3</div><div class="cal-d">4</div><div class="cal-d">5</div><div class="cal-d">6</div><div class="cal-d">7</div>
+              <div class="cal-d per">8</div><div class="cal-d per">9</div><div class="cal-d per">10</div><div class="cal-d per">11</div><div class="cal-d">12</div><div class="cal-d">13</div><div class="cal-d">14</div>
+              <div class="cal-d">15</div><div class="cal-d">16</div><div class="cal-d">17</div><div class="cal-d">18</div><div class="cal-d">19</div><div class="cal-d">20</div><div class="cal-d">21</div>
+              <div class="cal-d">22</div><div class="cal-d">23</div><div class="cal-d">24</div><div class="cal-d today">25</div><div class="cal-d">26</div><div class="cal-d">27</div><div class="cal-d">28</div>
             </div>
           </div>
         </div>
-        <div class="ov-phone-nav"><div class="ov-nav-i a"><div>🏠</div><div class="ov-nav-il">Inicio</div></div><div class="ov-nav-i"><div>📋</div><div class="ov-nav-il">Registro</div></div><div class="ov-nav-i"><div>🩸</div><div class="ov-nav-il">Ciclo</div></div><div class="ov-nav-i"><div>🥗</div><div class="ov-nav-il">Nutrición</div></div><div class="ov-nav-i"><div>👤</div><div class="ov-nav-il">Perfil</div></div></div>
+        <div class="phone-nav">
+          <div class="nav-i a"><div>🏠</div><div class="nav-il">Inicio</div></div>
+          <div class="nav-i"><div>📋</div><div class="nav-il">Registro</div></div>
+          <div class="nav-i"><div>🩸</div><div class="nav-il">Ciclo</div></div>
+          <div class="nav-i"><div>🥗</div><div class="nav-il">Nutrición</div></div>
+          <div class="nav-i"><div>👤</div><div class="nav-il">Perfil</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -217,162 +276,147 @@
 </section>
 
 <!-- FEATURES -->
-<section class="ov-section ov-section-bg1">
-<div class="ov-container">
-  <div class="ov-section-badge">🌸 Por qué Ovárica</div>
-  <h2 class="ov-h2">Todo lo que necesitas para<br/><em>entender tu cuerpo</em></h2>
-  <p class="ov-sub">Diseñada desde cero para mujeres con SOMP. No una app genérica de ciclo — una herramienta de salud hormonal real.</p>
-  <div class="ov-feat-grid">
-    <div class="ov-feat"><div class="ov-feat-icon" style="background:#FCE8EF">🤖</div><h3>Nora IA — Tu asistente hormonal</h3><p>Nora analiza tus registros diarios y detecta patrones invisibles: relación entre ejercicio y energía, alimentos que disparan síntomas, evolución del ciclo mes a mes.</p><span class="ov-feat-tag">✨ Exclusivo Ovárica</span></div>
-    <div class="ov-feat"><div class="ov-feat-icon" style="background:#EFE5F8">🩸</div><h3>Las 4 fases del ciclo con tips SOMP</h3><p>Conoce exactamente en qué fase estás, qué esperar de tu energía y libido, y cómo ejercitarte mejor. Predicciones adaptadas a ciclos irregulares de SOMP.</p><span class="ov-feat-tag">✨ Exclusivo Ovárica</span></div>
-    <div class="ov-feat"><div class="ov-feat-icon" style="background:#FEF3E2">🥗</div><h3>Plan nutricional anti-inflamatorio</h3><p>6 planes de alimentación específicos para SOMP: antiinflamatorio, sin azúcar, bajo en carbos, mediterráneo, vegano y fertilidad. Con lista de compras y presupuesto por país.</p><span class="ov-feat-tag">✨ Exclusivo Ovárica</span></div>
-    <div class="ov-feat"><div class="ov-feat-icon" style="background:#E8F7F0">💊</div><h3>Guía de suplementos con evidencia</h3><p>Inositol, berberina, omega 3, vitamina D, magnesio y más. Cada suplemento con dosis recomendada y evidencia científica específica para SOMP.</p><span class="ov-feat-tag">✨ Exclusivo Ovárica</span></div>
-    <div class="ov-feat"><div class="ov-feat-icon" style="background:#E0F5F4">🩺</div><h3>Reporte completo para tu médico</h3><p>Genera un reporte con tu historial de síntomas, ciclos, ejercicio y chequeos. Llévalo a tu cita con el ginecólogo o endocrinólogo y aprovecha mejor el tiempo.</p><span class="ov-feat-tag">✨ Exclusivo Ovárica</span></div>
-    <div class="ov-feat"><div class="ov-feat-icon" style="background:#FCE8EF">🏆</div><h3>Retos de 21 días hormonales</h3><p>10 retos diseñados para regular el SOMP: sin azúcar, hidratación, ejercicio, suplementos, meditación. 21 días para crear el hábito que tu cuerpo necesita.</p><span class="ov-feat-tag">✨ Exclusivo Ovárica</span></div>
+<section style="padding:3.5rem 1.5rem;background:var(--bg)">
+<div class="container">
+  <div class="section-badge">🌸 Por qué Ovárica</div>
+  <h2>Todo lo que necesitas para<br/><em>entender tu cuerpo</em></h2>
+  <p class="section-sub">Diseñada desde cero para mujeres con SOMP u Ovario Poliquístico. No una app genérica de ciclo — una herramienta de salud hormonal real.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon" style="background:var(--brand-pale)">🤖</div>
+      <h3>Nora IA — Tu asistente hormonal</h3>
+      <p>Nora analiza tus registros diarios y detecta patrones que tú sola no podrías ver: relación entre ejercicio y energía, alimentos que disparan síntomas, evolución del ciclo mes a mes.</p>
+      <span class="feat-tag">✨ Exclusivo Ovárica</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:var(--purple-pale)">🩸</div>
+      <h3>Las 4 fases de tu ciclo con tips SOMP</h3>
+      <p>Conoce exactamente en qué fase estás, qué esperar de tu energía y libido, y cómo ejercitarte mejor. Predicciones de ovulación y próximo periodo adaptadas a ciclos irregulares.</p>
+      <span class="feat-tag">✨ Exclusivo Ovárica</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FEF3E2">🥗</div>
+      <h3>Plan nutricional anti-inflamatorio</h3>
+      <p>6 planes de alimentación específicos para SOMP: antiinflamatorio, sin azúcar, bajo en carbos, mediterráneo, vegano y fertilidad. Incluye lista de compras con estimado de costo por país.</p>
+      <span class="feat-tag">✨ Exclusivo Ovárica</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:var(--success-pale)">💊</div>
+      <h3>Guía de suplementos con evidencia</h3>
+      <p>Inositol, berberina, omega 3, vitamina D, magnesio y más. Cada suplemento con dosis recomendada, por qué funciona para SOMP y qué estudios lo respaldan.</p>
+      <span class="feat-tag">✨ Exclusivo Ovárica</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#E0F5F4">🩺</div>
+      <h3>Reporte para tu médico</h3>
+      <p>Genera un reporte completo con tu historial de síntomas, ciclos, ejercicio y chequeos médicos. Llévalo a tu cita con el ginecólogo o endocrinólogo y aprovecha mejor el tiempo.</p>
+      <span class="feat-tag">✨ Exclusivo Ovárica</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:var(--brand-pale)">🏆</div>
+      <h3>Retos de 21 días hormonales</h3>
+      <p>10 retos diseñados para regular el SOMP: sin azúcar, hidratación, ejercicio, suplementos, meditación. 21 días seguidos para crear el hábito que tu cuerpo necesita.</p>
+      <span class="feat-tag">✨ Exclusivo Ovárica</span>
+    </div>
   </div>
 </div>
 </section>
 
-<!-- SCREENS -->
-<section class="ov-section ov-section-bg2">
-<div class="ov-container">
-  <div class="ov-section-badge">📱 La app por dentro</div>
-  <h2 class="ov-h2">Diseñada para que registrar<br/><em>sea un hábito, no una tarea</em></h2>
-  <p class="ov-sub">Cada pantalla pensada en la mujer con SOMP que quiere entender su cuerpo sin necesidad de ser médico.</p>
-  <div class="ov-screens-grid">
-
-    <!-- CARD 1: Plan del día (NUEVO - destacado) -->
-    <div class="ov-screen-card" style="border:2px solid #C9517A;position:relative">
-      <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#9B6DB5,#C9517A);color:white;border-radius:50px;padding:.25rem .9rem;font-size:.68rem;font-weight:600;white-space:nowrap">✨ Nuevo · Mi Plan</div>
-      <div class="ov-screen-top" style="background:linear-gradient(135deg,#9B6DB5,#C9517A)">
-        <div class="ov-screen-top-t" style="color:white">✨ Mi Plan del día</div>
-        <div class="ov-screen-top-d" style="color:rgba(255,255,255,.8)">Plan adaptado a tu fase del ciclo + Nora IA</div>
+<!-- SCREENS SHOWCASE -->
+<section class="screens-section">
+<div class="container">
+  <div class="section-badge">📱 La app por dentro</div>
+  <h2>Diseñada para que registrar<br/><em>sea un hábito, no una tarea</em></h2>
+  <p class="section-sub">Cada pantalla fue diseñada pensando en la mujer con SOMP que quiere entender su cuerpo sin necesidad de ser médico.</p>
+  <div class="screens-grid">
+    <div class="screen-card">
+      <div class="screen-top">
+        <div class="screen-title">🩸 Mi ciclo</div>
+        <div class="screen-desc">Fases detalladas con consejos personalizados para SOMP</div>
       </div>
-      <div class="ov-screen-body">
-        <!-- Mini hero de fase -->
-        <div style="background:linear-gradient(135deg,#EFE5F8,#FCE8EF);border-radius:10px;padding:8px 10px;margin-bottom:8px">
-          <div style="font-size:.6rem;color:#9B6DB5;font-weight:700;margin-bottom:2px">🌱 Fase Folicular · Día 8</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
-            <div style="background:white;border-radius:6px;padding:4px;text-align:center">
-              <div style="font-size:.55rem;color:#9B7DAB">Energía</div>
-              <div style="font-size:.72rem;font-weight:700;color:#C9517A">Alta</div>
-            </div>
-            <div style="background:white;border-radius:6px;padding:4px;text-align:center">
-              <div style="font-size:.55rem;color:#9B7DAB">Libido</div>
-              <div style="font-size:.72rem;font-weight:700;color:#C9517A">Mod.</div>
-            </div>
-            <div style="background:white;border-radius:6px;padding:4px;text-align:center">
-              <div style="font-size:.55rem;color:#9B7DAB">Ejercicio</div>
-              <div style="font-size:.72rem;font-weight:700;color:#C9517A">Fuerza</div>
-            </div>
-          </div>
-        </div>
-        <!-- Nora adaptativo -->
-        <div style="background:linear-gradient(135deg,#FFF0F5,#F3E8FF);border:1px solid #E8A0B4;border-radius:8px;padding:7px 9px;margin-bottom:8px;font-size:.68rem;color:#2D1A35;line-height:1.5">
-          <div style="font-weight:700;color:#C9517A;margin-bottom:2px">Nora IA adaptó tu plan:</div>
-          Registraste fatiga ayer — hoy yoga en vez de HIIT. Toma magnesio antes de dormir.
-        </div>
-        <!-- Acciones del día -->
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;align-items:center;gap:7px;padding:5px 7px;background:#F5EDF4;border-radius:7px;font-size:.72rem">
-            <div style="width:18px;height:18px;border-radius:50%;background:#4CAF85;display:flex;align-items:center;justify-content:center;color:white;font-size:.6rem;flex-shrink:0">✓</div>
-            🧘 Yoga suave 25 min
-          </div>
-          <div style="display:flex;align-items:center;gap:7px;padding:5px 7px;background:#F5EDF4;border-radius:7px;font-size:.72rem">
-            <div style="width:18px;height:18px;border-radius:50%;background:#4CAF85;display:flex;align-items:center;justify-content:center;color:white;font-size:.6rem;flex-shrink:0">✓</div>
-            🌿 Mio-inositol + Omega 3
-          </div>
-          <div style="display:flex;align-items:center;gap:7px;padding:5px 7px;background:#F5EDF4;border-radius:7px;font-size:.72rem">
-            <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(180,130,200,.4);flex-shrink:0"></div>
-            🥗 Proteína + crucíferas hoy
-          </div>
-          <div style="display:flex;align-items:center;gap:7px;padding:5px 7px;background:#F5EDF4;border-radius:7px;font-size:.72rem">
-            <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(180,130,200,.4);flex-shrink:0"></div>
-            💧 Meta de agua (6/8 vasos)
-          </div>
-        </div>
-        <!-- Barra de progreso -->
-        <div style="margin-top:8px">
-          <div style="display:flex;justify-content:space-between;font-size:.6rem;color:#9B7DAB;margin-bottom:3px">
-            <span>Progreso de hoy</span><span style="color:#C9517A;font-weight:600">2/7 hábitos</span>
-          </div>
-          <div style="background:rgba(180,130,200,.15);border-radius:4px;height:5px;overflow:hidden">
-            <div style="width:28%;height:100%;background:linear-gradient(90deg,#9B6DB5,#C9517A);border-radius:4px"></div>
-          </div>
-        </div>
+      <div class="screen-body">
+        <div class="screen-item"><span class="screen-item-icon">🌱</span>Fase folicular activa<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">⚡</span>Energía: Alta<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">💪</span>Ejercicio: HIIT/Fuerza<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">📅</span>Próximo periodo: 17 días<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">🥚</span>Ovulación estimada: día 14<span class="screen-check">✓</span></div>
       </div>
     </div>
-
-    <!-- CARD 2: Ciclo -->
-    <div class="ov-screen-card">
-      <div class="ov-screen-top"><div class="ov-screen-top-t">🩸 Mi ciclo</div><div class="ov-screen-top-d">Fases detalladas con consejos SOMP</div></div>
-      <div class="ov-screen-body">
-        <div class="ov-sitem"><span class="ov-sicon">🌱</span>Fase folicular activa<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">⚡</span>Energía: Alta esta semana<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">💪</span>Ejercicio ideal: HIIT/Fuerza<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">📅</span>Próximo periodo: 17 días<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">🥚</span>Ovulación estimada: día 14<span class="ov-scheck">✓</span></div>
+    <div class="screen-card">
+      <div class="screen-top">
+        <div class="screen-title">📋 Registro diario</div>
+        <div class="screen-desc">80+ síntomas categorizados específicamente para SOMP</div>
+      </div>
+      <div class="screen-body">
+        <div class="screen-item"><span class="screen-item-icon">🔴</span>Síntomas hormonales<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">✨</span>Piel, cabello y apariencia<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">⚡</span>Energía y estado mental<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">🏋️</span>Ejercicio y tipo de entreno<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">😴</span>Calidad del sueño<span class="screen-check">✓</span></div>
       </div>
     </div>
-
-    <!-- CARD 3: Registro -->
-    <div class="ov-screen-card">
-      <div class="ov-screen-top"><div class="ov-screen-top-t">📋 Registro diario</div><div class="ov-screen-top-d">80+ síntomas específicos de SOMP</div></div>
-      <div class="ov-screen-body">
-        <div class="ov-sitem"><span class="ov-sicon">🔴</span>Síntomas hormonales<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">✨</span>Piel, cabello y apariencia<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">⚡</span>Energía y estado mental<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">🏋️</span>Ejercicio con tipo e intensidad<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">😴</span>Calidad del sueño<span class="ov-scheck">✓</span></div>
+    <div class="screen-card">
+      <div class="screen-top">
+        <div class="screen-title">🥗 Nutrición</div>
+        <div class="screen-desc">Plan semanal + lista de compras con presupuesto por país</div>
+      </div>
+      <div class="screen-body">
+        <div class="screen-item"><span class="screen-item-icon">🌿</span>Plan antiinflamatorio<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">🚫</span>Alimentos a evitar hoy<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">✅</span>Alimentos reguladores<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">💧</span>Hidratación (8 vasos)<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">🛒</span>Lista de compras semanal<span class="screen-check">✓</span></div>
       </div>
     </div>
-
-    <!-- CARD 4: Nutrición -->
-    <div class="ov-screen-card">
-      <div class="ov-screen-top"><div class="ov-screen-top-t">🥗 Nutrición</div><div class="ov-screen-top-d">Plan semanal + lista de compras</div></div>
-      <div class="ov-screen-body">
-        <div class="ov-sitem"><span class="ov-sicon">🌿</span>Plan antiinflamatorio activo<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">🚫</span>Alimentos a evitar hoy<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">✅</span>Alimentos reguladores<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">💧</span>Hidratación · 6/8 vasos<span class="ov-scheck">✓</span></div>
-        <div class="ov-sitem"><span class="ov-sicon">🛒</span>Lista de compras semanal<span class="ov-scheck">✓</span></div>
+    <div class="screen-card">
+      <div class="screen-top">
+        <div class="screen-title">🩺 Chequeos médicos</div>
+        <div class="screen-desc">Control de citas y reporte completo para tu médico</div>
+      </div>
+      <div class="screen-body">
+        <div class="screen-item"><span class="screen-item-icon">🔬</span>Papanicolaou anual<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">🩸</span>Glucosa e insulina basal<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">⚗️</span>Panel hormonal completo<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">🦋</span>Tiroides (TSH, T3, T4)<span class="screen-check">✓</span></div>
+        <div class="screen-item"><span class="screen-item-icon">📄</span>Reporte descargable PDF<span class="screen-check">✓</span></div>
       </div>
     </div>
-
   </div>
 </div>
 </section>
 
 <!-- COMPARATIVA -->
-<section class="ov-section ov-section-bg3" id="ov-comparativa">
-<div class="ov-container">
-  <div class="ov-section-badge">🆚 Ovárica vs la competencia</div>
-  <h2 class="ov-h2">Lo que ninguna otra app<br/><em>tiene para ti</em></h2>
-  <p class="ov-sub">Comparamos con las apps más populares. La diferencia es clara: ellas son generalistas, Ovárica es especialista en SOMP.</p>
-  <div class="ov-table-wrap">
-  <table class="ov-table">
+<section class="compare-section" id="comparativa">
+<div class="container">
+  <div class="section-badge">🆚 Ovárica vs la competencia</div>
+  <h2>Lo que ninguna otra app<br/><em>tiene para ti</em></h2>
+  <p class="section-sub">Comparamos con las apps más populares del mercado. La diferencia es clara: ellas son generalistas, Ovárica es especialista.</p>
+  <div style="overflow-x:auto">
+  <table class="compare-table">
     <thead>
       <tr>
-        <th style="min-width:180px;text-align:left;color:#9B7DAB;font-weight:500">Función</th>
-        <th class="ov-th-ova">🌸 Ovárica</th>
-        <th class="ov-th-comp">Flo</th>
-        <th class="ov-th-comp">Clue</th>
-        <th class="ov-th-comp">MeetYou</th>
+        <th style="min-width:200px">Función</th>
+        <th class="th-ova">🌸 Ovárica</th>
+        <th class="th-comp">Flo</th>
+        <th class="th-comp">Clue</th>
+        <th class="th-comp">MeetYou</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>Seguimiento de ciclo</td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-yes">✓</td><td class="ov-ck-yes">✓</td><td class="ov-ck-yes">✓</td></tr>
-      <tr><td>Registro de síntomas</td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-yes">✓</td><td class="ov-ck-yes">✓</td><td class="ov-ck-yes">✓</td></tr>
-      <tr><td>IA de salud hormonal</td><td class="ov-hl ov-ck-ova">✓ Nora IA</td><td class="ov-ck-yes">✓ Flo AI</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Enfoque 100% en SOMP</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Plan nutricional anti-SOMP</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Guía de suplementos científica</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Retos de 21 días hormonales</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Reporte para tu médico</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-yes">Básico</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Fases del ciclo con tips SOMP</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>100% en español latino</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-yes">Parcial</td><td class="ov-ck-yes">Parcial</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Lista de compras con presupuesto</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
-      <tr><td><strong>Control de chequeos médicos</strong></td><td class="ov-hl ov-ck-ova">✓</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td><td class="ov-ck-no">—</td></tr>
+      <tr><td>Seguimiento de ciclo menstrual</td><td class="highlight-col check-ova">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+      <tr><td>Registro de síntomas</td><td class="highlight-col check-ova">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+      <tr><td>Predicción de ovulación</td><td class="highlight-col check-ova">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+      <tr><td>IA de salud hormonal</td><td class="highlight-col check-ova">✓ Nora IA</td><td class="check-yes">✓ Flo AI</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">Enfoque 100% en SOMP</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">Plan nutricional anti-SOMP</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">Guía de suplementos científica</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">Retos de hábitos hormonales 21 días</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">Reporte para tu médico</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">Fases del ciclo con tips SOMP</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td style="font-weight:700;color:var(--brand)">100% en español latino</td><td class="highlight-col check-ova">✓</td><td class="check-yes">Parcial</td><td class="check-yes">Parcial</td><td class="check-no">—</td></tr>
+      <tr><td>Lista de compras con presupuesto</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td>Control de chequeos médicos</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+      <tr><td>PWA — sin Play Store ni App Store</td><td class="highlight-col check-ova">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
     </tbody>
   </table>
   </div>
@@ -380,105 +424,177 @@
 </section>
 
 <!-- PLANES -->
-<section class="ov-section ov-section-bg1" id="ov-planes">
-<div class="ov-container">
-  <div class="ov-section-badge">💎 Planes</div>
-  <h2 class="ov-h2">Empieza gratis,<br/><em>desbloquea todo cuando estés lista</em></h2>
-  <p class="ov-sub">Sin compromisos. El plan gratuito te da acceso real para probar la app. El Pro desbloquea todo.</p>
-  <div class="ov-plans-grid">
-    <div class="ov-plan">
-      <div class="ov-plan-name">🆓 Plan Gratuito</div>
-      <div class="ov-plan-price">$0<span>/mes</span></div>
-      <div class="ov-plan-desc">Para empezar a conocer tu cuerpo</div>
-      <ul class="ov-plan-feats">
+<section class="plans-section" id="planes">
+<div class="container">
+  <div class="section-badge">💎 Planes</div>
+  <h2>Empieza gratis,<br/><em>desbloquea todo cuando estés lista</em></h2>
+  <p class="section-sub">Sin compromisos. El plan gratuito te da acceso real para probar la app. El Pro desbloquea todo.</p>
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-name">🆓 Plan Gratuito</div>
+      <div class="plan-price">$0<span>/mes</span></div>
+      <div class="plan-desc">Para empezar a conocer tu cuerpo</div>
+      <ul class="plan-features">
         <li>Seguimiento de ciclo menstrual</li>
         <li>Registro de síntomas (7 días)</li>
-        <li>Calendario visual con colores</li>
-        <li class="off">Nora IA insights personalizados</li>
-        <li class="off">Fases del ciclo detalladas</li>
-        <li class="off">Plan nutricional anti-SOMP</li>
-        <li class="off">Retos de 21 días</li>
-        <li class="off">Reporte para tu médico</li>
+        <li>Calendario con colores</li>
+        <li class="locked">Nora IA insights</li>
+        <li class="locked">Fases del ciclo detalladas</li>
+        <li class="locked">Plan nutricional</li>
+        <li class="locked">Retos de 21 días</li>
+        <li class="locked">Chequeos médicos</li>
+        <li class="locked">Reporte para médico</li>
       </ul>
-      <a href="https://ovarica.site/app" class="ov-plan-btn ov-btn-free">Empezar gratis</a>
+      <a href="https://ovarica.site/app" class="plan-btn plan-btn-free">Empezar gratis</a>
     </div>
-    <div class="ov-plan feat">
-      <div class="ov-plan-badge">⭐ Más popular</div>
-      <div class="ov-plan-name">🌸 Pro Mensual</div>
-      <div class="ov-plan-price">$9.99<span>/mes</span></div>
-      <div class="ov-plan-desc">Acceso completo — cancela cuando quieras</div>
-      <ul class="ov-plan-feats">
+    <div class="plan-card featured">
+      <div class="plan-badge">⭐ Más popular</div>
+      <div class="plan-name">🌸 Pro Mensual</div>
+      <div class="plan-price">$9.99<span>/mes</span></div>
+      <div class="plan-desc">Acceso completo, cancela cuando quieras</div>
+      <ul class="plan-features">
         <li>Todo del plan gratuito</li>
         <li>Nora IA insights personalizados</li>
         <li>Fases del ciclo + tips SOMP</li>
-        <li>Plan nutricional (6 planes)</li>
+        <li>Plan nutricional completo (6 planes)</li>
         <li>Lista de compras con presupuesto</li>
         <li>Retos de 21 días hormonales</li>
         <li>Chequeos médicos y citas</li>
         <li>Reporte para tu médico</li>
+        <li>Configuración de notificaciones</li>
       </ul>
-      <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" class="ov-plan-btn ov-btn-pro" target="_blank">Suscribirme al Pro Mensual</a>
+      <a href="https://pay.hotmart.com/K106448693C?bid=1782173767074" class="plan-btn plan-btn-pro" target="_blank">Suscribirme al Pro Mensual</a>
     </div>
-    <div class="ov-plan">
-      <div class="ov-plan-name">🏆 Pro Anual</div>
-      <div class="ov-plan-price">$59.99<span>/año</span></div>
-      <div class="ov-plan-desc">Ahorras $59.89 vs el plan mensual</div>
-      <ul class="ov-plan-feats">
+    <div class="plan-card">
+      <div class="plan-name">🏆 Pro Anual</div>
+      <div class="plan-price">$59.99<span>/año</span></div>
+      <div class="plan-desc">Ahorras $59 vs el plan mensual</div>
+      <ul class="plan-features">
         <li>Todo del Pro Mensual</li>
         <li>Análisis trimestral de patrones</li>
-        <li>Exportar datos completos</li>
+        <li>Exportar datos</li>
         <li>Prioridad en soporte</li>
-        <li>Acceso anticipado a novedades</li>
+        <li>Acceso anticipado a nuevas funciones</li>
       </ul>
-      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" class="ov-plan-btn ov-btn-gold" target="_blank">Suscribirme al Pro Anual</a>
+      <a href="https://pay.hotmart.com/D106448928D?bid=1782174337828" class="plan-btn plan-btn-pro" target="_blank" style="background:linear-gradient(135deg,#B8860B,#DAA520)">Suscribirme al Pro Anual</a>
     </div>
   </div>
 </div>
 </section>
 
 <!-- TESTIMONIOS -->
-<section class="ov-section ov-section-bg2">
-<div class="ov-container">
-  <div class="ov-section-badge">💬 Lo que dicen las usuarias</div>
-  <h2 class="ov-h2">Mujeres que ya están<br/><em>regulando su SOMP</em></h2>
-  <div class="ov-testi-grid">
-    <div class="ov-testi"><div class="ov-testi-stars">★★★★★</div><p class="ov-testi-text">"Por fin una app que entiende que el SOMP no es solo el ciclo. Nora me dijo algo que mi ginecóloga nunca me había dicho: que mis bajones de energía coinciden siempre con los días que como harinas."</p><div class="ov-testi-author"><div class="ov-testi-av">MR</div><div><div class="ov-testi-name">María R.</div><div class="ov-testi-loc">🇲🇽 México · SOMP confirmado</div></div></div></div>
-    <div class="ov-testi"><div class="ov-testi-stars">★★★★★</div><p class="ov-testi-text">"El plan nutricional antiinflamatorio me cambió la vida. Después de 3 meses mi médica me dijo que mis niveles de insulina mejoraron considerablemente."</p><div class="ov-testi-author"><div class="ov-testi-av">LP</div><div><div class="ov-testi-name">Luciana P.</div><div class="ov-testi-loc">🇦🇷 Argentina · 8 meses con Ovárica</div></div></div></div>
-    <div class="ov-testi"><div class="ov-testi-stars">★★★★★</div><p class="ov-testi-text">"El reporte para el médico me salvó la cita. Le mostré 4 meses de datos de síntomas y ciclo, y por primera vez mi endocrinólogo tuvo información concreta."</p><div class="ov-testi-author"><div class="ov-testi-av">CS</div><div><div class="ov-testi-name">Camila S.</div><div class="ov-testi-loc">🇨🇴 Colombia · Pro Anual</div></div></div></div>
+<section class="testi-section">
+<div class="container">
+  <div class="section-badge">💬 Lo que dicen las usuarias</div>
+  <h2>Mujeres que ya están<br/><em>regulando su SOMP</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Por fin una app que entiende que el SOMP no es solo el ciclo. Nora me dijo algo que mi ginecóloga nunca me había dicho: que mis bajones de energía coinciden siempre con los días que como harinas. Increíble."</p>
+      <div class="testi-author"><div class="testi-av">MR</div><div><div class="testi-name">María R.</div><div class="testi-loc">🇲🇽 México · SOMP confirmado</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"El plan nutricional antiinflamatorio me cambió la vida. Después de 3 meses siguiendo el plan de Ovárica, mi médica me dijo que mis niveles de insulina mejoraron considerablemente."</p>
+      <div class="testi-author"><div class="testi-av">LP</div><div><div class="testi-name">Luciana P.</div><div class="testi-loc">🇦🇷 Argentina · 8 meses usando Ovárica</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"El reporte para el médico me salvó la cita. Le mostré 4 meses de datos de síntomas y ciclo, y por primera vez mi endocrinólogo tuvo información concreta con qué trabajar."</p>
+      <div class="testi-author"><div class="testi-av">CS</div><div><div class="testi-name">Camila S.</div><div class="testi-loc">🇨🇴 Colombia · Pro Anual</div></div></div>
+    </div>
   </div>
 </div>
 </section>
 
 <!-- FAQ -->
-<section class="ov-section ov-section-bg1" id="ov-faq">
-<div class="ov-container">
-  <div class="ov-section-badge">❓ Preguntas frecuentes</div>
-  <h2 class="ov-h2">Todo lo que quieres<br/><em>saber antes de empezar</em></h2>
+<section class="faq-section">
+<div class="container">
+  <div class="section-badge">❓ Preguntas frecuentes</div>
+  <h2>Todo lo que quieres<br/><em>saber antes de empezar</em></h2>
   <div style="max-width:700px;margin:2rem auto 0">
-    <div class="ov-faq-item open"><div class="ov-faq-q" onclick="this.parentElement.classList.toggle('open')">¿Necesito tener SOMP confirmado?<span class="ov-faq-arrow">▾</span></div><div class="ov-faq-a">No. Ovárica está diseñada tanto para mujeres con diagnóstico confirmado de SOMP como para las que sospechan tenerlo. El onboarding personaliza la experiencia según tu situación.</div></div>
-    <div class="ov-faq-item"><div class="ov-faq-q" onclick="this.parentElement.classList.toggle('open')">¿Cómo funciona el plan gratuito?<span class="ov-faq-arrow">▾</span></div><div class="ov-faq-a">El plan gratuito incluye seguimiento de ciclo, registro de síntomas por 7 días y el calendario visual. El Plan Pro desbloquea Nora IA, plan nutricional, retos, chequeos y el reporte para tu médico.</div></div>
-    <div class="ov-faq-item"><div class="ov-faq-q" onclick="this.parentElement.classList.toggle('open')">¿Dónde descargo la app?<span class="ov-faq-arrow">▾</span></div><div class="ov-faq-a">Ovárica es una PWA — no necesitas descargar nada de Play Store o App Store. Entra a ovarica.site/app desde tu teléfono y puedes instalarla en 2 taps desde el navegador.</div></div>
-    <div class="ov-faq-item"><div class="ov-faq-q" onclick="this.parentElement.classList.toggle('open')">¿Puedo cancelar cuando quiera?<span class="ov-faq-arrow">▾</span></div><div class="ov-faq-a">Sí. Los pagos se procesan a través de Hotmart. Puedes cancelar tu suscripción cuando quieras desde Hotmart sin penalizaciones ni preguntas.</div></div>
-    <div class="ov-faq-item"><div class="ov-faq-q" onclick="this.parentElement.classList.toggle('open')">¿Mis datos de salud son privados?<span class="ov-faq-arrow">▾</span></div><div class="ov-faq-a">Sí. Tus datos de salud son exclusivamente tuyos. No vendemos ni compartimos tu información. Los datos se almacenan con encriptación y solo tú tienes acceso a tu historial.</div></div>
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggleFAQ(this)">¿Necesito tener SOMP confirmado para usar Ovárica? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">No. Ovárica está diseñada tanto para mujeres con diagnóstico confirmado de SOMP como para las que sospechan tenerlo o simplemente quieren entender mejor su salud hormonal. El onboarding te pregunta tu situación y personaliza la experiencia.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">¿Cómo funciona el plan gratuito? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">El plan gratuito incluye seguimiento de ciclo, registro de síntomas por 7 días y el calendario visual. Es suficiente para probar la app y ver si te gusta. El Plan Pro desbloquea Nora IA, el plan nutricional, retos, chequeos médicos y el reporte para tu médico.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">¿Dónde descargo la app? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Ovárica es una PWA (Progressive Web App) — esto significa que no necesitas descargar nada de Play Store o App Store. Entra a ovarica.site/app desde tu teléfono y puedes instalarla directamente desde el navegador en 2 taps. Funciona igual que una app nativa.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">¿El pago es seguro? ¿Puedo cancelar? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Los pagos se procesan de forma segura a través de Hotmart, una plataforma de pagos internacional de confianza. Puedes cancelar tu suscripción cuando quieras desde Hotmart sin penalizaciones. El plan mensual te cobra mes a mes sin compromiso.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">¿Mis datos son privados? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Sí. Tus datos de salud son exclusivamente tuyos. No vendemos ni compartimos tu información con terceros. Los datos se almacenan de forma segura en Supabase con encriptación. Solo tú tienes acceso a tu historial.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">¿Ovárica reemplaza a mi médico? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">No. Ovárica es una herramienta de seguimiento y educación. No reemplaza el diagnóstico ni el tratamiento médico. De hecho, una de sus funciones principales es ayudarte a llevar mejor información a tus citas médicas a través del reporte para tu médico.</div>
+    </div>
   </div>
 </div>
 </section>
 
 <!-- CTA FINAL -->
-<section class="ov-cta-final">
-<div class="ov-container">
+<section style="padding:3.5rem 1.5rem;background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale));text-align:center">
+<div class="container">
   <div style="font-size:3rem;margin-bottom:1rem">🌸</div>
-  <h2 class="ov-h2" style="margin-bottom:1rem;text-align:center">Tu salud hormonal empieza hoy</h2>
-  <p style="font-size:1rem;color:#9B7DAB;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto;text-align:center">Más de 170 millones de mujeres en Latinoamérica tienen SOMP. Por fin existe una app diseñada para ellas. En español. Especializada. Tuya.</p>
-  <div style="text-align:center">
-    <a href="https://ovarica.site/app" class="ov-btn-primary" style="font-size:1.05rem;padding:1rem 2.4rem">🌸 Comenzar gratis ahora</a>
-    <p style="font-size:.78rem;color:#9B7DAB;margin-top:1rem">Sin tarjeta de crédito · Gratis para siempre en el plan básico</p>
-  </div>
+  <h2 style="margin-bottom:1rem">Tu salud hormonal empieza hoy</h2>
+  <p style="font-size:1rem;color:var(--text-muted);margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto">Más de 170 millones de mujeres en Latinoamérica tienen SOMP. Por fin existe una app diseñada para ellas. En español. Especializada. Tuya.</p>
+  <a href="https://ovarica.site/app" class="btn-primary" style="font-size:1.05rem;padding:1rem 2.4rem">🌸 Comenzar gratis ahora</a>
+  <p style="font-size:.78rem;color:var(--text-muted);margin-top:1rem">Sin tarjeta de crédito · Gratis para siempre en el plan básico</p>
 </div>
 </section>
 
-</div><!-- .ov-wrap -->
+<!-- FOOTER -->
+<footer>
+<div class="footer-inner">
+  <div>
+    <div class="footer-logo"><img src="data:image/png;base64,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" alt="Ovárica"/></div>
+    <div class="footer-desc">La app de salud hormonal para mujeres con SOMP en Latinoamérica y España. Seguimiento de ciclo, Nora IA, nutrición anti-inflamatorias y más.</div>
+    <div style="font-size:.78rem;color:rgba(255,255,255,.4)">Ovárica no reemplaza el diagnóstico médico.</div>
+  </div>
+  <div class="footer-links">
+    <h4>App</h4>
+    <a href="https://ovarica.site/app">Entrar a la app</a>
+    <a href="#planes">Planes y precios</a>
+    <a href="#comparativa">Comparativa</a>
+    <a href="https://ovarica.site/app">Instalar en iPhone</a>
+    <a href="https://ovarica.site/app">Instalar en Android</a>
+  </div>
+  <div class="footer-links">
+    <h4>Soporte</h4>
+    <a href="mailto:soporte@ovarica.site">soporte@ovarica.site</a>
+    <a href="#faq">Preguntas frecuentes</a>
+    <a href="mailto:soporte@ovarica.site">Contacto</a>
+  </div>
+</div>
+<div class="footer-bottom">
+  <span class="footer-legal">© 2026 Ovárica · Todos los derechos reservados</span>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <a href="https://www.facebook.com/profile.php?id=61591138035660" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);text-decoration:none;font-size:1.1rem;transition:background .2s"
+       title="Síguenos en Facebook">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+    </a>
+    <span class="footer-legal">Hecho con 🌸 para mujeres con SOMP</span>
+  </div>
+</div>
+</footer>
 
 <script>
-/* FAQ toggle ya manejado con onclick inline */
+function toggleFAQ(el){
+  const item = el.parentElement;
+  item.classList.toggle('open');
+}
 </script>
+</body>
+</html>
