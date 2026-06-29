@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1001,7 +1002,7 @@ async function loginSupabase(email, password) {
     const { data, error } = await sb.from('usuarios').select('*').eq('email', email.toLowerCase().trim()).single();
     if (error || !data) { showToast('❌ Correo o contraseña incorrectos'); resetBtn('login-btn', 'Iniciar sesión'); return false; }
     if (data.password_hash !== btoa(password)) { showToast('❌ Correo o contraseña incorrectos'); resetBtn('login-btn', 'Iniciar sesión'); return false; }
-    localStorage.setItem('avarica_session', JSON.stringify({ email: data.email, id: data.id, plan: data.plan || 'gratuito' }));
+    localStorage.setItem('avarica_session', JSON.stringify({ email: data.email, id: data.id, plan: data.plan || 'gratuito', ts: Date.now() }));
     CURRENT_USER = data;
     CURRENT_PLAN = data.plan || 'gratuito';
     DATA.userName = data.nombre;
@@ -1167,8 +1168,18 @@ function resetBtn(id, txt) { const btn = document.getElementById(id); if (btn) {
 
 function cerrarSesionSupabase() {
   if (confirm('¿Cerrar sesión?')) {
+    // Limpiar sesión Y datos locales para evitar auto-login
     localStorage.removeItem('avarica_session');
-    CURRENT_USER = null; CURRENT_PLAN = 'gratuito';
+    localStorage.removeItem('avarica_v2'); // limpiar DATA del localStorage
+    CURRENT_USER = null;
+    CURRENT_PLAN = 'gratuito';
+    // Reset DATA en memoria
+    Object.keys(DATA).forEach(k => {
+      if(typeof DATA[k] === 'object' && DATA[k] !== null && !Array.isArray(DATA[k])) DATA[k] = {};
+      else if(Array.isArray(DATA[k])) DATA[k] = [];
+      else DATA[k] = '';
+    });
+    DATA.cycleLen = 28; DATA.periodLen = 5;
     document.getElementById('app').style.display = 'none';
     const ls = document.getElementById('login-screen');
     ls.style.display = 'flex';
@@ -2067,16 +2078,18 @@ function bootApp(){
       return;
     }catch(e){}
   }
-  if(DATA.userName){
+  // FIX CRÍTICO: la sesión es la fuente de verdad, no DATA.userName
+  // Si no hay avarica_session → siempre login, aunque haya datos locales
+  const _session = localStorage.getItem('avarica_session');
+  const _hasValidSession = !!_session && (()=>{try{const s=JSON.parse(_session);return !!(s.email&&s.id);}catch(e){return false;}})();
+
+  if(_hasValidSession && DATA.userName){
     // Restaurar sesión desde localStorage
     try {
-      const sess = localStorage.getItem('avarica_session');
-      if(sess) {
-        const s = JSON.parse(sess);
-        if(s.email) DATA.email = s.email;
-        if(s.id)    DATA.userId = s.id;
-        if(s.plan)  CURRENT_PLAN = s.plan;
-      }
+      const sess = JSON.parse(_session);
+      if(sess.email) DATA.email = sess.email;
+      if(sess.id)    DATA.userId = sess.id;
+      if(sess.plan)  CURRENT_PLAN = sess.plan;
     } catch(e) {}
     document.getElementById('onboarding').style.display='none';
     document.getElementById('login-screen').style.display='none';
@@ -2119,6 +2132,11 @@ function bootApp(){
       } catch(e) { console.log('Boot sync error:', e); }
     })();
   } else {
+    // Sin sesión válida → siempre mostrar login (aunque haya DATA)
+    // Limpiar cualquier dato residual para evitar confusión
+    if(!_hasValidSession) {
+      localStorage.removeItem('avarica_v2');
+    }
     document.getElementById('onboarding').style.display='none';
     const ls=document.getElementById('login-screen');
     ls.style.display='flex';
