@@ -51,7 +51,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .cal-cell.other-month{opacity:.2;pointer-events:none}
 .cal-dots{display:flex;gap:2px;position:absolute;bottom:2px;left:50%;transform:translateX(-50%)}
 .cal-dot{width:4px;height:4px;border-radius:50%}
-.cal-dot.e{background:var(--exercise)}.cal-dot.s{background:var(--danger)}.cal-dot.a{background:var(--food)}.cal-dot.su{background:var(--success)}.cal-dot.m{background:var(--medical)}
+.cal-dot.e{background:var(--exercise)}.cal-dot.s{background:var(--danger)}.cal-dot.a{background:var(--food)}.cal-dot.su{background:var(--success)}.cal-dot.m{background:var(--medical)}.cal-dot.p{background:var(--brand)}.cal-dot.o{background:var(--purple)}
 .cal-legend{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.5rem}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:.6rem;color:var(--text-muted)}
 .legend-dot{width:7px;height:7px;border-radius:50%}
@@ -526,6 +526,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <div class="legend-item"><div class="legend-dot" style="background:var(--food)"></div>Alimentación</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div>Suplementos</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--medical)"></div>Chequeo médico</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Otro registro</div>
       </div>
     </div>
   </div>
@@ -541,7 +542,23 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <label>📅 Fecha:</label>
       <input class="date-input" type="date" id="registro-date-input" onchange="onRegistroDateChange(this.value)"/>
     </div>
-    <div class="card"><div class="card-title">🔴 Síntomas reproductivos & hormonales</div><div class="check-grid" id="check-repro"></div></div>
+
+    <!-- FIX: pregunta obligatoria de periodo, sincronizada con el módulo Ciclo -->
+    <div class="card" id="periodo-hoy-pregunta" style="border:1.5px solid var(--brand-soft)">
+      <div class="card-title">🩸 ¿Tienes tu periodo hoy? <span style="color:var(--brand);font-size:.7rem;font-weight:600">· Obligatorio</span></div>
+      <div class="check-grid" style="grid-template-columns:1fr 1fr">
+        <div class="check-item" id="reg-periodo-si" data-toggle-periodo="si"><div class="check-box" id="reg-periodo-si-box"></div>Sí, tengo periodo</div>
+        <div class="check-item" id="reg-periodo-no" data-toggle-periodo="no"><div class="check-box" id="reg-periodo-no-box"></div>No tengo periodo</div>
+      </div>
+      <div id="reg-periodo-detalle" style="display:none;margin-top:.8rem">
+        <div class="checklist-label" style="margin-bottom:.4rem">Flujo</div>
+        <div class="check-grid" id="reg-flujo-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:.7rem"></div>
+        <div class="checklist-label" style="margin-bottom:.4rem">Síntomas de hoy</div>
+        <div class="check-grid" id="check-repro-period"></div>
+      </div>
+    </div>
+
+    <div class="card"><div class="card-title">🔴 Otros síntomas reproductivos & hormonales</div><div class="check-grid" id="check-repro"></div></div>
     <div class="card"><div class="card-title">✨ Piel, cabello & apariencia</div><div class="check-grid" id="check-piel"></div></div>
     <div class="card">
       <div class="card-title">⚡ Energía, neurológicos & digestivos</div>
@@ -631,6 +648,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
     <!-- Análisis trimestral — exclusivo Pro Anual -->
     <div class="card" id="analisis-trimestral-card" style="display:none"></div>
+
+    <!-- FIX: resumen del historial de periodo para no depender solo del calendario -->
+    <div class="card">
+      <div class="card-title">📋 Mi historial de periodo</div>
+      <div id="historial-periodo-resumen" style="font-size:.82rem;color:var(--text);line-height:1.7"></div>
+    </div>
 
     <button class="save-btn" onclick="savePeriodo()">💾 Guardar registro del periodo</button>
   </div>
@@ -889,7 +912,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="modal-title" id="day-modal-title">📅 Día</div>
     <div id="day-modal-body"></div>
     <div style="display:flex;gap:.5rem;margin-top:.8rem">
-      <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Editar</button>
+      <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Editar / Agregar</button>
       <button class="day-edit-btn" style="flex:1;background:#FEE9E9;border-color:#E05070;color:#E05070" onclick="deleteRegistroFromModal()">🗑️ Eliminar</button>
     </div>
   </div>
@@ -1209,9 +1232,14 @@ function mostrarUpgrade(feature) {
 }
 
 async function saveRegistroSupabase(dateKey, registroData) {
-  if (!CURRENT_USER?.id) return;
-  const { error } = await sb.from('registros').upsert({ usuario_id: CURRENT_USER.id, fecha: dateKey, ...registroData }, { onConflict: 'usuario_id,fecha' });
-  if (error) console.error('Error guardando registro:', error);
+  // FIX: ahora devuelve true/false real para que saveRegistro() pueda informar
+  // honestamente si el guardado en el servidor tuvo éxito o no.
+  if (!CURRENT_USER?.id) return false;
+  try {
+    const { error } = await sb.from('registros').upsert({ usuario_id: CURRENT_USER.id, fecha: dateKey, ...registroData }, { onConflict: 'usuario_id,fecha' });
+    if (error) { console.error('Error guardando registro:', error); return false; }
+    return true;
+  } catch(e) { console.error('Excepcion guardando registro:', e); return false; }
 }
 
 async function cargarDatosSupabase() {
@@ -1325,16 +1353,26 @@ async function procesarEliminarCuentaFinal() {
   document.getElementById('eliminar-paso-modal')?.remove();
   try {
     showToast('⏳ Eliminando cuenta...');
-    // Eliminar registros
-    if (DATA.userId) {
-      await sb.from('registros').delete().eq('user_id', DATA.userId);
-      await sb.from('periodo').delete().eq('user_id', DATA.userId);
-      await sb.from('retos').delete().eq('user_id', DATA.userId);
-      await sb.from('chequeos').delete().eq('user_id', DATA.userId);
-      await sb.from('alimentos').delete().eq('user_id', DATA.userId);
-      await sb.from('suplementos').delete().eq('user_id', DATA.userId);
-      // Eliminar usuario
+    // FIX CRÍTICO DE SEGURIDAD: la columna real en Supabase es 'usuario_id',
+    // no 'user_id'. Con el nombre incorrecto, estos DELETE nunca habrían
+    // encontrado ninguna fila que coincidiera — no habrían borrado nada.
+    // Aunque eso evitó un borrado accidental por casualidad, es un bug real
+    // que debía corregirse: ahora usa el nombre de columna correcto Y exige
+    // que exista un DATA.userId válido (string no vacío) antes de ejecutar
+    // cualquier DELETE, para que esta función SOLO pueda afectar a la cuenta
+    // de la persona que explícitamente escribió "ELIMINAR" para confirmar.
+    if (DATA.userId && typeof DATA.userId === 'string' && DATA.userId.length > 0) {
+      await sb.from('registros').delete().eq('usuario_id', DATA.userId);
+      await sb.from('periodo').delete().eq('usuario_id', DATA.userId);
+      await sb.from('retos').delete().eq('usuario_id', DATA.userId);
+      await sb.from('chequeos').delete().eq('usuario_id', DATA.userId);
+      await sb.from('alimentos').delete().eq('usuario_id', DATA.userId);
+      await sb.from('suplementos').delete().eq('usuario_id', DATA.userId);
+      // Eliminar usuario — siempre al final, por su propio id de fila
       await sb.from('usuarios').delete().eq('id', DATA.userId);
+    } else {
+      showToast('⚠️ No se pudo identificar tu cuenta. Escríbenos a soporte@ovarica.site');
+      return;
     }
     // Limpiar local
     localStorage.removeItem('avarica_session');
@@ -1634,19 +1672,29 @@ function renderCalendar(){
     const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     const d=document.createElement('div'); d.className='cal-cell'; d.textContent=day;
     const r=DATA.registros[ds]; const a=DATA.alimentos[ds]; const su=DATA.suplementos[ds];
-    const hasSint=r?.sintomas?.length>0; const hasEj=!!r?.ejercicio;
+    // FIX: hasEj antes solo era true si ejercicioHoy=true (sí hizo ejercicio).
+    // Si la usuaria marcaba "descanso/no hice ejercicio" o solo registraba sueño
+    // sin marcar síntomas, el día quedaba sin NINGÚN punto visual, generando
+    // confusión sobre si el registro se había guardado o no.
+    const hasSint=r?.sintomas?.length>0;
+    const hasEj=!!r?.ejercicio;
     const hasAli=a?.bueno?.length>0||a?.malo?.length>0;
     const hasSu=su&&Object.values(su).some(Boolean);
     const hasMed=DATA.chequeos.some(c=>c.date===ds);
+    const hasPeriodoHoy = r?.tienePeriodo===true || !!DATA.periodo[ds];
+    // Existe registro de este día pero no cae en ninguna categoría con su propio punto
+    const hasRegistroGenerico = !!r && !hasSint && !hasEj && !hasPeriodoHoy;
     if(ds===fmtDate(todayDate)) d.classList.add('today');
     if(DATA.periodo[ds]) d.classList.add('periodo');
-    if(hasSint||hasEj||hasAli||hasSu||hasMed){
+    if(hasSint||hasEj||hasAli||hasSu||hasMed||hasPeriodoHoy||hasRegistroGenerico){
       const dots=document.createElement('div'); dots.className='cal-dots';
+      if(hasPeriodoHoy) dots.innerHTML+='<div class="cal-dot p"></div>';
       if(hasEj)   dots.innerHTML+='<div class="cal-dot e"></div>';
       if(hasSint) dots.innerHTML+='<div class="cal-dot s"></div>';
       if(hasAli)  dots.innerHTML+='<div class="cal-dot a"></div>';
       if(hasSu)   dots.innerHTML+='<div class="cal-dot su"></div>';
       if(hasMed)  dots.innerHTML+='<div class="cal-dot m"></div>';
+      if(hasRegistroGenerico) dots.innerHTML+='<div class="cal-dot o" title="Registro guardado"></div>';
       d.appendChild(dots);
     }
     d.onclick=()=>openDayDetail(ds);
@@ -1679,7 +1727,7 @@ function openDayDetail(ds){
   if(su){ const taken=Object.entries(su).filter(([k,v])=>v).map(([k])=>k); if(taken.length>0){ html+=`<div class="day-section-title">💊 Suplementos (${taken.length})</div><span class="day-pill" style="background:var(--success-pale);color:var(--success)">✅ ${taken.length} tomados</span>`; } }
   if(r?.sueno?.length>0){ html+=`<div class="day-section-title">😴 Sueño</div>`; const sleepKey=r.sueno.find(s=>['6-8h','mas-8h','menos-6h'].includes(s)); if(sleepKey) html+=`<span class="day-pill" style="background:var(--purple-pale);color:var(--purple)">${sleepKey}</span>`; }
   if(meds.length>0){ html+=`<div class="day-section-title">🩺 Chequeos</div>`; meds.forEach(m=>{ html+=`<span class="day-pill" style="background:var(--medical-pale);color:var(--medical)">🩺 ${m.name}</span>`}); }
-  if(!html) html=`<div style="text-align:center;padding:1.5rem;color:var(--text-muted);font-size:.85rem">Sin registros para este día.<br/><br/>Toca <strong>Editar</strong> para agregar datos.</div>`;
+  if(!html) html=`<div style="text-align:center;padding:1.5rem;color:var(--text-muted);font-size:.85rem">Sin registros para este día.<br/><br/>Toca <strong>Editar / Agregar</strong> para agregar datos.</div>`;
   body.innerHTML=html;
   document.getElementById('day-modal').classList.add('open');
 }
@@ -1707,15 +1755,51 @@ function onRegistroDateChange(v){
   document.getElementById('ej-si-box').textContent=''; document.getElementById('ej-no-box').textContent='';
   document.getElementById('ejercicio-detail').style.display='none';
   document.getElementById('dolor-slider').value=0; document.getElementById('dolor-val').textContent='0';
+  // FIX: reset de la pregunta obligatoria de periodo al cambiar de fecha
+  PERIODO_HOY_REGISTRO = null;
+  document.getElementById('reg-periodo-si')?.classList.remove('checked');
+  document.getElementById('reg-periodo-no')?.classList.remove('checked');
+  const siBox = document.getElementById('reg-periodo-si-box'); if (siBox) siBox.textContent='';
+  const noBox = document.getElementById('reg-periodo-no-box'); if (noBox) noBox.textContent='';
+  const detalle = document.getElementById('reg-periodo-detalle'); if (detalle) detalle.style.display='none';
   const r=DATA.registros[v];
   if(r){
     if(r.sintomas) r.sintomas.forEach(val=>{ const el=document.querySelector(`.check-item[data-val="${val}"]`); if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}});
     if(r.dolor) {document.getElementById('dolor-slider').value=r.dolor;document.getElementById('dolor-val').textContent=r.dolor;}
     if(r.sueno) r.sueno.forEach(val=>{ const el=document.querySelector(`.check-item[data-val="${val}"]`); if(el){el.classList.add('checked');const box=el.querySelector('.check-box');if(box)box.textContent='✓';}});
     if(r.ejercicio){ toggleEjercicio(true); if(r.ejercicio.duracion){document.getElementById('dur-slider').value=r.ejercicio.duracion;document.getElementById('dur-val').textContent=r.ejercicio.duracion+'min';} }
+    // FIX: cargar el estado guardado de la pregunta de periodo
+    if(typeof r.tienePeriodo === 'boolean') toggleRegPeriodo(r.tienePeriodo);
   }
 }
-function onPeriodoDateChange(v){selectedPeriodoDate=v}
+function onPeriodoDateChange(v){
+  selectedPeriodoDate=v;
+  // FIX: antes esta función no limpiaba nada — los checks de un periodo anterior
+  // quedaban marcados visualmente al volver al módulo, aunque correspondieran
+  // a otro día. Ahora se resetea todo el formulario igual que en Registro.
+  document.querySelectorAll('#screen-periodo .check-item').forEach(el=>{
+    el.classList.remove('checked','green');
+    const box = el.querySelector('.check-box'); if (box) box.textContent='';
+  });
+  document.getElementById('periodo-si')?.classList.remove('checked');
+  document.getElementById('periodo-no')?.classList.remove('checked');
+  const siBox = document.getElementById('p-si-box'); if (siBox) siBox.textContent='';
+  const noBox = document.getElementById('p-no-box'); if (noBox) noBox.textContent='';
+  const detail = document.getElementById('periodo-detail'); if (detail) detail.style.display='none';
+  document.querySelectorAll('#screen-periodo .flow-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-dolor-slider').value = 0;
+  document.getElementById('p-dolor-val').textContent = '0';
+  periodoHoy = null; flowHoy = null;
+  // Cargar datos existentes de esa fecha si los hay
+  const p = DATA.periodo[v];
+  if (p) {
+    togglePeriodo(true);
+    if (p.flujo) setFlow(p.flujo);
+    if (p.color) p.color.forEach(val=>{ const el=document.querySelector(`#screen-periodo .check-item[data-val="${val}"]`); if(el){el.classList.add('checked'); const box=el.querySelector('.check-box'); if(box)box.textContent='✓';} });
+    if (p.sint) p.sint.forEach(val=>{ const el=document.querySelector(`#screen-periodo .check-item[data-val="${val}"]`); if(el){el.classList.add('checked'); const box=el.querySelector('.check-box'); if(box)box.textContent='✓';} });
+    if (p.dolor) { document.getElementById('p-dolor-slider').value=p.dolor; document.getElementById('p-dolor-val').textContent=p.dolor; }
+  }
+}
 
 // ═══ CHECKLISTS ═══
 function buildCheck(id, items, group, isGreen=false){
@@ -1730,7 +1814,12 @@ function buildCheck(id, items, group, isGreen=false){
   });
 }
 function buildCheckItems(){
-  buildCheck('check-repro',[{v:'ciclo-irregular',l:'🔴 Ciclo irregular'},{v:'amenorrea',l:'⛔ Sin menstruación'},{v:'sangrado-abundante',l:'💧 Sangrado abundante'},{v:'manchado',l:'🩸 Manchado inter-ciclo'},{v:'dolor-pelvico',l:'💢 Dolor pélvico'},{v:'dolor-sexual',l:'❗ Dolor relaciones'},{v:'presion-pelvis',l:'⬇️ Presión pélvica'},{v:'libido-bajo',l:'💔 Bajo deseo sexual'}],'repro');
+  // FIX: se quitaron de aqui los sintomas que dependen de tener el periodo activo hoy
+  // (sangrado, manchado, color de flujo) — ahora viven en el bloque obligatorio
+  // de arriba para mantener coherencia con el modulo Ciclo.
+  buildCheck('check-repro',[{v:'ciclo-irregular',l:'🔴 Ciclo irregular'},{v:'dolor-pelvico',l:'💢 Dolor pélvico'},{v:'dolor-sexual',l:'❗ Dolor relaciones'},{v:'presion-pelvis',l:'⬇️ Presión pélvica'},{v:'libido-bajo',l:'💔 Bajo deseo sexual'}],'repro');
+  buildCheck('reg-flujo-grid',[{v:'flujo-manchado',l:'🔸 Manchado'},{v:'flujo-leve',l:'🟡 Leve'},{v:'flujo-moderado',l:'🟠 Moderado'},{v:'flujo-abundante',l:'🔴 Abundante'}],'flujo-hoy');
+  buildCheck('check-repro-period',[{v:'colicos',l:'💢 Cólicos'},{v:'espalda-baja',l:'🦴 Dolor espalda baja'},{v:'nauseas-periodo',l:'🤢 Náuseas'},{v:'coagulos',l:'🩸 Coágulos'},{v:'senos-sensibles',l:'💗 Senos sensibles'},{v:'hinchazon-periodo',l:'🎈 Hinchazón'},{v:'diarrea-periodo',l:'💩 Diarrea'},{v:'piernas-pesadas',l:'🦵 Piernas pesadas'}],'repro-period');
   buildCheck('check-piel',[{v:'acne-cara',l:'🔴 Acné cara'},{v:'acne-espalda',l:'🔴 Acné espalda'},{v:'vello-facial',l:'🧔 Vello facial'},{v:'hirsutismo',l:'🦵 Vello excesivo'},{v:'alopecia',l:'💆 Caída de cabello'},{v:'cabello-graso',l:'🫧 Cabello graso'},{v:'acantosis',l:'🟫 Manchas cuello/axilas'},{v:'piel-grasa',l:'✨ Piel muy grasa'},{v:'piel-seca',l:'🏜️ Piel muy seca'},{v:'acrocordones',l:'🏷️ Etiquetas de piel'}],'piel');
   buildCheck('check-neuro',[{v:'fatiga-despertar',l:'😴 Fatiga al despertar'},{v:'fatiga-dia',l:'🥱 Fatiga diurna'},{v:'brain-fog',l:'🌫️ Brain fog'},{v:'dolor-cabeza',l:'🤕 Dolor de cabeza'},{v:'migrana',l:'⚡ Migraña'},{v:'insomnio',l:'🌙 Insomnio'},{v:'sueno-no-rep',l:'😪 Sueño no reparador'},{v:'apnea',l:'😤 Apnea del sueño'}],'neuro');
   buildCheck('check-cardio',[{v:'presion-alta',l:'🩺 Presión alta'},{v:'palpitaciones',l:'💓 Palpitaciones'},{v:'mareos',l:'😵 Mareos'},{v:'sofocos',l:'🔥 Sofocos'}],'cardio');
@@ -1765,6 +1854,30 @@ function buildVasos(){
 }
 
 let ejercicioHoy=null;
+// FIX: variable obligatoria para la pregunta de periodo en el módulo Registro
+let PERIODO_HOY_REGISTRO = null;
+function toggleRegPeriodo(val){
+  PERIODO_HOY_REGISTRO = val;
+  document.getElementById('reg-periodo-si').classList.toggle('checked', val===true);
+  document.getElementById('reg-periodo-si-box').textContent = val===true ? '✓' : '';
+  document.getElementById('reg-periodo-no').classList.toggle('checked', val===false);
+  document.getElementById('reg-periodo-no-box').textContent = val===false ? '✓' : '';
+  const detalle = document.getElementById('reg-periodo-detalle');
+  if (detalle) detalle.style.display = val===true ? 'block' : 'none';
+  // Si dice que NO tiene periodo, limpiar cualquier selección previa de flujo/síntomas de periodo
+  if (val===false) {
+    document.querySelectorAll('#reg-flujo-grid .check-item, #check-repro-period .check-item').forEach(el=>{
+      el.classList.remove('checked','green');
+      const box = el.querySelector('.check-box'); if (box) box.textContent='';
+    });
+  }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  const si = document.getElementById('reg-periodo-si');
+  const no = document.getElementById('reg-periodo-no');
+  if (si) si.addEventListener('click', ()=>toggleRegPeriodo(true));
+  if (no) no.addEventListener('click', ()=>toggleRegPeriodo(false));
+});
 function toggleEjercicio(val){
   ejercicioHoy=val;
   ['si','no'].forEach(k=>{ document.getElementById(`ejercicio-${k}`).classList.toggle('checked',val===(k==='si')); document.getElementById(`ej-${k}-box`).textContent=val===(k==='si')?'✓':''; });
@@ -1780,7 +1893,7 @@ function togglePeriodo(val){
 function setFlow(f){flowHoy=f; document.querySelectorAll('.flow-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase().includes(f.split('-')[0])))}
 function getChecked(group){return [...document.querySelectorAll(`.check-item[data-group="${group}"].checked`)].map(e=>e.dataset.val)}
 
-function saveRegistro(){
+async function saveRegistro(){
   if(CURRENT_PLAN === 'gratuito') {
     const allDates = Object.keys(DATA.registros).sort();
     const isNewDate = !DATA.registros[selectedRegistroDate];
@@ -1790,14 +1903,43 @@ function saveRegistro(){
       return;
     }
   }
+  // FIX: registro tiene su propio campo de período (PERIODO_HOY_REGISTRO), obligatorio.
+  if (PERIODO_HOY_REGISTRO === null) {
+    showToast('⚠️ Indica si tienes tu periodo hoy antes de guardar');
+    document.getElementById('periodo-hoy-pregunta')?.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
   DATA.registros[selectedRegistroDate]={
+    tienePeriodo: PERIODO_HOY_REGISTRO,
     sintomas:[...getChecked('repro'),...getChecked('piel'),...getChecked('neuro'),...getChecked('cardio'),...getChecked('digest'),...getChecked('mental')],
     ejercicio:ejercicioHoy?{tipos:getChecked('ejercicio-tipo'),extra:getChecked('ejercicio-extra'),duracion:document.getElementById('dur-slider').value}:null,
     sueno:getChecked('sueno'), dolor:parseInt(document.getElementById('dolor-slider').value), ts:Date.now()
   };
   saveData(); updateStats(); renderCalendar(); updateNoraInsight();
-  saveRegistroSupabase(selectedRegistroDate, { sintomas:DATA.registros[selectedRegistroDate].sintomas, ejercicio:DATA.registros[selectedRegistroDate].ejercicio, sueno:DATA.registros[selectedRegistroDate].sueno, dolor:DATA.registros[selectedRegistroDate].dolor });
-  showToast('✅ Registro guardado');
+  // FIX: ahora se espera la respuesta real de Supabase y se informa el resultado verdadero,
+  // en vez de mostrar siempre "guardado" aunque la escritura remota hubiera fallado.
+  const btn = document.getElementById('registro-save-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Guardando...'; }
+  const ok = await saveRegistroSupabase(selectedRegistroDate, { tiene_periodo: DATA.registros[selectedRegistroDate].tienePeriodo, sintomas:DATA.registros[selectedRegistroDate].sintomas, ejercicio:DATA.registros[selectedRegistroDate].ejercicio, sueno:DATA.registros[selectedRegistroDate].sueno, dolor:DATA.registros[selectedRegistroDate].dolor });
+  if (btn) { btn.disabled = false; btn.textContent = '💾 Guardar registro'; }
+  if (ok) {
+    showToast('✅ Registro guardado');
+  } else {
+    showToast('⚠️ Guardado en tu dispositivo. Reintentando con el servidor...');
+    // Reintento automático único tras 1.5s por si fue un fallo de red puntual
+    setTimeout(async ()=>{
+      const retry = await saveRegistroSupabase(selectedRegistroDate, { tiene_periodo: DATA.registros[selectedRegistroDate].tienePeriodo, sintomas:DATA.registros[selectedRegistroDate].sintomas, ejercicio:DATA.registros[selectedRegistroDate].ejercicio, sueno:DATA.registros[selectedRegistroDate].sueno, dolor:DATA.registros[selectedRegistroDate].dolor });
+      if (retry) showToast('✅ Sincronizado con el servidor');
+    }, 1500);
+  }
+  // Si la usuaria registró que tiene periodo hoy, sincronizar con el módulo Ciclo
+  if (PERIODO_HOY_REGISTRO === true) {
+    DATA.lastPeriod = selectedRegistroDate;
+    saveData();
+    if (DATA.userId) {
+      sb.from('usuarios').update({ ultimo_periodo: selectedRegistroDate }).eq('id', DATA.userId);
+    }
+  }
 }
 
 function saveAlimentos(){
@@ -1806,10 +1948,41 @@ function saveAlimentos(){
   saveData(); renderCalendar(); showToast('✅ Alimentación guardada');
 }
 
-function savePeriodo(){
-  if(periodoHoy){ DATA.periodo[selectedPeriodoDate]={flujo:flowHoy,color:getChecked('color-periodo'),sint:getChecked('periodo-sint'),dolor:parseInt(document.getElementById('p-dolor-slider').value)}; }
-  else { delete DATA.periodo[selectedPeriodoDate]; }
-  saveData(); renderCalendar(); showToast('🩸 Periodo guardado');
+async function savePeriodo(){
+  if (periodoHoy === null) {
+    showToast('⚠️ Indica si tienes tu periodo hoy antes de guardar');
+    return;
+  }
+  if(periodoHoy){
+    DATA.periodo[selectedPeriodoDate]={flujo:flowHoy,color:getChecked('color-periodo'),sint:getChecked('periodo-sint'),dolor:parseInt(document.getElementById('p-dolor-slider').value)};
+    // FIX: si esta fecha es el primer día del sangrado más reciente, sincronizar
+    // con DATA.lastPeriod para que las predicciones de fase/ovulación sean correctas.
+    const fechasConPeriodo = Object.keys(DATA.periodo).sort();
+    const masReciente = fechasConPeriodo[fechasConPeriodo.length-1];
+    if (selectedPeriodoDate >= (masReciente || '')) {
+      DATA.lastPeriod = selectedPeriodoDate;
+      if (DATA.userId) sb.from('usuarios').update({ ultimo_periodo: selectedPeriodoDate }).eq('id', DATA.userId);
+    }
+  } else {
+    delete DATA.periodo[selectedPeriodoDate];
+  }
+  saveData();
+  // Guardar en Supabase
+  if (CURRENT_USER?.id) {
+    try {
+      if (periodoHoy) {
+        await sb.from('periodo').upsert({ usuario_id: CURRENT_USER.id, fecha: selectedPeriodoDate, ...DATA.periodo[selectedPeriodoDate] }, { onConflict: 'usuario_id,fecha' });
+      } else {
+        await sb.from('periodo').delete().eq('usuario_id', CURRENT_USER.id).eq('fecha', selectedPeriodoDate);
+      }
+    } catch(e) { console.error('Error guardando periodo en Supabase:', e); }
+  }
+  renderCalendar();
+  // FIX: antes las "Predicciones de Nora" del mismo módulo nunca se refrescaban
+  // después de guardar — ahora se reconstruyen con los datos recién guardados.
+  buildFasesCiclo();
+  updateHomePhaseBanner();
+  showToast('🩸 Periodo guardado');
 }
 
 function updateStats(){
@@ -1828,14 +2001,37 @@ function updateNoraInsight(){
   }
   const all=Object.keys(DATA.registros).sort(); const name=DATA.userName||'tú';
   let msg='';
-  if(all.length===0) msg=`Bienvenida ${name} 🌸 Empieza a registrar para que <span class="nora-highlight">Nora</span> pueda darte insights personalizados.`;
-  else if(all.length<5) msg=`Llevas <span class="nora-highlight">${all.length} días</span> registrando. ¡Sigue así! Con 7 días Nora tendrá tu primer insight. 💪`;
-  else{
-    const ejCount=all.filter(d=>DATA.registros[d]?.ejercicio).length;
-    const azucar=all.filter(d=>DATA.alimentos[d]?.malo?.includes('azucar')).length;
-    if(ejCount/all.length>=.6) msg=`🏋️ <span class="nora-highlight">Patrón detectado:</span> Los días que hiciste ejercicio (${ejCount} de ${all.length}), tu energía fue mayor. ¡Sigue!`;
-    else if(azucar>all.length/2) msg=`🍬 <span class="nora-highlight">Nora observa:</span> Consumiste azúcar en ${azucar} de ${all.length} días. Reducirla puede mejorar tu resistencia a la insulina.`;
-    else msg=`📊 Llevas <span class="nora-highlight">${all.length} días</span> de seguimiento. Sigue registrando para insights más precisos.`;
+  if(all.length===0) {
+    msg=`Bienvenida ${name} 🌸 Empieza a registrar para que <span class="nora-highlight">Nora</span> pueda darte insights personalizados.`;
+  } else if(all.length<5) {
+    msg=`Llevas <span class="nora-highlight">${all.length} día${all.length===1?'':'s'}</span> registrando. ¡Sigue así! Con 5-7 días Nora tendrá tu primer insight. 💪`;
+  } else {
+    // FIX: lógica de Nora más generosa — antes requería patrones muy específicos
+    // (60%+ de días con ejercicio, o 50%+ con azúcar) y casi nunca se cumplían con
+    // pocos registros de prueba, dando siempre el mensaje genérico que parecía
+    // "Nora no funciona". Ahora se evalúan varios insights en orden de relevancia
+    // y SIEMPRE se muestra el más informativo disponible con los datos que existan.
+    const ejCount = all.filter(d=>DATA.registros[d]?.ejercicio).length;
+    const conSintomas = all.filter(d=>(DATA.registros[d]?.sintomas||[]).length>0);
+    const azucar = all.filter(d=>DATA.alimentos[d]?.malo?.includes('azucar')).length;
+    const pctEj = Math.round((ejCount/all.length)*100);
+
+    // Síntoma más frecuente del periodo
+    const sintomasFreq = {};
+    all.forEach(d=>{ (DATA.registros[d]?.sintomas||[]).forEach(s=>{ sintomasFreq[s]=(sintomasFreq[s]||0)+1; }); });
+    const topSintoma = Object.entries(sintomasFreq).sort(([,a],[,b])=>b-a)[0];
+
+    if (ejCount >= 3 && pctEj >= 40) {
+      msg = `🏋️ <span class="nora-highlight">Patrón detectado:</span> Hiciste ejercicio en ${ejCount} de ${all.length} días registrados (${pctEj}%). El movimiento constante es uno de los reguladores hormonales más efectivos para el SOMP — ¡vas muy bien!`;
+    } else if (azucar >= 2) {
+      msg = `🍬 <span class="nora-highlight">Nora observa:</span> Registraste consumo de azúcar en ${azucar} de ${all.length} días. Reducirla gradualmente puede mejorar tu resistencia a la insulina.`;
+    } else if (topSintoma && topSintoma[1] >= 2) {
+      msg = `📊 <span class="nora-highlight">Patrón detectado:</span> "${topSintoma[0].replace(/-/g,' ')}" apareció en ${topSintoma[1]} de tus últimos ${all.length} registros. Vale la pena comentarlo con tu médico si persiste.`;
+    } else if (ejCount === 0 && all.length >= 5) {
+      msg = `💡 <span class="nora-highlight">Nora sugiere:</span> Llevas ${all.length} días registrando sin ejercicio marcado todavía. Incluso 15-20 minutos de movimiento puede ayudar a regular tus síntomas de SOMP.`;
+    } else {
+      msg = `📊 Llevas <span class="nora-highlight">${all.length} días</span> de seguimiento — ¡buen ritmo! Sigue registrando para que Nora detecte patrones aún más precisos sobre tu ciclo y síntomas.`;
+    }
   }
   document.getElementById('nora-weekly').innerHTML=msg;
 }
@@ -2043,10 +2239,14 @@ function buildShoppingList(){
   ss.appendChild(addSuplDiv);
   if(!DATA.shopCustomSuplem) DATA.shopCustomSuplem=[];
   const allSuplem=[...SHOP_SUPLEM,...DATA.shopCustomSuplem];
+  // FIX: la sección de suplementos usaba la clase 'shop-item bought' (con
+  // text-decoration:line-through del CSS), mientras que alimentos (arriba)
+  // solo marcaba el check sin tachar el texto. Se iguala el comportamiento:
+  // simple selección visual, sin tachado, igual que en alimentos.
   allSuplem.forEach((item,i)=>{
     const key='suplem-'+i; const bought=DATA.shopBought[key]||false;
-    const div=document.createElement('div'); div.className='shop-item'+(bought?' bought':'');
-    div.innerHTML=`<div class="shop-check">${bought?'✓':''}</div>${item}`;
+    const div=document.createElement('div'); div.className='shop-item';
+    div.innerHTML=`<div style="width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid ${bought?'var(--success)':'rgba(180,130,200,.4)'};background:${bought?'var(--success)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white">${bought?'✓':''}</div><span style="flex:1">${item}</span>`;
     div.onclick=()=>{DATA.shopBought[key]=!DATA.shopBought[key]; saveData(); buildShoppingList()};
     ss.appendChild(div);
   });
@@ -2088,11 +2288,52 @@ function generarReporte(){
   const topSintomas={};
   registros.forEach(([,r])=>{r?.sintomas?.forEach(s=>{topSintomas[s]=(topSintomas[s]||0)+1;});});
   const top3=Object.entries(topSintomas).sort(([,a],[,b])=>b-a).slice(0,3);
-  const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><title>Reporte Ovárica — ${name}</title><style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#2D1A35;line-height:1.6}h1{color:#C9517A;border-bottom:2px solid #C9517A;padding-bottom:.5rem}h2{color:#9B6DB5;margin-top:1.5rem}.stat{display:inline-block;background:#FDF6F9;border:1px solid #E8A0B4;border-radius:8px;padding:8px 16px;margin:4px}table{width:100%;border-collapse:collapse;margin-top:.5rem}th{background:#F0E5F8;padding:8px;text-align:left;font-size:.8rem}td{padding:6px 8px;border-bottom:1px solid #F0E5F8;font-size:.78rem}.footer{margin-top:2rem;font-size:.75rem;color:#9B7DAB;border-top:1px solid #E8A0B4;padding-top:1rem}</style></head><body><h1>🌸 Reporte de Salud Hormonal — Ovárica</h1><p><strong>Paciente:</strong> ${name}<br/><strong>Fecha:</strong> ${today}</p><h2>📊 Resumen (${totalDias} días)</h2><div><span class="stat">📅 Días registrados: <strong>${totalDias}</strong></span><span class="stat">🏋️ Días con ejercicio: <strong>${diasEjercicio}</strong></span><span class="stat">🩸 Días de periodo: <strong>${Object.keys(DATA.periodo).length}</strong></span></div><h2>🔴 Síntomas más frecuentes</h2>${top3.length>0?`<table><tr><th>Síntoma</th><th>Frecuencia</th></tr>${top3.map(([s,n])=>`<tr><td>${s.replace(/-/g,' ')}</td><td>${n} días</td></tr>`).join('')}</table>`:'<p>Sin síntomas registrados</p>'}<h2>🩺 Chequeos médicos</h2>${DATA.chequeos.length>0?`<table><tr><th>Chequeo</th><th>Fecha</th><th>Estado</th></tr>${DATA.chequeos.map(c=>`<tr><td>${c.name}</td><td>${c.date||'—'}</td><td>${c.status||'—'}</td></tr>`).join('')}</table>`:'<p>Sin chequeos registrados</p>'}<div class="footer"><p>📱 Reporte generado por <strong>Ovárica</strong> — ovarica.site<br/>⚠️ <em>Este reporte es un resumen del autoregistro y no sustituye el diagnóstico médico.</em></p></div></body></html>`;
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download=`Reporte_Ovarica_${name.replace(/\s+/g,'_')}.html`; a.click();
-  URL.revokeObjectURL(url); showToast('📄 Reporte descargado');
+
+  // FIX: agregar el análisis de Nora al reporte (síntoma dominante + % ejercicio)
+  // ahora que la lógica de Nora fue corregida y funciona desde 5 registros.
+  let noraSection = '';
+  if (totalDias >= 5) {
+    const pctEj = Math.round((diasEjercicio/totalDias)*100);
+    const principalSintoma = top3[0];
+    let noraTexto = `Durante este período, la paciente registró ejercicio en ${diasEjercicio} de ${totalDias} días (${pctEj}%).`;
+    if (principalSintoma) noraTexto += ` El síntoma más recurrente fue "${principalSintoma[0].replace(/-/g,' ')}", presente en ${principalSintoma[1]} de los días registrados.`;
+    noraSection = `<h2>🤖 Análisis de Nora IA</h2><p style="background:#FFF0F5;border:1px solid #E8A0B4;border-radius:8px;padding:12px 16px;font-size:.85rem">${noraTexto}</p>`;
+  }
+
+  const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/><title>Reporte Ovárica — ${name}</title><style>
+@media print { .no-print { display:none !important; } body{margin:0} }
+body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#2D1A35;line-height:1.6;padding:0 16px}
+h1{color:#C9517A;border-bottom:2px solid #C9517A;padding-bottom:.5rem}
+h2{color:#9B6DB5;margin-top:1.5rem}
+.stat{display:inline-block;background:#FDF6F9;border:1px solid #E8A0B4;border-radius:8px;padding:8px 16px;margin:4px}
+table{width:100%;border-collapse:collapse;margin-top:.5rem}
+th{background:#F0E5F8;padding:8px;text-align:left;font-size:.8rem}
+td{padding:6px 8px;border-bottom:1px solid #F0E5F8;font-size:.78rem}
+.footer{margin-top:2rem;font-size:.75rem;color:#9B7DAB;border-top:1px solid #E8A0B4;padding-top:1rem}
+.print-btn{display:inline-block;background:linear-gradient(135deg,#9B6DB5,#C9517A);color:white;border:none;border-radius:50px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin:16px 0}
+</style></head><body>
+<div class="no-print" style="text-align:center"><button class="print-btn" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button><p style="font-size:.75rem;color:#9B7DAB">En la ventana de impresión, elige "Guardar como PDF" como destino.</p></div>
+<h1>🌸 Reporte de Salud Hormonal — Ovárica</h1><p><strong>Paciente:</strong> ${name}<br/><strong>Fecha:</strong> ${today}</p>
+<h2>📊 Resumen (${totalDias} días)</h2><div><span class="stat">📅 Días registrados: <strong>${totalDias}</strong></span><span class="stat">🏋️ Días con ejercicio: <strong>${diasEjercicio}</strong></span><span class="stat">🩸 Días de periodo: <strong>${Object.keys(DATA.periodo).length}</strong></span></div>
+${noraSection}
+<h2>🔴 Síntomas más frecuentes</h2>${top3.length>0?`<table><tr><th>Síntoma</th><th>Frecuencia</th></tr>${top3.map(([s,n])=>`<tr><td>${s.replace(/-/g,' ')}</td><td>${n} días</td></tr>`).join('')}</table>`:'<p>Sin síntomas registrados</p>'}
+<h2>🩺 Chequeos médicos</h2>${DATA.chequeos.length>0?`<table><tr><th>Chequeo</th><th>Fecha</th><th>Estado</th></tr>${DATA.chequeos.map(c=>`<tr><td>${c.name}</td><td>${c.date||'—'}</td><td>${c.status||'—'}</td></tr>`).join('')}</table>`:'<p>Sin chequeos registrados</p>'}
+<div class="footer"><p>📱 Reporte generado por <strong>Ovárica</strong> — ovarica.site<br/>⚠️ <em>Este reporte es un resumen del autoregistro y no sustituye el diagnóstico médico.</em></p></div>
+</body></html>`;
+  // FIX: ahora se abre en una nueva pestaña con botón de imprimir/guardar como PDF,
+  // en vez de descargar solo un .html plano que la usuaria no podía compartir fácil.
+  const w = window.open('', '_blank');
+  if (w) {
+    w.document.write(html);
+    w.document.close();
+  } else {
+    // Fallback si el navegador bloquea popups: descarga el .html como antes
+    const blob=new Blob([html],{type:'text/html'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=`Reporte_Ovarica_${name.replace(/\s+/g,'_')}.html`; a.click();
+    URL.revokeObjectURL(url);
+  }
+  showToast('📄 Reporte generado — usa el botón de imprimir para guardarlo como PDF');
 }
 function openAddMedical(){document.getElementById('medical-modal').classList.add('open')}
 function closeMedicalModal(e){if(e.target===document.getElementById('medical-modal')) document.getElementById('medical-modal').classList.remove('open')}
@@ -2191,6 +2432,35 @@ function buildFasesCiclo(){
   const nextPeriodDate=new Date(todayDate); nextPeriodDate.setDate(nextPeriodDate.getDate()+diasParaSiguiente);
   document.getElementById('predicciones-text').innerHTML=`<div style="display:flex;flex-direction:column;gap:.5rem"><div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(91,143,208,.15);font-size:.82rem"><span>🩸 Próximo periodo</span><strong style="color:var(--exercise)">${nextPeriodDate.getDate()}/${nextPeriodDate.getMonth()+1}/${nextPeriodDate.getFullYear()}</strong></div><div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(91,143,208,.15);font-size:.82rem"><span>🥚 Ovulación estimada</span><strong style="color:var(--exercise)">Día ${ciclo-14} del ciclo</strong></div><div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.82rem"><span>📏 Duración del ciclo</span><strong style="color:var(--exercise)">${ciclo} días</strong></div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.3rem">*Estimaciones basadas en tus datos. Registra tus periodos para mayor precisión.</div></div>`;
   buildAnalisisTrimestral();
+  buildHistorialPeriodoResumen();
+}
+
+// FIX: resumen del historial de periodo — pedido explícitamente para no depender
+// solo del calendario al consultar cuándo fueron los últimos periodos.
+function buildHistorialPeriodoResumen(){
+  const cont = document.getElementById('historial-periodo-resumen');
+  if (!cont) return;
+  const fechas = Object.keys(DATA.periodo || {}).sort().reverse();
+  if (fechas.length === 0) {
+    cont.innerHTML = '<div style="color:var(--text-muted)">Aún no has registrado ningún periodo. Cuando lo hagas, aquí verás tu historial completo.</div>';
+    return;
+  }
+  const ultimos = fechas.slice(0, 6);
+  let html = '';
+  ultimos.forEach((f, i) => {
+    const p = DATA.periodo[f];
+    const d = new Date(f + 'T12:00:00');
+    const fechaStr = d.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'});
+    const flujoLabel = {leve:'Leve', moderado:'Moderado', abundante:'Abundante', manchado:'Manchado'}[p.flujo] || p.flujo || '—';
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;${i<ultimos.length-1?'border-bottom:1px solid rgba(180,130,200,.1)':''}">
+      <span>🩸 ${fechaStr}</span>
+      <strong style="color:var(--exercise)">${flujoLabel}${p.dolor?' · Dolor '+p.dolor+'/10':''}</strong>
+    </div>`;
+  });
+  if (fechas.length > 6) {
+    html += `<div style="font-size:.72rem;color:var(--text-muted);margin-top:.5rem;text-align:center">+ ${fechas.length-6} registro${fechas.length-6===1?'':'s'} más en tu calendario</div>`;
+  }
+  cont.innerHTML = html;
 }
 
 // FIX: Análisis trimestral real — beneficio EXCLUSIVO de Pro Anual.
@@ -2404,13 +2674,51 @@ function toggleConfig(id){
   saveData(); buildConfigToggles();
   if(id==='notif-diarias'&&DATA.config[id]) requestNotificationPermission();
   if(id==='rec-suplem'&&DATA.config[id]){ showToast('💊 Recibirás recordatorio de suplementos'); scheduleNotification('💊 Ovárica','¿Ya tomaste tus suplementos hoy?',9*60); }
+  // FIX: feedback inmediato al activar el reporte semanal, igual que las otras 2 opciones
+  if(id==='reporte-nora'&&DATA.config[id]){ showToast('📊 Recibirás un resumen semanal de Nora cada 7 días'); checkReporteSemanalNora(); }
 }
 function requestNotificationPermission(){
-  if(!('Notification' in window)){ showToast('⚠️ Tu navegador no soporta notificaciones'); DATA.config['notif-diarias']=false; saveData(); buildConfigToggles(); return; }
+  if(!('Notification' in window)){
+    showToast('⚠️ Tu navegador no soporta notificaciones');
+    DATA.config['notif-diarias']=false; saveData(); buildConfigToggles();
+    return;
+  }
+  // FIX: si el permiso ya fue denegado antes, el navegador NO vuelve a preguntar
+  // — hay que guiar a la usuaria a activarlo manualmente desde la configuración
+  // del navegador, con instrucciones específicas según el dispositivo.
+  if (Notification.permission === 'denied') {
+    mostrarInstruccionesNotificaciones();
+    DATA.config['notif-diarias']=false; saveData(); buildConfigToggles();
+    return;
+  }
   Notification.requestPermission().then(perm=>{
     if(perm==='granted'){ showToast('🔔 Notificaciones activadas'); scheduleNotification('🌸 Ovárica','¡Recuerda registrar tus síntomas de hoy!',20*60); }
-    else { showToast('⚠️ Activa los permisos en tu navegador'); DATA.config['notif-diarias']=false; saveData(); buildConfigToggles(); }
+    else { mostrarInstruccionesNotificaciones(); DATA.config['notif-diarias']=false; saveData(); buildConfigToggles(); }
   });
+}
+
+function mostrarInstruccionesNotificaciones(){
+  const ua = navigator.userAgent;
+  const esIOS = /iPhone|iPad|iPod/.test(ua);
+  const esAndroid = /Android/.test(ua);
+  let pasos;
+  if (esIOS) {
+    pasos = '1. Abre <strong>Ajustes</strong> de tu iPhone<br/>2. Busca <strong>Safari</strong> (o el navegador que uses)<br/>3. Activa los permisos de notificaciones<br/><br/><em>Nota: en iPhone, las notificaciones funcionan mejor si instalas Ovárica en tu pantalla de inicio (Compartir → Añadir a pantalla de inicio).</em>';
+  } else if (esAndroid) {
+    pasos = '1. Toca los <strong>3 puntos</strong> arriba a la derecha del navegador<br/>2. Ve a <strong>Configuración del sitio</strong><br/>3. Busca <strong>Notificaciones</strong> y actívalas<br/><br/>O toca el ícono de candado 🔒 junto a la dirección de la página y activa "Notificaciones".';
+  } else {
+    pasos = '1. Haz clic en el ícono de candado 🔒 o información junto a la dirección de la página<br/>2. Busca <strong>Notificaciones</strong><br/>3. Cambia el permiso a <strong>Permitir</strong><br/>4. Recarga la página e inténtalo de nuevo';
+  }
+  const m = document.createElement('div');
+  m.id = 'notif-instrucciones-modal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(45,26,53,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.2rem';
+  m.innerHTML = `<div style="background:white;width:100%;max-width:400px;border-radius:20px;padding:1.6rem">
+    <div style="font-size:1.8rem;text-align:center;margin-bottom:.6rem">🔔</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);text-align:center;margin-bottom:.8rem">Activa las notificaciones</div>
+    <div style="font-size:.84rem;color:var(--text);line-height:1.8;margin-bottom:1.4rem">${pasos}</div>
+    <button onclick="document.getElementById('notif-instrucciones-modal').remove()" style="width:100%;background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;border-radius:50px;padding:.8rem;font-size:.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Entendido</button>
+  </div>`;
+  document.body.appendChild(m);
 }
 function scheduleNotification(title,body,minutesFromNow){
   if(Notification.permission!=='granted') return;
@@ -2422,6 +2730,33 @@ function checkAndSendNotifications(){
   const today=fmtDate(todayDate);
   if(!DATA.registros[today]) scheduleNotification('🌸 Ovárica','¿Cómo te sientes hoy? Registra tus síntomas.',1);
   if(DATA.config?.['rec-suplem']){ const sup=DATA.suplementos[today]; if(!sup||Object.values(sup).filter(Boolean).length===0) scheduleNotification('💊 Ovárica','No olvides tus suplementos de hoy 🌿',2); }
+  // FIX: 'reporte-nora' era un toggle sin ninguna función conectada detrás.
+  // Ahora, si está activado y han pasado 7+ días desde el último resumen,
+  // se genera y notifica un resumen semanal real basado en los registros.
+  if(DATA.config?.['reporte-nora']) checkReporteSemanalNora();
+}
+
+function checkReporteSemanalNora(){
+  const hoy = fmtDate(todayDate);
+  const ultimoReporte = DATA.ultimoReporteSemanal || null;
+  if (ultimoReporte) {
+    const dias = Math.floor((new Date(hoy) - new Date(ultimoReporte)) / (1000*60*60*24));
+    if (dias < 7) return;
+  }
+  const all = Object.keys(DATA.registros);
+  if (all.length < 5) return; // no hay suficiente data todavía
+  DATA.ultimoReporteSemanal = hoy;
+  saveData();
+  const ultimos7 = all.filter(d => {
+    const dias = Math.floor((new Date(hoy) - new Date(d)) / (1000*60*60*24));
+    return dias >= 0 && dias <= 7;
+  });
+  const ejCount = ultimos7.filter(d => DATA.registros[d]?.ejercicio).length;
+  const resumen = `Esta semana registraste ${ultimos7.length} día${ultimos7.length===1?'':'s'}${ejCount>0?` e hiciste ejercicio ${ejCount} de ${ultimos7.length} veces`:''}. ¡Sigue así! 🌸`;
+  if (Notification.permission === 'granted') {
+    new Notification('📊 Tu resumen semanal de Nora', { body: resumen, icon: '/icon-192.png' });
+  }
+  showToast('📊 Nora generó tu resumen semanal');
 }
 
 // ═══ BOOT ═══
