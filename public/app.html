@@ -816,6 +816,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div style="text-align:center;font-size:.68rem;color:var(--text-muted);line-height:1.7">
       Ovárica no reemplaza el diagnóstico médico.<br/>© 2026 Ovárica · v1.2.0
     </div>
+    <div style="text-align:center;margin-top:1.2rem">
+      <span onclick="abrirCentroDeCuenta()" style="font-size:.68rem;color:var(--text-light,#C4A8D4);cursor:pointer;text-decoration:underline">Gestión avanzada de cuenta</span>
+    </div>
   </div>
 
   <!-- BOTTOM NAV -->
@@ -1040,6 +1043,19 @@ async function loginSupabase(email, password) {
     DATA.userName = data.nombre;
     DATA.email    = data.email;
     DATA.userId   = data.id;
+    // FIX CRÍTICO: traer TODOS los datos personales y del ciclo desde Supabase al login
+    // Sin esto, el cálculo de fase del ciclo era incorrecto/inventado tras cada login
+    if (data.ultimo_periodo) DATA.lastPeriod = data.ultimo_periodo;
+    if (data.ciclo_len)      DATA.cycleLen   = parseInt(data.ciclo_len) || 28;
+    if (data.periodo_len)    DATA.periodLen  = parseInt(data.periodo_len) || 5;
+    if (data.ciclo_tipo)     DATA.cycleType  = data.ciclo_tipo;
+    if (data.pais)           DATA.country    = data.pais;
+    if (data.edad)           DATA.age        = data.edad;
+    if (data.peso)           DATA.weight     = data.peso;
+    if (data.talla)          DATA.height     = data.talla;
+    if (data.diagnostico)    DATA.diagnostico= data.diagnostico;
+    if (data.objetivo)       DATA.objetivo   = data.objetivo;
+    saveData();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     initApp();
@@ -1200,11 +1216,78 @@ async function cargarDatosSupabase() {
 function showLoadingBtn(id, txt) { const btn = document.getElementById(id); if (btn) { btn.textContent = txt; btn.disabled = true; btn.style.opacity = '.7'; } }
 function resetBtn(id, txt) { const btn = document.getElementById(id); if (btn) { btn.textContent = txt; btn.disabled = false; btn.style.opacity = '1'; } }
 
-async function eliminarCuenta() {
-  const confirmMsg = '¿Estás segura de que quieres eliminar tu cuenta?\n\nEsto borrará todos tus registros, historial de ciclo y datos permanentemente.\n\nEsta acción NO se puede deshacer.';
-  if (!confirm(confirmMsg)) return;
-  const confirm2 = confirm('Última confirmación: ¿eliminar cuenta de ' + (DATA.email || 'tu usuario') + '?');
-  if (!confirm2) return;
+// ═══ GESTIÓN AVANZADA DE CUENTA (acceso deliberadamente discreto) ═══
+function abrirCentroDeCuenta(){
+  const m = document.createElement('div');
+  m.id = 'centro-cuenta-modal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(45,26,53,.55);z-index:9999;display:flex;align-items:flex-end;justify-content:center';
+  m.innerHTML = `
+  <div style="background:var(--bg);width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:1.4rem 1.2rem 2rem">
+    <div style="width:40px;height:4px;background:rgba(180,130,200,.3);border-radius:4px;margin:0 auto 1rem"></div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.3rem">Gestión avanzada de cuenta</div>
+    <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:1.4rem;line-height:1.6">Estas opciones son permanentes y requieren confirmación adicional.</div>
+
+    <div style="background:white;border:1px solid rgba(180,130,200,.15);border-radius:var(--r-sm);padding:1rem;margin-bottom:1rem">
+      <div style="font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.4rem">📥 Exportar mis datos</div>
+      <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:.7rem;line-height:1.6">Descarga un resumen de tu historial antes de continuar, si lo deseas.</div>
+      <button onclick="exportarDatosUsuaria()" style="background:var(--surface2);color:var(--text);border:1px solid rgba(180,130,200,.2);border-radius:50px;padding:.5rem 1rem;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">Descargar mis datos</button>
+    </div>
+
+    <div style="background:white;border:1px solid rgba(224,80,112,.2);border-radius:var(--r-sm);padding:1rem;margin-bottom:1.2rem">
+      <div style="font-size:.85rem;font-weight:600;color:var(--danger);margin-bottom:.4rem">⚠️ Eliminar mi cuenta</div>
+      <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:.7rem;line-height:1.6">Esto borra permanentemente tus registros, historial de ciclo y datos personales. No se puede deshacer.</div>
+      <button onclick="document.getElementById('centro-cuenta-modal').remove();abrirPasoEliminarCuenta()" style="background:none;color:var(--danger);border:1px solid var(--danger);border-radius:50px;padding:.5rem 1rem;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">Continuar con eliminación</button>
+    </div>
+
+    <button onclick="document.getElementById('centro-cuenta-modal').remove()" style="width:100%;background:none;border:none;color:var(--text-muted);padding:.6rem;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Volver</button>
+  </div>`;
+  document.body.appendChild(m);
+}
+
+function exportarDatosUsuaria(){
+  try {
+    const resumen = {
+      nombre: DATA.userName, email: DATA.email,
+      ultimo_periodo: DATA.lastPeriod, ciclo_dias: DATA.cycleLen,
+      total_registros: Object.keys(DATA.registros||{}).length,
+      exportado: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(resumen, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'ovarica-mis-datos.json'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ Datos descargados');
+  } catch(e){ alert('No se pudo exportar. Escríbenos a soporte@ovarica.site'); }
+}
+
+function abrirPasoEliminarCuenta(){
+  const m = document.createElement('div');
+  m.id = 'eliminar-paso-modal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(45,26,53,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.2rem';
+  m.innerHTML = `
+  <div style="background:white;width:100%;max-width:400px;border-radius:20px;padding:1.6rem">
+    <div style="font-size:2rem;text-align:center;margin-bottom:.6rem">⚠️</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);text-align:center;margin-bottom:.6rem">Esta acción es permanente</div>
+    <div style="font-size:.82rem;color:var(--text-muted);text-align:center;margin-bottom:1.2rem;line-height:1.6">Se eliminarán todos tus registros, historial de ciclo, retos y datos personales de <strong>${DATA.email||'tu cuenta'}</strong>. Esto no se puede deshacer.</div>
+    <div style="font-size:.78rem;color:var(--text);margin-bottom:.4rem;font-weight:600">Para confirmar, escribe <span style="color:var(--danger)">ELIMINAR</span> abajo:</div>
+    <input id="confirm-eliminar-input" type="text" placeholder="ELIMINAR" style="width:100%;padding:.7rem .9rem;border:1.5px solid rgba(224,80,112,.3);border-radius:var(--r-sm);font-size:.9rem;margin-bottom:1.2rem;text-align:center;font-family:'DM Sans',sans-serif"/>
+    <button id="confirm-eliminar-btn" onclick="procesarEliminarCuentaFinal()" disabled style="width:100%;background:#D4B8C0;color:white;border:none;border-radius:50px;padding:.85rem;font-size:.88rem;font-weight:600;cursor:not-allowed;font-family:'DM Sans',sans-serif;margin-bottom:.5rem">Eliminar mi cuenta permanentemente</button>
+    <button onclick="document.getElementById('eliminar-paso-modal').remove()" style="width:100%;background:none;border:none;color:var(--text-muted);padding:.6rem;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cancelar</button>
+  </div>`;
+  document.body.appendChild(m);
+  const input = document.getElementById('confirm-eliminar-input');
+  const btn = document.getElementById('confirm-eliminar-btn');
+  input.addEventListener('input', ()=>{
+    const ok = input.value.trim().toUpperCase() === 'ELIMINAR';
+    btn.disabled = !ok;
+    btn.style.background = ok ? 'var(--danger)' : '#D4B8C0';
+    btn.style.cursor = ok ? 'pointer' : 'not-allowed';
+  });
+}
+
+async function procesarEliminarCuentaFinal() {
+  document.getElementById('eliminar-paso-modal')?.remove();
   try {
     showToast('⏳ Eliminando cuenta...');
     // Eliminar registros
@@ -1425,7 +1508,14 @@ function initApp(){
 }
 
 function updateHomePhaseBanner(){
-  const {fase, diaDelCiclo}=calcFaseActual();
+  const r = calcFaseActual();
+  if (r.sinDatos) {
+    document.getElementById('phase-name').textContent = 'Falta tu última fecha de periodo';
+    document.getElementById('phase-name').style.color = 'var(--brand)';
+    document.getElementById('phase-desc').innerHTML = 'Para calcular tu fase con precisión, <a href="#" onclick="event.preventDefault();showScreen(\'perfil\')" style="color:var(--brand);font-weight:600">agrega la fecha en tu Perfil</a>.';
+    return;
+  }
+  const {fase, diaDelCiclo} = r;
   document.getElementById('phase-name').textContent=fase.name;
   document.getElementById('phase-name').style.color=fase.color;
   document.getElementById('phase-desc').textContent=`${fase.days} · Día ${diaDelCiclo} · ${fase.consejos[0]}`;
@@ -1469,6 +1559,11 @@ function showScreen(name){
       const isAtLimit = CURRENT_PLAN==='gratuito' && Object.keys(DATA.registros).length >= 7;
       banner.style.display = isAtLimit ? 'block' : 'none';
     }
+    // FIX: recargar el formulario según la fecha seleccionada cada vez que se
+    // entra al módulo Registro. Sin esto, las selecciones de una edición previa
+    // (desde el calendario o de otro día) quedaban marcadas por error.
+    const dateInput = document.getElementById('registro-date-input');
+    if (dateInput) onRegistroDateChange(dateInput.value || fmtDate(todayDate));
   }
 }
 function switchTab(tab){
@@ -2000,7 +2095,10 @@ const FASES=[
   {id:'lutea',name:'Fase Lútea',emoji:'🌙',days:'Días 17–28',color:'#5B8FD0',pale:'#E5EEFB',desc:'La progesterona sube. Puedes sentir PMS y antojos. Tu cuerpo necesita más cuidado.',consejos:['Reduce el azúcar para controlar antojos','Magnesio para reducir PMS','Yoga y pilates sobre cardio intenso','Duerme más','Semillas de linaza y nueces'],energia:'Moderada-Baja',libido:'Baja',ejercicio:'Yoga, pilates, caminata'},
 ];
 function calcFaseActual(){
-  if(!DATA.lastPeriod) return {fase:FASES[1],diaDelCiclo:8,diasParaSiguiente:20};
+  // FIX: nunca inventar una fase/día falsos. Si no hay fecha de último periodo,
+  // devolvemos null explícito para que la UI pida el dato real (crítico para
+  // usuarias que dependen de esta info para fertilidad/anticoncepción natural).
+  if(!DATA.lastPeriod) return {fase:null,diaDelCiclo:null,diasParaSiguiente:null,sinDatos:true};
   const last=new Date(DATA.lastPeriod+'T12:00:00');
   const hoy=new Date(); hoy.setHours(12,0,0,0);
   const diffDias=Math.floor((hoy-last)/(1000*60*60*24));
@@ -2027,7 +2125,21 @@ function buildFasesCiclo(){
     document.getElementById('ciclo-hoy-label').textContent = 'Actualiza al plan Pro para ver tu ciclo';
     return;
   }
-  const {fase,diaDelCiclo,diasParaSiguiente,ciclo}=calcFaseActual();
+  const _r3 = calcFaseActual();
+  if (_r3.sinDatos) {
+    document.getElementById('ciclo-hoy-label').textContent = 'Falta tu fecha de último periodo';
+    const fc0 = document.getElementById('fase-actual-card');
+    if (fc0) fc0.innerHTML = `<div style="background:linear-gradient(135deg,var(--purple-pale),var(--brand-pale));border-radius:var(--r);padding:1.6rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:.6rem">🩸</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--purple);margin-bottom:.5rem">Agrega la fecha de tu último periodo</div>
+      <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.65">No podemos mostrarte tu fase ni predicciones de ovulación sin este dato — y es información clave tanto si buscas embarazo como si no.</div>
+      <button onclick="showScreen('perfil')" style="background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;border-radius:var(--r-sm);padding:.85rem 1.5rem;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Ir a mi Perfil</button>
+    </div>`;
+    const fg0 = document.getElementById('fases-grid'); if (fg0) fg0.innerHTML = '';
+    const pt0 = document.getElementById('predicciones-text'); if (pt0) pt0.innerHTML = '';
+    return;
+  }
+  const {fase,diaDelCiclo,diasParaSiguiente,ciclo} = _r3;
   document.getElementById('ciclo-hoy-label').textContent=`Hoy · Día ${diaDelCiclo} de tu ciclo`;
   const fc=document.getElementById('fase-actual-card');
   fc.innerHTML=`<div style="background:linear-gradient(135deg,${fase.color}22,${fase.pale});padding:1.4rem;border-radius:var(--r)"><div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div style="width:52px;height:52px;border-radius:50%;background:${fase.color};display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 12px ${fase.color}50;flex-shrink:0">${fase.emoji}</div><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:${fase.color}">${fase.name}</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:2px">${fase.days} · Día ${diaDelCiclo} de tu ciclo</div></div><div style="margin-left:auto;text-align:center;background:white;border-radius:var(--r-sm);padding:.5rem .8rem;box-shadow:0 2px 8px rgba(0,0,0,.08)"><div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:${fase.color}">${diasParaSiguiente}</div><div style="font-size:.58rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">días para<br/>siguiente</div></div></div><p style="font-size:.83rem;color:var(--text);line-height:1.65;margin-bottom:.9rem">${fase.desc}</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.8rem"><div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center"><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Energía</div><div style="font-size:.75rem;font-weight:600;color:${fase.color}">${fase.energia}</div></div><div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center"><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Libido</div><div style="font-size:.75rem;font-weight:600;color:${fase.color}">${fase.libido}</div></div><div style="background:white;border-radius:var(--r-sm);padding:.5rem;text-align:center"><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px">Ejercicio</div><div style="font-size:.65rem;font-weight:600;color:${fase.color}">${fase.ejercicio}</div></div></div><div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${fase.color};margin-bottom:.4rem">💡 Consejos para hoy</div>${fase.consejos.map(c=>`<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:.3rem;font-size:.78rem;color:var(--text)"><span style="color:${fase.color};flex-shrink:0">✓</span>${c}</div>`).join('')}</div>`;
@@ -2063,7 +2175,105 @@ function buildPerfil(){
   // FIX: aplicar badge de plan correctamente
   aplicarPlan();
 }
-function openEditPerfil(){showToast('✏️ Edición de perfil disponible próximamente')}
+function openEditPerfil(){
+  const m = document.createElement('div');
+  m.id = 'edit-perfil-modal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(45,26,53,.55);z-index:9999;display:flex;align-items:flex-end;justify-content:center';
+  m.innerHTML = `
+  <div style="background:var(--bg);width:100%;max-width:480px;max-height:88vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:1.4rem 1.2rem 2rem">
+    <div style="width:40px;height:4px;background:rgba(180,130,200,.3);border-radius:4px;margin:0 auto 1rem"></div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:1rem">✏️ Editar mis datos</div>
+
+    <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">Nombre</label>
+    <input id="ep-nombre" type="text" value="${(DATA.userName||'').replace(/"/g,'&quot;')}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0 .9rem;font-family:'DM Sans',sans-serif"/>
+
+    <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">🩸 Fecha de mi último periodo</label>
+    <input id="ep-ultimo-periodo" type="date" value="${DATA.lastPeriod||''}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0 .3rem;font-family:'DM Sans',sans-serif"/>
+    <div style="font-size:.68rem;color:var(--brand);margin-bottom:.9rem;line-height:1.5">⚠️ Este dato es clave para calcular tu fase del ciclo y predicciones con precisión.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+      <div>
+        <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">Duración del ciclo</label>
+        <input id="ep-ciclo-len" type="number" min="20" max="45" value="${DATA.cycleLen||28}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0 .9rem;font-family:'DM Sans',sans-serif"/>
+      </div>
+      <div>
+        <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">Días de sangrado</label>
+        <input id="ep-periodo-len" type="number" min="2" max="10" value="${DATA.periodLen||5}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0 .9rem;font-family:'DM Sans',sans-serif"/>
+      </div>
+    </div>
+
+    <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">Edad</label>
+    <input id="ep-edad" type="number" min="12" max="60" value="${DATA.age||''}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0 .9rem;font-family:'DM Sans',sans-serif"/>
+
+    <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">País</label>
+    <input id="ep-pais" type="text" value="${(DATA.country||'').replace(/"/g,'&quot;')}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0 .9rem;font-family:'DM Sans',sans-serif"/>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.4rem">
+      <div>
+        <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">Peso (kg)</label>
+        <input id="ep-peso" type="number" value="${DATA.weight||''}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0;font-family:'DM Sans',sans-serif"/>
+      </div>
+      <div>
+        <label style="font-size:.75rem;color:var(--text-muted);font-weight:600">Talla (cm)</label>
+        <input id="ep-talla" type="number" value="${DATA.height||''}" style="width:100%;padding:.7rem .9rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;margin:.3rem 0;font-family:'DM Sans',sans-serif"/>
+      </div>
+    </div>
+
+    <button onclick="guardarEdicionPerfil()" style="width:100%;background:linear-gradient(135deg,var(--purple),var(--brand));color:white;border:none;border-radius:50px;padding:.9rem;font-size:.92rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.6rem">Guardar cambios</button>
+    <button onclick="document.getElementById('edit-perfil-modal').remove()" style="width:100%;background:none;border:none;color:var(--text-muted);padding:.6rem;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cancelar</button>
+  </div>`;
+  document.body.appendChild(m);
+}
+
+async function guardarEdicionPerfil(){
+  const nombre = document.getElementById('ep-nombre').value.trim();
+  const ultimoPeriodo = document.getElementById('ep-ultimo-periodo').value;
+  const cicloLen = parseInt(document.getElementById('ep-ciclo-len').value) || 28;
+  const periodoLen = parseInt(document.getElementById('ep-periodo-len').value) || 5;
+  const edad = document.getElementById('ep-edad').value;
+  const pais = document.getElementById('ep-pais').value.trim();
+  const peso = document.getElementById('ep-peso').value;
+  const talla = document.getElementById('ep-talla').value;
+
+  if (!nombre) { alert('El nombre no puede estar vacío'); return; }
+
+  try {
+    const updates = {
+      nombre,
+      ultimo_periodo: ultimoPeriodo || null,
+      ciclo_len: cicloLen,
+      periodo_len: periodoLen,
+      edad: edad || null,
+      pais: pais || null,
+      peso: peso || null,
+      talla: talla || null,
+    };
+    if (DATA.userId) {
+      const { error } = await sb.from('usuarios').update(updates).eq('id', DATA.userId);
+      if (error) { console.error(error); alert('❌ Error al guardar: ' + error.message); return; }
+    }
+    // Actualizar DATA local
+    DATA.userName = nombre;
+    DATA.lastPeriod = ultimoPeriodo || '';
+    DATA.cycleLen = cicloLen;
+    DATA.periodLen = periodoLen;
+    DATA.age = edad;
+    DATA.country = pais;
+    DATA.weight = peso;
+    DATA.height = talla;
+    saveData();
+
+    document.getElementById('edit-perfil-modal').remove();
+    showToast('✅ Datos actualizados');
+    buildPerfil();
+    updateHomePhaseBanner();
+    if (document.getElementById('screen-periodo')?.classList.contains('active')) buildFasesCiclo();
+    if (document.getElementById('screen-plan')?.classList.contains('active')) buildPlan();
+  } catch(e) {
+    console.error(e);
+    alert('❌ Hubo un error al guardar tus datos. Intenta de nuevo.');
+  }
+}
 function confirmLogout(){ cerrarSesionSupabase(); }
 
 // ═══ FIX: buildConfigToggles - corregido div2 vs div ═══
@@ -2172,7 +2382,7 @@ function bootApp(){
         const s = JSON.parse(session);
         if(!s.email) return;
         const {data, error} = await sb.from('usuarios')
-          .select('plan,nombre,email,activo')
+          .select('*')
           .eq('email', s.email)
           .single();
         if(error || !data) return;
@@ -2181,6 +2391,17 @@ function bootApp(){
         CURRENT_PLAN = data.plan || 'gratuito';
         DATA.userName = data.nombre;
         DATA.email    = data.email;
+        // Mismo fix: traer datos de ciclo/perfil también en el sync silencioso del boot
+        if (data.ultimo_periodo) DATA.lastPeriod = data.ultimo_periodo;
+        if (data.ciclo_len)      DATA.cycleLen   = parseInt(data.ciclo_len) || 28;
+        if (data.periodo_len)    DATA.periodLen  = parseInt(data.periodo_len) || 5;
+        if (data.ciclo_tipo)     DATA.cycleType  = data.ciclo_tipo;
+        if (data.pais)           DATA.country    = data.pais;
+        if (data.edad)           DATA.age        = data.edad;
+        if (data.peso)           DATA.weight     = data.peso;
+        if (data.talla)          DATA.height     = data.talla;
+        if (data.diagnostico)    DATA.diagnostico= data.diagnostico;
+        if (data.objetivo)       DATA.objetivo   = data.objetivo;
         // Actualizar sesión guardada
         const sessObj = JSON.parse(localStorage.getItem('avarica_session') || '{}');
         sessObj.plan = CURRENT_PLAN;
@@ -2473,15 +2694,53 @@ const PLAN_POR_FASE = {
 };
 
 // Hábitos del día con sistema de puntos
-const HABITOS_DIA = [
-  {id:'h-suplem', emoji:'💊', texto:'Tomar mis suplementos de hoy', pts:10},
-  {id:'h-agua', emoji:'💧', texto:'8 vasos de agua', pts:8},
-  {id:'h-ejercicio', emoji:'🏋️', texto:'Hacer ejercicio (según mi fase)', pts:12},
-  {id:'h-registro', emoji:'📋', texto:'Registrar mis síntomas', pts:5},
-  {id:'h-sueno', emoji:'😴', texto:'Dormir 7-8 horas (noche de hoy)', pts:10},
-  {id:'h-azucar', emoji:'🚫', texto:'Sin azúcar procesada hoy', pts:8},
-  {id:'h-verde', emoji:'🥗', texto:'Un plato verde en alguna comida', pts:7},
+const HABITOS_DEFAULT = [
+  {id:'h-suplem', emoji:'💊', texto:'Tomar mis suplementos de hoy', pts:10, custom:false},
+  {id:'h-agua', emoji:'💧', texto:'8 vasos de agua', pts:8, custom:false},
+  {id:'h-ejercicio', emoji:'🏋️', texto:'Hacer ejercicio (según mi fase)', pts:12, custom:false},
+  {id:'h-registro', emoji:'📋', texto:'Registrar mis síntomas', pts:5, custom:false},
+  {id:'h-sueno', emoji:'😴', texto:'Dormir 7-8 horas (noche de hoy)', pts:10, custom:false},
+  {id:'h-azucar', emoji:'🚫', texto:'Sin azúcar procesada hoy', pts:8, custom:false},
+  {id:'h-verde', emoji:'🥗', texto:'Un plato verde en alguna comida', pts:7, custom:false},
 ];
+
+// FIX: lista de hábitos ahora vive en DATA (personalizable y persistente por usuaria)
+function getHabitosDia(){
+  if (!DATA.habitosCustom) {
+    DATA.habitosCustom = HABITOS_DEFAULT.map(h => ({...h}));
+  }
+  return DATA.habitosCustom;
+}
+
+function agregarHabitoCustom(){
+  const texto = (document.getElementById('nuevo-habito-texto')?.value || '').trim();
+  const emoji = (document.getElementById('nuevo-habito-emoji')?.value || '✨').trim() || '✨';
+  if (!texto) { showToast('Escribe un hábito primero'); return; }
+  const lista = getHabitosDia();
+  if (lista.length >= 12) { showToast('Máximo 12 hábitos por día'); return; }
+  const id = 'h-custom-' + Date.now();
+  lista.push({id, emoji, texto, pts:6, custom:true});
+  saveData();
+  buildHabitosDia();
+  const ti = document.getElementById('nuevo-habito-texto'); if (ti) ti.value = '';
+  const ei = document.getElementById('nuevo-habito-emoji'); if (ei) ei.value = '';
+  showToast('✅ Hábito agregado');
+}
+
+function eliminarHabitoCustom(id){
+  if (!confirm('¿Eliminar este hábito de tu lista diaria?')) return;
+  DATA.habitosCustom = getHabitosDia().filter(h => h.id !== id);
+  // limpiar su estado de hoy y de días pasados para no dejar basura
+  if (DATA.plan) {
+    Object.keys(DATA.plan).forEach(fecha => {
+      if (DATA.plan[fecha]?.habitos) delete DATA.plan[fecha].habitos[id];
+    });
+  }
+  saveData();
+  buildHabitosDia();
+  updatePlanProgress();
+  showToast('🗑️ Hábito eliminado');
+}
 
 // Estado del plan del día
 let PLAN_HOY = {
@@ -2500,7 +2759,25 @@ function initPlan() {
 
 function buildPlan() {
   initPlan();
-  const {fase, diaDelCiclo, diasParaSiguiente} = calcFaseActual();
+  const _r = calcFaseActual();
+  if (_r.sinDatos) {
+    const cont = document.getElementById('screen-plan');
+    if (cont) {
+      cont.querySelector('.section-sub') && (cont.querySelector('.section-sub').textContent = '');
+      const heroEl = document.querySelector('.plan-hero');
+      if (heroEl) heroEl.outerHTML = `<div style="background:linear-gradient(135deg,var(--purple),var(--brand));border-radius:var(--r);padding:1.5rem;color:white;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.5rem">🩸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:.5rem">Necesitamos la fecha de tu último periodo</div>
+        <div style="font-size:.82rem;opacity:.9;margin-bottom:1rem;line-height:1.6">Sin este dato no podemos calcular tu fase del ciclo de forma confiable. Esta información es importante tanto si buscas embarazo como si no.</div>
+        <button onclick="showScreen('perfil')" style="background:white;color:var(--brand);border:none;border-radius:50px;padding:.7rem 1.4rem;font-weight:600;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Agregar fecha en mi Perfil</button>
+      </div>`;
+    }
+    ['plan-adapt-container','plan-habitos-list','plan-acciones-list','plan-semana-row'].forEach(id=>{
+      const el = document.getElementById(id); if (el) el.innerHTML = '';
+    });
+    return;
+  }
+  const {fase, diaDelCiclo, diasParaSiguiente} = _r;
   const faseKey = fase.id;
   const planFase = PLAN_POR_FASE[faseKey];
   const dias = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -2636,17 +2913,34 @@ function togglePlanAccion(id, e) {
 function buildHabitosDia() {
   const container = document.getElementById('plan-habitos-list');
   container.innerHTML = '';
-  HABITOS_DIA.forEach(h => {
+  const lista = getHabitosDia();
+  lista.forEach(h => {
     const done = PLAN_HOY.habitos[h.id] || false;
     const div = document.createElement('div');
     div.className = 'plan-habito-item';
-    div.onclick = () => toggleHabito(h.id);
     div.innerHTML =
-      '<div class="plan-habito-cb' + (done ? ' done' : '') + '" id="phcb-' + h.id + '">' + (done ? '✓' : '') + '</div>' +
-      '<div class="plan-habito-text' + (done ? ' done' : '') + '" id="pht-' + h.id + '">' + h.emoji + ' ' + h.texto + '</div>' +
-      '<div class="plan-habito-pts">+' + h.pts + ' pts</div>';
+      '<div class="plan-habito-cb' + (done ? ' done' : '') + '" id="phcb-' + h.id + '" data-toggle-habito="' + h.id + '">' + (done ? '✓' : '') + '</div>' +
+      '<div class="plan-habito-text' + (done ? ' done' : '') + '" id="pht-' + h.id + '" data-toggle-habito="' + h.id + '" style="flex:1">' + h.emoji + ' ' + h.texto + '</div>' +
+      '<div class="plan-habito-pts">+' + h.pts + ' pts</div>' +
+      (h.custom ? '<span data-del-habito="' + h.id + '" style="margin-left:6px;color:var(--text-muted);font-size:.8rem;cursor:pointer;padding:2px 6px">✕</span>' : '');
     container.appendChild(div);
   });
+  container.querySelectorAll('[data-toggle-habito]').forEach(el=>{
+    el.addEventListener('click', ()=> toggleHabito(el.getAttribute('data-toggle-habito')));
+  });
+  container.querySelectorAll('[data-del-habito]').forEach(el=>{
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); eliminarHabitoCustom(el.getAttribute('data-del-habito')); });
+  });
+
+  // Formulario para agregar hábito propio
+  const addForm = document.createElement('div');
+  addForm.style.cssText = 'display:flex;gap:.4rem;margin-top:.8rem;padding-top:.8rem;border-top:1px dashed rgba(180,130,200,.25)';
+  addForm.innerHTML =
+    '<input id="nuevo-habito-emoji" maxlength="2" placeholder="✨" style="width:42px;text-align:center;padding:.5rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.9rem;font-family:\'DM Sans\',sans-serif"/>' +
+    '<input id="nuevo-habito-texto" placeholder="Ej: 10 min de sol, meditar..." style="flex:1;padding:.5rem .7rem;border:1px solid rgba(180,130,200,.25);border-radius:var(--r-sm);font-size:.82rem;font-family:\'DM Sans\',sans-serif"/>' +
+    '<button data-add-habito style="background:var(--brand);color:white;border:none;border-radius:var(--r-sm);padding:.5rem .9rem;font-size:.8rem;font-weight:600;cursor:pointer;font-family:\'DM Sans\',sans-serif">+ Agregar</button>';
+  container.appendChild(addForm);
+  addForm.querySelector('[data-add-habito]').addEventListener('click', agregarHabitoCustom);
 }
 
 function toggleHabito(id) {
@@ -2658,12 +2952,12 @@ function toggleHabito(id) {
   if (txt) { txt.className = 'plan-habito-text' + (done ? ' done' : ''); }
   savePlanData();
   updatePlanProgress();
-  if (done) showToast('✅ +' + (HABITOS_DIA.find(h => h.id === id)?.pts || 0) + ' pts');
+  if (done) showToast('✅ +' + (getHabitosDia().find(h => h.id === id)?.pts || 0) + ' pts');
 }
 
 function updatePlanProgress() {
   const totalAcciones = 4; // siempre 4 acciones por fase
-  const totalHabitos = HABITOS_DIA.length;
+  const totalHabitos = getHabitosDia().length;
   const totalItems = totalAcciones + totalHabitos;
 
   const doneAcciones = Object.values(PLAN_HOY.checklist).filter(Boolean).length;
@@ -2671,7 +2965,7 @@ function updatePlanProgress() {
   const totalDone = doneAcciones + doneHabitos;
 
   const pct = totalItems > 0 ? Math.round((totalDone / totalItems) * 100) : 0;
-  const puntos = HABITOS_DIA.reduce((sum, h) => PLAN_HOY.habitos[h.id] ? sum + h.pts : sum, 0) + (doneAcciones * 15);
+  const puntos = getHabitosDia().reduce((sum, h) => PLAN_HOY.habitos[h.id] ? sum + h.pts : sum, 0) + (doneAcciones * 15);
   PLAN_HOY.puntos = puntos;
 
   // Actualizar barra
