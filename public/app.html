@@ -1072,6 +1072,12 @@ async function loginSupabase(email, password) {
     saveData();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    // FIX CRÍTICO: cargar TODO el historial real desde Supabase antes de construir la UI.
+    // Sin esto, la app dependía 100% de localStorage y los registros "desaparecían"
+    // cada vez que se limpiaba el navegador, se cambiaba de dispositivo, o se ejecutaba
+    // cualquier código que tocara localStorage (como el fix de logout).
+    await cargarDatosSupabase();
+    saveData();
     initApp();
     aplicarPlan();
     // FIX 8: Re-verificar plan desde DB al login para capturar compras recientes
@@ -2435,69 +2441,57 @@ function bootApp(){
       return;
     }catch(e){}
   }
-  // FIX CRÍTICO: la sesión es la fuente de verdad, no DATA.userName
-  // Si no hay avarica_session → siempre login, aunque haya datos locales
+  // FIX CRÍTICO: la sesión (avarica_session) es la única fuente de verdad para
+  // decidir si hay que entrar a la app — YA NO depende de que DATA.userName
+  // exista en localStorage. Esto es lo que garantiza que, aunque localStorage
+  // se borre por completo (cambio de dispositivo, limpieza de caché, o cualquier
+  // código nuestro que lo toque), los datos de la usuaria SIEMPRE se recuperan
+  // desde Supabase con solo tener la sesión activa.
   const _session = localStorage.getItem('avarica_session');
   const _hasValidSession = !!_session && (()=>{try{const s=JSON.parse(_session);return !!(s.email&&s.id);}catch(e){return false;}})();
 
-  if(_hasValidSession && DATA.userName){
+  if(_hasValidSession){
     // Restaurar sesión desde localStorage
     try {
       const sess = JSON.parse(_session);
       if(sess.email) DATA.email = sess.email;
       if(sess.id)    DATA.userId = sess.id;
       if(sess.plan)  CURRENT_PLAN = sess.plan;
+      CURRENT_USER = { id: sess.id, email: sess.email };
     } catch(e) {}
     document.getElementById('onboarding').style.display='none';
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
-    initApp();
-    aplicarPlan();
-    // ── SYNC AGRESIVO: verificar plan en Supabase SIEMPRE al arrancar ──
-    // No importa lo que diga localStorage — Supabase es la fuente de verdad
-    (async function syncPlanOnBoot(){
+    // FIX CRÍTICO: traer SIEMPRE el perfil y el historial completo desde Supabase
+    // al arrancar con sesión activa, sin importar lo que (no) haya en localStorage.
+    (async function recuperarDatosCompletosAlBoot(){
       try {
-        const session = localStorage.getItem('avarica_session');
-        if(!session) return;
-        const s = JSON.parse(session);
-        if(!s.email) return;
-        const {data, error} = await sb.from('usuarios')
-          .select('*')
-          .eq('email', s.email)
-          .single();
-        if(error || !data) return;
-        const planAnterior = CURRENT_PLAN;
-        // Supabase siempre gana
-        CURRENT_PLAN = data.plan || 'gratuito';
-        DATA.userName = data.nombre;
-        DATA.email    = data.email;
-        // Mismo fix: traer datos de ciclo/perfil también en el sync silencioso del boot
-        if (data.ultimo_periodo) DATA.lastPeriod = data.ultimo_periodo;
-        if (data.ciclo_len)      DATA.cycleLen   = parseInt(data.ciclo_len) || 28;
-        if (data.periodo_len)    DATA.periodLen  = parseInt(data.periodo_len) || 5;
-        if (data.ciclo_tipo)     DATA.cycleType  = data.ciclo_tipo;
-        if (data.pais)           DATA.country    = data.pais;
-        if (data.edad)           DATA.age        = data.edad;
-        if (data.peso)           DATA.weight     = data.peso;
-        if (data.talla)          DATA.height     = data.talla;
-        if (data.diagnostico)    DATA.diagnostico= data.diagnostico;
-        if (data.objetivo)       DATA.objetivo   = data.objetivo;
-        // Actualizar sesión guardada
-        const sessObj = JSON.parse(localStorage.getItem('avarica_session') || '{}');
-        sessObj.plan = CURRENT_PLAN;
-        localStorage.setItem('avarica_session', JSON.stringify(sessObj));
-        // Siempre re-aplicar (puede haber cambiado)
-        aplicarPlan();
-        if(planAnterior !== CURRENT_PLAN) {
-          // El plan cambió desde el último acceso
-          const nombres = {gratuito:'Gratuito', pro_mensual:'Pro Mensual', pro_anual:'Pro Anual'};
-          showToast('🎉 Plan actualizado: ' + (nombres[CURRENT_PLAN] || CURRENT_PLAN));
-          // Reconstruir perfil si está visible
-          if(document.getElementById('screen-perfil')?.classList.contains('active')) {
-            buildPerfil();
-          }
+        const sess = JSON.parse(_session);
+        const {data, error} = await sb.from('usuarios').select('*').eq('email', sess.email).single();
+        if (!error && data) {
+          DATA.userName = data.nombre;
+          DATA.email    = data.email;
+          DATA.userId   = data.id;
+          CURRENT_PLAN  = data.plan || 'gratuito';
+          CURRENT_USER  = data;
+          if (data.ultimo_periodo) DATA.lastPeriod = data.ultimo_periodo;
+          if (data.ciclo_len)      DATA.cycleLen   = parseInt(data.ciclo_len) || 28;
+          if (data.periodo_len)    DATA.periodLen  = parseInt(data.periodo_len) || 5;
+          if (data.ciclo_tipo)     DATA.cycleType  = data.ciclo_tipo;
+          if (data.pais)           DATA.country    = data.pais;
+          if (data.edad)           DATA.age        = data.edad;
+          if (data.peso)           DATA.weight     = data.peso;
+          if (data.talla)          DATA.height     = data.talla;
+          if (data.diagnostico)    DATA.diagnostico= data.diagnostico;
+          if (data.objetivo)       DATA.objetivo   = data.objetivo;
         }
-      } catch(e) { console.log('Boot sync error:', e); }
+        await cargarDatosSupabase();
+        saveData();
+      } catch(e) { console.error('Error recuperando datos al boot:', e); }
+      initApp();
+      aplicarPlan();
+      buildPerfil();
+      updateHomePhaseBanner();
     })();
   } else {
     // Sin sesión válida → siempre mostrar login (aunque haya DATA)
