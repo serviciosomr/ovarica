@@ -1200,6 +1200,39 @@ async function cargarDatosSupabase() {
 function showLoadingBtn(id, txt) { const btn = document.getElementById(id); if (btn) { btn.textContent = txt; btn.disabled = true; btn.style.opacity = '.7'; } }
 function resetBtn(id, txt) { const btn = document.getElementById(id); if (btn) { btn.textContent = txt; btn.disabled = false; btn.style.opacity = '1'; } }
 
+async function eliminarCuenta() {
+  const confirmMsg = '¿Estás segura de que quieres eliminar tu cuenta?\n\nEsto borrará todos tus registros, historial de ciclo y datos permanentemente.\n\nEsta acción NO se puede deshacer.';
+  if (!confirm(confirmMsg)) return;
+  const confirm2 = confirm('Última confirmación: ¿eliminar cuenta de ' + (DATA.email || 'tu usuario') + '?');
+  if (!confirm2) return;
+  try {
+    showToast('⏳ Eliminando cuenta...');
+    // Eliminar registros
+    if (DATA.userId) {
+      await sb.from('registros').delete().eq('user_id', DATA.userId);
+      await sb.from('periodo').delete().eq('user_id', DATA.userId);
+      await sb.from('retos').delete().eq('user_id', DATA.userId);
+      await sb.from('chequeos').delete().eq('user_id', DATA.userId);
+      await sb.from('alimentos').delete().eq('user_id', DATA.userId);
+      await sb.from('suplementos').delete().eq('user_id', DATA.userId);
+      // Eliminar usuario
+      await sb.from('usuarios').delete().eq('id', DATA.userId);
+    }
+    // Limpiar local
+    localStorage.removeItem('avarica_session');
+    localStorage.removeItem('avarica_v2');
+    // Resetear y mostrar login
+    CURRENT_USER = null; CURRENT_PLAN = 'gratuito';
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    showPanel('welcome');
+    alert('Tu cuenta ha sido eliminada correctamente. Lamentamos verte ir. 🌸');
+  } catch(e) {
+    console.error('Error eliminando cuenta:', e);
+    alert('Hubo un error al eliminar la cuenta. Por favor escríbenos a soporte@ovarica.site');
+  }
+}
+
 function cerrarSesionSupabase() {
   if (confirm('¿Cerrar sesión?')) {
     // Limpiar sesión Y datos locales para evitar auto-login
