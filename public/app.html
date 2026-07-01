@@ -1243,16 +1243,36 @@ async function saveRegistroSupabase(dateKey, registroData) {
 }
 
 async function cargarDatosSupabase() {
-  if (!CURRENT_USER?.id) return;
+  // FIX RAÍZ: resolver el uid por email si no está en CURRENT_USER
+  // Esto cubre sesiones guardadas antes de que 'id' se añadiera a la sesión.
+  let uid = CURRENT_USER?.id || DATA.userId;
+  if (!uid) {
+    const email = CURRENT_USER?.email || DATA.email;
+    if (email) {
+      try {
+        const { data: uRow } = await sb.from('usuarios').select('id,plan').eq('email', email).single();
+        if (uRow) {
+          uid = uRow.id;
+          DATA.userId = uRow.id;
+          if (!CURRENT_USER) CURRENT_USER = {};
+          CURRENT_USER.id = uRow.id;
+          CURRENT_PLAN = uRow.plan || CURRENT_PLAN;
+          const s = localStorage.getItem('avarica_session');
+          if (s) { const sObj = JSON.parse(s); sObj.id = uRow.id; localStorage.setItem('avarica_session', JSON.stringify(sObj)); }
+        }
+      } catch(e) { console.error('cargarDatos: no pudo obtener uid por email', e); }
+    }
+  }
+  if (!uid) { console.warn('cargarDatosSupabase: sin uid — sin datos'); return; }
   try {
-    const uid = CURRENT_USER.id;
+    const uid_final = uid;
     const [regRes, perRes, aliRes, supRes, retRes, cheRes] = await Promise.all([
-      sb.from('registros').select('*').eq('usuario_id', uid),
-      sb.from('periodo').select('*').eq('usuario_id', uid),
-      sb.from('alimentos').select('*').eq('usuario_id', uid),
-      sb.from('suplementos').select('*').eq('usuario_id', uid),
-      sb.from('retos').select('*').eq('usuario_id', uid),
-      sb.from('chequeos').select('*').eq('usuario_id', uid),
+      sb.from('registros').select('*').eq('usuario_id', uid_final),
+      sb.from('periodo').select('*').eq('usuario_id', uid_final),
+      sb.from('alimentos').select('*').eq('usuario_id', uid_final),
+      sb.from('suplementos').select('*').eq('usuario_id', uid_final),
+      sb.from('retos').select('*').eq('usuario_id', uid_final),
+      sb.from('chequeos').select('*').eq('usuario_id', uid_final),
     ]);
     if (regRes.data) regRes.data.forEach(r => { DATA.registros[r.fecha] = r; });
     if (perRes.data) perRes.data.forEach(p => { DATA.periodo[p.fecha] = p; });
@@ -2786,7 +2806,7 @@ function bootApp(){
   const _hasValidSession = !!_session && (()=>{try{const s=JSON.parse(_session);return !!(s.email&&s.id);}catch(e){return false;}})();
 
   if(_hasValidSession){
-    // Restaurar sesión desde localStorage
+    // Restaurar sesión mínima desde localStorage para saber quién es
     try {
       const sess = JSON.parse(_session);
       if(sess.email) DATA.email = sess.email;
@@ -2794,24 +2814,52 @@ function bootApp(){
       if(sess.plan)  CURRENT_PLAN = sess.plan;
       CURRENT_USER = { id: sess.id, email: sess.email };
     } catch(e) {}
+
     document.getElementById('onboarding').style.display='none';
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
-    // FIX CRÍTICO: traer SIEMPRE el perfil y el historial completo desde Supabase
-    // al arrancar con sesión activa, sin importar lo que (no) haya en localStorage.
+
+    // ═══════════════════════════════════════════════════════════════════
+    // SOLUCIÓN AL BUG DE DATOS PERDIDOS:
+    //
+    // El bug anterior: initApp() se llamaba ANTES de cargar Supabase.
+    // Si localStorage estaba vacío (borrado tras el fix de logout), el
+    // calendario se pintaba vacío inmediatamente. Aunque Supabase luego
+    // traía los datos correctos y re-renderizaba, el usuario veía primero
+    // el estado vacío, causando la sensación (y a veces la realidad) de
+    // que los datos se habían perdido.
+    //
+    // La solución: mostrar un estado de "cargando" mientras Supabase
+    // responde, y SOLO pintar la app con datos cuando estén disponibles.
+    // Si Supabase falla (sin internet), usar localStorage como fallback.
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Mostrar spinner mientras cargamos datos reales
+    const loadingEl = document.createElement('div');
+    loadingEl.id = 'boot-loading';
+    loadingEl.style.cssText = 'position:fixed;inset:0;background:var(--bg,#FDF6F9);z-index:8000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem';
+    loadingEl.innerHTML = [
+      '<div style="text-align:center">',
+      '<div style="font-size:2.5rem;margin-bottom:.8rem">&#127800;</div>',
+      '<div style="font-family:Georgia,serif;font-size:1.1rem;color:#C9517A;font-weight:600;margin-bottom:.3rem">Cargando tus datos...</div>',
+      '<div style="font-size:.8rem;color:#9B7DAB">Sincronizando con la nube</div>',
+      '</div>'
+    ].join('');
+    document.body.appendChild(loadingEl);
+
     (async function recuperarDatosCompletosAlBoot(){
+      let supabaseOk = false;
       try {
         const sess = JSON.parse(_session);
         const {data, error} = await sb.from('usuarios').select('*').eq('email', sess.email).single();
         if (!error && data) {
-          DATA.userName = data.nombre;
-          DATA.email    = data.email;
-          DATA.userId   = data.id;
-          CURRENT_PLAN  = data.plan || 'gratuito';
-          CURRENT_USER  = data;
+          DATA.userName    = data.nombre;
+          DATA.email       = data.email;
+          DATA.userId      = data.id;
+          CURRENT_PLAN     = data.plan || 'gratuito';
+          CURRENT_USER     = data;
           if (data.ultimo_periodo) DATA.lastPeriod = data.ultimo_periodo;
           if (data.ciclo_len)      DATA.cycleLen   = parseInt(data.ciclo_len) || 28;
-          if (data.periodo_len)    DATA.periodLen  = parseInt(data.periodo_len) || 5;
           if (data.ciclo_tipo)     DATA.cycleType  = data.ciclo_tipo;
           if (data.pais)           DATA.country    = data.pais;
           if (data.edad)           DATA.age        = data.edad;
@@ -2819,14 +2867,29 @@ function bootApp(){
           if (data.talla)          DATA.height     = data.talla;
           if (data.diagnostico)    DATA.diagnostico= data.diagnostico;
           if (data.objetivo)       DATA.objetivo   = data.objetivo;
+          // Actualizar sesión con id y plan frescos (arregla sesiones antiguas sin id)
+          try {
+            const s2 = JSON.parse(localStorage.getItem('avarica_session')||'{}');
+            s2.id = data.id; s2.plan = data.plan || 'gratuito';
+            localStorage.setItem('avarica_session', JSON.stringify(s2));
+          } catch(e2) {}
+          // Cargar TODO el historial
+          await cargarDatosSupabase();
+          saveData();
+          supabaseOk = true;
+        } else {
+          console.warn('Boot: usuario no encontrado, usando datos locales', error?.message);
         }
-        await cargarDatosSupabase();
-        saveData();
-      } catch(e) { console.error('Error recuperando datos al boot:', e); }
+      } catch(e) {
+        console.error('Boot: error con Supabase, usando datos locales:', e.message);
+      }
+
+      document.getElementById('boot-loading')?.remove();
       initApp();
       aplicarPlan();
-      buildPerfil();
-      updateHomePhaseBanner();
+      // Refrescar UI con los datos reales ya cargados
+      updateStats(); renderCalendar(); updateNoraInsight(); updateHomePhaseBanner(); buildPerfil();
+      if (!supabaseOk) showToast('⚠️ Sin conexión — mostrando datos guardados localmente');
     })();
   } else {
     // Sin sesión válida → siempre mostrar login (aunque haya DATA)
