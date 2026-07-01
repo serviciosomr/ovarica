@@ -912,7 +912,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="modal-title" id="day-modal-title">📅 Día</div>
     <div id="day-modal-body"></div>
     <div style="display:flex;gap:.5rem;margin-top:.8rem">
-      <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Editar / Agregar</button>
+      <button class="day-edit-btn" style="flex:1" onclick="editDayFromModal()">✏️ Agregar / Editar</button>
       <button class="day-edit-btn" style="flex:1;background:#FEE9E9;border-color:#E05070;color:#E05070" onclick="deleteRegistroFromModal()">🗑️ Eliminar</button>
     </div>
   </div>
@@ -1274,13 +1274,38 @@ async function cargarDatosSupabase() {
       sb.from('retos').select('*').eq('usuario_id', uid_final),
       sb.from('chequeos').select('*').eq('usuario_id', uid_final),
     ]);
-    if (regRes.data) regRes.data.forEach(r => { DATA.registros[r.fecha] = r; });
-    if (perRes.data) perRes.data.forEach(p => { DATA.periodo[p.fecha] = p; });
+    // FIX: normalizar los campos al cargar de Supabase para que sean
+    // compatibles con lo que espera el resto de la app (Nora, calendaario, stats)
+    let regCount = 0;
+    if (regRes.data) regRes.data.forEach(r => {
+      // La fila de Supabase tiene: id, usuario_id, fecha, sintomas, ejercicio, sueno, dolor, tiene_periodo
+      // La app espera en DATA.registros[fecha]: { sintomas, ejercicio, sueno, dolor, tienePeriodo, ts }
+      DATA.registros[r.fecha] = {
+        sintomas:     r.sintomas     || [],
+        ejercicio:    r.ejercicio    || null,
+        sueno:        r.sueno        || [],
+        dolor:        r.dolor        || 0,
+        tienePeriodo: r.tiene_periodo ?? null,
+        ts:           r.ts           || Date.now(),
+        _id:          r.id,
+      };
+      regCount++;
+    });
+    let perCount = 0;
+    if (perRes.data) perRes.data.forEach(p => {
+      DATA.periodo[p.fecha] = {
+        flujo:  p.flujo  || null,
+        color:  p.color  || [],
+        sint:   p.sint   || [],
+        dolor:  p.dolor  || 0,
+      };
+      perCount++;
+    });
     if (aliRes.data) aliRes.data.forEach(a => { DATA.alimentos[a.fecha] = a; });
     if (supRes.data) supRes.data.forEach(s => { DATA.suplementos[s.fecha] = s.tomados; });
     if (retRes.data) retRes.data.forEach(r => { DATA.retos[r.reto_id] = r.dias; });
     if (cheRes.data) DATA.chequeos = cheRes.data;
-    console.log('✅ Datos cargados desde Supabase');
+    console.log('✅ Datos cargados desde Supabase:', regCount, 'registros,', perCount, 'periodos');
   } catch(e) { console.error('Error cargando datos:', e); }
 }
 
@@ -2020,11 +2045,17 @@ function updateNoraInsight(){
     return;
   }
   const all=Object.keys(DATA.registros).sort(); const name=DATA.userName||'tú';
+  const firstName = name.split(' ')[0];
   let msg='';
   if(all.length===0) {
-    msg=`Bienvenida ${name} 🌸 Empieza a registrar para que <span class="nora-highlight">Nora</span> pueda darte insights personalizados.`;
+    msg=`Bienvenida ${firstName} 🌸 Empieza a registrar cómo te sientes hoy para que <span class="nora-highlight">Nora</span> pueda darte tu primer insight.`;
   } else if(all.length<5) {
-    msg=`Llevas <span class="nora-highlight">${all.length} día${all.length===1?'':'s'}</span> registrando. ¡Sigue así! Con 5-7 días Nora tendrá tu primer insight. 💪`;
+    const diasEj = all.filter(d=>DATA.registros[d]?.ejercicio).length;
+    const diasSint = all.filter(d=>(DATA.registros[d]?.sintomas||[]).length>0).length;
+    msg=`Llevas <span class="nora-highlight">${all.length} día${all.length===1?'':'s'}</span> registrando, ${firstName}. `;
+    if(diasEj>0) msg+=`Hiciste ejercicio ${diasEj} vez${diasEj>1?'es':''}. `;
+    if(diasSint>0) msg+=`Registraste síntomas ${diasSint} día${diasSint>1?'s':''}. `;
+    msg+=`Con ${Math.max(5-all.length,1)} día${5-all.length!==1?'s':''} más, Nora detectará tu primer patrón. 💪`;
   } else {
     // FIX: lógica de Nora más generosa — antes requería patrones muy específicos
     // (60%+ de días con ejercicio, o 50%+ con azúcar) y casi nunca se cumplían con
