@@ -1265,13 +1265,28 @@ async function saveRegistroSupabase(dateKey, registroData) {
     return false;
   }
   try {
+    // FIX: asegurar que sintomas y sueno sean arrays y ejercicio sea null o objeto
+    // (Supabase rechaza valores undefined)
+    const dataLimpia = {
+      usuario_id: uid,
+      fecha: dateKey,
+      sintomas: Array.isArray(registroData.sintomas) ? registroData.sintomas : [],
+      sueno: Array.isArray(registroData.sueno) ? registroData.sueno : [],
+      ejercicio: registroData.ejercicio || null,
+      dolor: registroData.dolor || 0,
+      tiene_periodo: registroData.tiene_periodo ?? null,
+      ts: registroData.ts || Date.now(),
+    };
     const { error } = await sb.from('registros').upsert(
-      { usuario_id: uid, fecha: dateKey, ...registroData },
+      dataLimpia,
       { onConflict: 'usuario_id,fecha' }
     );
     if (error) {
-      console.error('Error guardando registro:', error);
-      // Si falla por red, guardar en cola para reintentar
+      // Mostrar el error real en la UI para poder diagnosticarlo
+      const errMsg = error.message || error.details || JSON.stringify(error);
+      console.error('Error guardando registro en Supabase:', errMsg);
+      showToast('⚠️ Error Supabase: ' + errMsg.substring(0, 80));
+      // Guardar en cola para reintentar
       const pending = JSON.parse(localStorage.getItem('avarica_pending_sync') || '[]');
       pending.push({ tabla: 'registros', fecha: dateKey, data: registroData, ts: Date.now() });
       localStorage.setItem('avarica_pending_sync', JSON.stringify(pending));
@@ -2166,12 +2181,8 @@ async function saveRegistro(){
       return;
     }
   }
-  // FIX: registro tiene su propio campo de período (PERIODO_HOY_REGISTRO), obligatorio.
-  if (PERIODO_HOY_REGISTRO === null) {
-    showToast('⚠️ Indica si tienes tu periodo hoy antes de guardar');
-    document.getElementById('periodo-hoy-pregunta')?.scrollIntoView({behavior:'smooth', block:'center'});
-    return;
-  }
+  // FIX: periodo ya NO es obligatorio para guardar — evita que registros se pierdan.
+  // La pregunta sigue visible pero el guardado procede aunque no se marque.
   DATA.registros[selectedRegistroDate]={
     tienePeriodo: PERIODO_HOY_REGISTRO,
     sintomas:[...getChecked('repro'),...getChecked('piel'),...getChecked('neuro'),...getChecked('cardio'),...getChecked('digest'),...getChecked('mental')],
@@ -2613,6 +2624,31 @@ function saveMedical(){
   const name=custom||(names[type]||'Chequeo médico');
   DATA.chequeos.push({type,name,date:document.getElementById('med-date').value,status:document.getElementById('med-status').value,notes:document.getElementById('med-notes').value});
   saveData(); buildMedicalList(); renderCalendar(); document.getElementById('medical-modal').classList.remove('open'); showToast('🩺 Chequeo guardado');
+}
+
+// Función para recargar datos manualmente si aparecen en 0
+async function forzarRecargaDatos() {
+  const btn = document.querySelector('#datos-vacios-banner button');
+  if (btn) { btn.textContent = '⏳ Cargando...'; btn.disabled = true; }
+  try {
+    await cargarDatosSupabase();
+    saveData();
+    updateStats();
+    renderCalendar();
+    updateNoraInsight();
+    updateHomePhaseBanner();
+    const count = Object.keys(DATA.registros || {}).length;
+    if (count > 0) {
+      document.getElementById('datos-vacios-banner').style.display = 'none';
+      showToast('✅ ' + count + ' registros recuperados');
+    } else {
+      showToast('⚠️ No se encontraron registros en la nube para tu cuenta');
+      if (btn) { btn.textContent = '🔄 Reintentar'; btn.disabled = false; }
+    }
+  } catch(e) {
+    showToast('❌ Error al conectar. Verifica tu conexión a internet.');
+    if (btn) { btn.textContent = '🔄 Reintentar'; btn.disabled = false; }
+  }
 }
 
 // FIX: handleNoraBadge estaba referenciada en el HTML pero nunca definida
@@ -3383,6 +3419,17 @@ function bootApp(){
       updateStats(); renderCalendar(); updateNoraInsight(); updateHomePhaseBanner(); buildPerfil();
       // Reintentar registros que fallaron al guardarse (sin conexión o sin uid)
       if (supabaseOk) sincronizarPendientes();
+      // Mostrar banner si Supabase respondió OK pero no hay registros
+      // (puede indicar que los registros están perdidos o que hay un problema de uid)
+      const regCount = Object.keys(DATA.registros || {}).length;
+      const banner = document.getElementById('datos-vacios-banner');
+      if (banner) {
+        // Solo mostrar si hay sesión válida, Supabase OK, y aun así 0 registros
+        // (no mostrar en accounts nuevas que genuinamente no tienen registros)
+        const sesionTiempoVida = Date.now() - (JSON.parse(localStorage.getItem('avarica_session') || '{}').ts || Date.now());
+        const esCuentaNueva = sesionTiempoVida < 5 * 60 * 1000; // menos de 5 minutos
+        banner.style.display = (supabaseOk && regCount === 0 && !esCuentaNueva) ? 'block' : 'none';
+      }
       if (!supabaseOk) showToast('⚠️ Sin conexión — mostrando datos guardados localmente');
     })();
   } else {
