@@ -30,8 +30,8 @@
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;overflow:hidden}
 .screen{position:absolute;inset:0;bottom:var(--nav-h);overflow-y:auto;padding:env(safe-area-inset-top,12px) var(--gap) var(--gap);display:none;flex-direction:column;gap:var(--gap);-webkit-overflow-scrolling:touch;background:var(--bg)}
 .screen.active{display:flex}
-.app-header{display:flex;align-items:center;justify-content:space-between;padding-top:max(env(safe-area-inset-top),14px);padding-bottom:2px}
-.logo{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;letter-spacing:-.02em}
+.app-header{display:flex;align-items:center;justify-content:space-between;padding-top:max(env(safe-area-inset-top),8px);padding-bottom:4px;min-height:64px}
+.logo{font-family:'Playfair Display',serif;font-size:4.8rem;font-weight:700;letter-spacing:-.02em}
 .logo .ova{color:var(--brand)}.logo .rica{color:var(--purple)}
 .tagline{font-size:.65rem;color:var(--text-muted);font-weight:400;letter-spacing:.07em;text-transform:uppercase}
 .nora-badge{display:flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--brand-soft);border-radius:50px;padding:6px 13px 6px 8px;font-size:.75rem;font-weight:600;color:var(--brand);cursor:pointer;box-shadow:var(--shadow)}
@@ -1473,6 +1473,8 @@ function cerrarSesionSupabase() {
     // Limpiar sesión Y datos locales para evitar auto-login
     localStorage.removeItem('avarica_session');
     localStorage.removeItem('avarica_v2'); // limpiar DATA del localStorage
+    // NOTA: avarica_backup NO se borra al cerrar sesión intencionalmente
+    // para poder restaurar si hay un bug de borrado accidental.
     CURRENT_USER = null;
     CURRENT_PLAN = 'gratuito';
     // Reset DATA en memoria
@@ -1624,8 +1626,31 @@ const DATA = {
   goalFood:'leve', extra:'ninguna', registros:{}, periodo:{}, retos:{},
   suplementos:{}, alimentos:{}, chequeos:[], shopBought:{}, config:{}
 };
-function saveData(){localStorage.setItem('avarica_v2', JSON.stringify(DATA))}
-function loadData(){const s=localStorage.getItem('avarica_v2'); if(s) Object.assign(DATA, JSON.parse(s))}
+function saveData(){
+  const dataStr = JSON.stringify(DATA);
+  localStorage.setItem('avarica_v2', dataStr);
+  // FIX DEFINITIVO: backup en clave separada que NUNCA se borra automáticamente
+  // Si avarica_v2 se borra por algún bug, el backup permite restaurar los datos
+  if (DATA.registros && Object.keys(DATA.registros).length > 0) {
+    localStorage.setItem('avarica_backup', dataStr);
+  }
+}
+function loadData(){
+  let s = localStorage.getItem('avarica_v2');
+  // FIX DEFINITIVO: si avarica_v2 fue borrado por algún bug pero el backup existe,
+  // restaurar desde el backup automáticamente antes de cualquier otra operación
+  if (!s || s === '{}' || s === 'null') {
+    const backup = localStorage.getItem('avarica_backup');
+    if (backup && backup !== '{}' && backup !== 'null') {
+      console.log('🔄 Restaurando datos desde backup local...');
+      s = backup;
+      localStorage.setItem('avarica_v2', backup); // restaurar la clave principal
+    }
+  }
+  if(s) {
+    try { Object.assign(DATA, JSON.parse(s)); } catch(e) { console.error('loadData error:', e); }
+  }
+}
 
 const todayDate = new Date();
 function fmtDate(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -2459,6 +2484,9 @@ function saveMedical(){
   DATA.chequeos.push({type,name,date:document.getElementById('med-date').value,status:document.getElementById('med-status').value,notes:document.getElementById('med-notes').value});
   saveData(); buildMedicalList(); renderCalendar(); document.getElementById('medical-modal').classList.remove('open'); showToast('🩺 Chequeo guardado');
 }
+
+// FIX: handleNoraBadge estaba referenciada en el HTML pero nunca definida
+function handleNoraBadge(){ openNoraModal(); }
 
 function openNoraModal(){
   // Limpiar respuesta anterior al abrir
