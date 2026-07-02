@@ -31,7 +31,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .screen{position:absolute;inset:0;bottom:var(--nav-h);overflow-y:auto;padding:env(safe-area-inset-top,12px) var(--gap) var(--gap);display:none;flex-direction:column;gap:var(--gap);-webkit-overflow-scrolling:touch;background:var(--bg)}
 .screen.active{display:flex}
 .app-header{display:flex;align-items:center;justify-content:space-between;padding-top:max(env(safe-area-inset-top),14px);padding-bottom:2px}
-.logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
+.logo{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;letter-spacing:-.02em}
 .logo .ova{color:var(--brand)}.logo .rica{color:var(--purple)}
 .tagline{font-size:.65rem;color:var(--text-muted);font-weight:400;letter-spacing:.07em;text-transform:uppercase}
 .nora-badge{display:flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--brand-soft);border-radius:50px;padding:6px 13px 6px 8px;font-size:.75rem;font-weight:600;color:var(--brand);cursor:pointer;box-shadow:var(--shadow)}
@@ -1262,25 +1262,42 @@ async function saveRegistroSupabase(dateKey, registroData) {
 async function cargarDatosSupabase() {
   // FIX RAÍZ: resolver el uid por email si no está en CURRENT_USER
   // Esto cubre sesiones guardadas antes de que 'id' se añadiera a la sesión.
-  let uid = CURRENT_USER?.id || DATA.userId;
+  // FIX D: resolver uid por cualquier medio disponible
+  let uid = (CURRENT_USER?.id && CURRENT_USER.id !== 'undefined') ? CURRENT_USER.id : null;
+  if (!uid) uid = (DATA.userId && DATA.userId !== 'undefined') ? DATA.userId : null;
+  
   if (!uid) {
+    // Último recurso: buscar en Supabase por email
     const email = CURRENT_USER?.email || DATA.email;
     if (email) {
       try {
-        const { data: uRow } = await sb.from('usuarios').select('id,plan').eq('email', email).single();
-        if (uRow) {
+        const { data: uRow } = await sb.from('usuarios').select('id,plan,nombre').eq('email', email).single();
+        if (uRow && uRow.id) {
           uid = uRow.id;
           DATA.userId = uRow.id;
-          if (!CURRENT_USER) CURRENT_USER = {};
-          CURRENT_USER.id = uRow.id;
+          DATA.userName = DATA.userName || uRow.nombre;
           CURRENT_PLAN = uRow.plan || CURRENT_PLAN;
-          const s = localStorage.getItem('avarica_session');
-          if (s) { const sObj = JSON.parse(s); sObj.id = uRow.id; localStorage.setItem('avarica_session', JSON.stringify(sObj)); }
+          if (!CURRENT_USER) CURRENT_USER = { id: uRow.id, email: email };
+          else CURRENT_USER.id = uRow.id;
+          // Actualizar sesión con id real para próximos boots
+          try {
+            const sStr = localStorage.getItem('avarica_session');
+            if (sStr) {
+              const sObj = JSON.parse(sStr);
+              sObj.id = uRow.id;
+              sObj.plan = uRow.plan || sObj.plan;
+              localStorage.setItem('avarica_session', JSON.stringify(sObj));
+            }
+          } catch(e2) {}
+          console.log('cargarDatos: uid obtenido por email:', uid);
         }
       } catch(e) { console.error('cargarDatos: no pudo obtener uid por email', e); }
     }
   }
-  if (!uid) { console.warn('cargarDatosSupabase: sin uid — sin datos'); return; }
+  if (!uid) { 
+    console.warn('cargarDatosSupabase: sin uid disponible — datos no cargados');
+    return; 
+  }
   try {
     const uid_final = uid;
     const [regRes, perRes, aliRes, supRes, retRes, cheRes] = await Promise.all([
@@ -3073,7 +3090,8 @@ function bootApp(){
   // código nuestro que lo toque), los datos de la usuaria SIEMPRE se recuperan
   // desde Supabase con solo tener la sesión activa.
   const _session = localStorage.getItem('avarica_session');
-  const _hasValidSession = !!_session && (()=>{try{const s=JSON.parse(_session);return !!(s.email&&s.id);}catch(e){return false;}})();
+  // FIX DEFINITIVO: aceptar sesión con solo email — el id se recupera de Supabase si falta
+  const _hasValidSession = !!_session && (()=>{try{const s=JSON.parse(_session);return !!s.email;}catch(e){return false;}})();
 
   if(_hasValidSession){
     // Restaurar sesión mínima desde localStorage para saber quién es
@@ -3121,6 +3139,11 @@ function bootApp(){
       let supabaseOk = false;
       try {
         const sess = JSON.parse(_session);
+        // FIX C: si la sesión no tiene id, ya no bloqueamos — buscamos por email
+        // Esto cubre sesiones antiguas guardadas antes de que añadiéramos el campo id
+        if (!sess.id && sess.email) {
+          console.log('Boot: sesión sin id, buscando por email...');
+        }
         const {data, error} = await sb.from('usuarios').select('*').eq('email', sess.email).single();
         if (!error && data) {
           DATA.userName    = data.nombre;
@@ -3162,11 +3185,10 @@ function bootApp(){
       if (!supabaseOk) showToast('⚠️ Sin conexión — mostrando datos guardados localmente');
     })();
   } else {
-    // Sin sesión válida → siempre mostrar login (aunque haya DATA)
-    // Limpiar cualquier dato residual para evitar confusión
-    if(!_hasValidSession) {
-      localStorage.removeItem('avarica_v2');
-    }
+    // Sin sesión válida → mostrar login
+    // FIX DEFINITIVO: NUNCA borrar avarica_v2 aquí.
+    // Los datos locales son caché válido que se necesita si Supabase falla.
+    // Solo se borran al hacer logout explícito o al eliminar la cuenta.
     document.getElementById('onboarding').style.display='none';
     const ls=document.getElementById('login-screen');
     ls.style.display='flex';
