@@ -1265,17 +1265,21 @@ async function saveRegistroSupabase(dateKey, registroData) {
     return false;
   }
   try {
-    // FIX: asegurar que sintomas y sueno sean arrays y ejercicio sea null o objeto
-    // (Supabase rechaza valores undefined)
+    // FIX DEFINITIVO: Solo enviar las columnas que EXISTEN en Supabase.
+    // La tabla 'registros' tiene: id, usuario_id, fecha, sintomas (jsonb), ejercicio (jsonb)
+    // Los campos adicionales (sueno, dolor, tiene_periodo, ts) van DENTRO de sintomas
+    // como objeto JSON para no depender de columnas que pueden no existir.
     const dataLimpia = {
       usuario_id: uid,
       fecha: dateKey,
-      sintomas: Array.isArray(registroData.sintomas) ? registroData.sintomas : [],
-      sueno: Array.isArray(registroData.sueno) ? registroData.sueno : [],
+      sintomas: {
+        lista: Array.isArray(registroData.sintomas) ? registroData.sintomas : [],
+        sueno: Array.isArray(registroData.sueno) ? registroData.sueno : [],
+        dolor: registroData.dolor || 0,
+        tiene_periodo: registroData.tiene_periodo ?? null,
+        ts: registroData.ts || Date.now(),
+      },
       ejercicio: registroData.ejercicio || null,
-      dolor: registroData.dolor || 0,
-      tiene_periodo: registroData.tiene_periodo ?? null,
-      ts: registroData.ts || Date.now(),
     };
     const { error } = await sb.from('registros').upsert(
       dataLimpia,
@@ -1378,13 +1382,16 @@ async function cargarDatosSupabase() {
     if (regRes.data) regRes.data.forEach(r => {
       // La fila de Supabase tiene: id, usuario_id, fecha, sintomas, ejercicio, sueno, dolor, tiene_periodo
       // La app espera en DATA.registros[fecha]: { sintomas, ejercicio, sueno, dolor, tienePeriodo, ts }
+      // FIX: leer el nuevo formato donde sueno/dolor/tiene_periodo están dentro de sintomas
+      const sint = r.sintomas || {};
+      const listaReal = Array.isArray(sint) ? sint : (sint.lista || []);
       DATA.registros[r.fecha] = {
-        sintomas:     r.sintomas     || [],
+        sintomas:     listaReal,
         ejercicio:    r.ejercicio    || null,
-        sueno:        r.sueno        || [],
-        dolor:        r.dolor        || 0,
-        tienePeriodo: r.tiene_periodo ?? null,
-        ts:           r.ts           || Date.now(),
+        sueno:        sint.sueno     || [],
+        dolor:        sint.dolor     || 0,
+        tienePeriodo: sint.tiene_periodo ?? null,
+        ts:           sint.ts        || Date.now(),
         _id:          r.id,
       };
       regCount++;
